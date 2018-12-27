@@ -6,11 +6,12 @@
 
     <groupId>io.schinzel</groupId>
     <artifactId>js-transpiler</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.9</version>
 
     <properties>
         <kotlin.version>1.2.61</kotlin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <deploy-repo>maven-repo.schinzel.io</deploy-repo>
     </properties>
 
     <repositories>
@@ -19,6 +20,17 @@
             <url>http://maven-repo.atexpose.com/release</url>
         </repository>
     </repositories>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>${deploy-repo}</id>
+            <url>s3://${deploy-repo}/snapshot</url>
+        </snapshotRepository>
+        <repository>
+            <id>${deploy-repo}</id>
+            <url>s3://${deploy-repo}/release</url>
+        </repository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
@@ -76,6 +88,31 @@
     <build>
         <sourceDirectory>src/main/kotlin</sourceDirectory>
         <testSourceDirectory>src/test/kotlin</testSourceDirectory>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <!-- Plug in for attaching sources to deploys -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>2.0.4</version>
+                </plugin>
+                <plugin>
+                    <!-- Plug in for java doc to deploys -->
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>2.3</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <extensions>
+            <!-- Enables communication between Maven and Amazon S3.
+            Used to transfer deploys to maven repo. -->
+            <extension>
+                <groupId>org.kuali.maven.wagons</groupId>
+                <artifactId>maven-s3-wagon</artifactId>
+                <version>1.2.1</version>
+            </extension>
+        </extensions>
         <plugins>
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
@@ -100,6 +137,19 @@
                 <configuration>
                     <jvmTarget>1.8</jvmTarget>
                 </configuration>
+            </plugin>
+            <plugin>
+                <!-- Attach sources -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

@@ -14,6 +14,10 @@ class JsConstructorInitTest {
     fun getJavaScript_FirstNameAndString_CorrectString() {
         val constructorInit = JsConstructorInit("firstName", KotlinDataType("String"), false)
                 .toJavaScript()
-        assertThat(constructorInit).isEqualTo("        this._firstName = json._firstName;")
+        assertThat(constructorInit).isEqualTo(
+                """            /**
+             * @private
+             */
+            this.firstName = new String(json.firstName);""")
     }
 }

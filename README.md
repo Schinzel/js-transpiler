@@ -59,15 +59,28 @@ Data is changed in the browser and the JavaScript classes are serialized to JSON
 On the server, the JSON is deserialized back to the Person object. 
 
 
+## Maven
+```xml
+<repositories>
+	<repository>
+		<id>maven-repo.schinzel.io</id>
+		<url>http://maven-repo.schinzel.io/release</url>
+	</repository>
+</repositories>    
 
+<dependencies>
+	<dependency>
+		<groupId>io.schinzel</groupId>
+		<artifactId>js-transpiler</artifactId>
+		<version>0.9</version>
+	</dependency>
+</dependencies>    
+```
 
-## To Do
-- Nytt GitHub repo js-transpiler
-- Sätt upp maven repo
 
 ## To Do Later
-- Auto compile every x seconds
-- add-methods when there is a setter for an array
-- Is slice deep enough
-https://stackoverflow.com/questions/7486085/copy-array-by-value
 - Output what has been generated as feedback
+- Auto compile every x seconds?
+- add-methods when there is a setter for an array?
+- Is slice deep enough?
+https://stackoverflow.com/questions/7486085/copy-array-by-value
