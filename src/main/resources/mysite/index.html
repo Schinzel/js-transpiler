@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MySite</title>
+    <script src="js/jquery.js"></script>
+    <script type="module">
+        import {ServerCaller} from "./js/ServerCaller.js";
+        import {Person, Pet, Species} from "./js/classes.js";
+
+        let person;
+
+        function getPersonFromServer() {
+            console.log('Getting person from server...');
+            new ServerCaller()
+                .setMethodName('getPerson')
+                .setSuccessCallback((json) => {
+                    person = new Person(json);
+                    console.log('Got below person from server');
+                    console.log(person)
+                    $('body').append('<div class="selenium_got_person"></div>');
+                })
+                .call();
+        }
+
+        function sendPersonToServer() {
+            console.log('Sending below person to server...');
+            console.log(person);
+            new ServerCaller()
+                .setMethodName('setPerson')
+                .addArg('String', JSON.stringify(person))
+                .setSuccessCallback((response) => {
+                    console.log(`Server responded: '${response}'`);
+                    $('body').append('<div class="selenium_sent_person"></div>');
+                })
+                .call();
+        }
+
+
+        function addPet() {
+            let pets = person.getPets();
+            let newDog = new Pet()
+                .setSpecies(Species.DOG)
+                .setName("Brian Griffin");
+            pets.push(newDog);
+            person.setPets(pets);
+            console.log('Pet added');
+        }
+
+
+        $('#buttonGetPerson').on('click', getPersonFromServer);
+        $('#buttonSendPerson').on('click', sendPersonToServer);
+        $('#buttonAddPet').on('click', addPet);
+    </script>
+
+</head>
+<body>
+<h1>My Site</h1>
+<p>Open the console</p>
+<button id="buttonGetPerson">Get Person from server</button>
+<button id="buttonSendPerson">Send Person to server</button>
+<button id="buttonAddPet">Add Pet</button>
+<h3>Output</h3>
+<div id="outputDiv"></div>
+</body>
+</html>

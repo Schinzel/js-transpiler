@@ -1,0 +1,17 @@
+##### OS X system file ######
+.DS_Store
+
+##### virtual machine crash logs ######
+hs_err_pid*
+
+##### Build files/folders ######
+*.class
+*.jar
+target/
+
+##### IntelliJ files ######
+*.iml
+.idea/*
+
+##### Auto generated js files ######
+/src/main/resources/mysite/js/*.js
