@@ -9,7 +9,7 @@ import kotlin.reflect.full.memberProperties
 /**
  * Purpose of this class is to construct the JavaScript code for a Kotlin data class
  */
-internal class JsClass(myClass: KClass<out Any>) : IToJavaScript {
+internal class KotlinClass(myClass: KClass<out Any>) : IToJavaScript {
     //The name of this class
     private val dataClassName: String = myClass.simpleName
             ?: throw RuntimeException("Problems getting class name from class")

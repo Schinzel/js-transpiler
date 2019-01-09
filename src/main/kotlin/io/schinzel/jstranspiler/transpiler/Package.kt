@@ -15,13 +15,13 @@ internal class Package(private val packageName: String) : IToJavaScript {
                 //Make list with no enums
                 .filter { kclass -> !kclass.isSubclassOf(Enum::class) }
                 //Map to list of JsClasses
-                .map { kclass -> JsClass(kclass) }
+                .map { kclass -> KotlinClass(kclass) }
                 .compileToJs()
         val jsForEnums: String = listOfClasses
                 //Make list with only enums
                 .filter { kclass -> kclass.isSubclassOf(Enum::class) }
                 //Map to list of JsEnums
-                .map { kclass -> JsEnum(kclass) }
+                .map { kclass -> KotlinEnum(kclass) }
                 .compileToJs()
         return jsForClasses + jsForEnums
     }

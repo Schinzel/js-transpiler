@@ -16,7 +16,7 @@ import kotlin.reflect.KClass
  *    DOG: 'DOG'
  * });
  */
-internal class JsEnum(private val myClass: KClass<out Any>) : IToJavaScript {
+internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript {
 
     override fun toJavaScript(): String {
         val enumName: String = myClass.simpleName ?: throw RuntimeException()
