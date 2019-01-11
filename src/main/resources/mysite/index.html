@@ -13,11 +13,12 @@
         function getPersonFromServer() {
             console.log('Getting person from server...');
             new ServerCaller()
+                .enableLogging()
                 .setMethodName('getPerson')
                 .setSuccessCallback((json) => {
                     person = new Person(json);
                     console.log('Got below person from server');
-                    console.log(person)
+                    console.log(person);
                     $('body').append('<div class="selenium_got_person"></div>');
                 })
                 .call();
@@ -27,8 +28,9 @@
             console.log('Sending below person to server...');
             console.log(person);
             new ServerCaller()
+                .enableLogging()
                 .setMethodName('setPerson')
-                .addArg('String', JSON.stringify(person))
+                .addArgument('String', JSON.stringify(person))
                 .setSuccessCallback((response) => {
                     console.log(`Server responded: '${response}'`);
                     $('body').append('<div class="selenium_sent_person"></div>');
@@ -58,8 +60,8 @@
 <h1>My Site</h1>
 <p>Open the console</p>
 <button id="buttonGetPerson">Get Person from server</button>
-<button id="buttonSendPerson">Send Person to server</button>
 <button id="buttonAddPet">Add Pet</button>
+<button id="buttonSendPerson">Send Person to server</button>
 <h3>Output</h3>
 <div id="outputDiv"></div>
 </body>
