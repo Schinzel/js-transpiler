@@ -29,6 +29,7 @@ internal class JsSetter private constructor(
         val jsDocMethodDescription = jsDocMethodDescription(propertyDataType.isList)
         val jsCodeArrayCopyString = JsMethodUtil.arrayCopyString(propertyDataType.isList)
         return """
+            |    // noinspection JSUnusedGlobalSymbols
             |    /**
             |     * $jsDocMethodDescription
             |     * @param {$jsDocArgumentDataType} $propertyName

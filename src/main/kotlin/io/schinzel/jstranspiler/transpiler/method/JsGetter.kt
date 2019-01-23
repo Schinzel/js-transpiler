@@ -25,6 +25,7 @@ internal class JsGetter private constructor(
         val jsDocReturnDoc: String = jsDocReturn(propertyDataType.isList)
         val jsReturnCode: String = jsReturnCode(isEnum, propertyDataType.isList, propertyName)
         return """
+            |    // noinspection JSUnusedGlobalSymbols
             |    /**
             |     * @return {$jsDocReturnDataType} $jsDocReturnDoc
             |     */

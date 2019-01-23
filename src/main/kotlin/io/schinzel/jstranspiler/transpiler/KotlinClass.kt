@@ -61,6 +61,7 @@ internal class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
             |
             |$gettersJsCode
             |$settersJsCode
+            |    // noinspection JSUnusedGlobalSymbols
             |    /**
             |     * return {object} This instance as a json object
             |     */
@@ -68,6 +69,7 @@ internal class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
             |        return JSON.parse(JSON.stringify(this));
             |    }
             |
+            |    // noinspection JSUnusedGlobalSymbols
             |    /**
             |     * return {string} This instance as a json string
             |     */
