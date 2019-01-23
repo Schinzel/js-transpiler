@@ -10,17 +10,17 @@ import kotlin.reflect.full.isSubclassOf
  */
 internal class Package(private val packageName: String) : IToJavaScript {
     override fun toJavaScript(): String {
-        val listOfClasses = getKotlinClasses(packageName)
-        val jsForClasses: String = listOfClasses
-                //Make list with no enums
+        val listOfClassesAndEnums = getKotlinClasses(packageName)
+        val jsForClasses: String = listOfClassesAndEnums
+                //No enums in list
                 .filter { kclass -> !kclass.isSubclassOf(Enum::class) }
-                //Map to list of JsClasses
+                //Covert to list of KotlinClass
                 .map { kclass -> KotlinClass(kclass) }
                 .compileToJs()
-        val jsForEnums: String = listOfClasses
-                //Make list with only enums
+        val jsForEnums: String = listOfClassesAndEnums
+                //Only enums in list
                 .filter { kclass -> kclass.isSubclassOf(Enum::class) }
-                //Map to list of JsEnums
+                //Covert to list of JsEnums
                 .map { kclass -> KotlinEnum(kclass) }
                 .compileToJs()
         return jsForClasses + jsForEnums

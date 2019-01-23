@@ -9,16 +9,16 @@ import kotlin.reflect.full.memberProperties
 /**
  * Purpose of this class is to construct the JavaScript code for a Kotlin data class
  */
-internal class KotlinClass(myClass: KClass<out Any>) : IToJavaScript {
+internal class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
     //The name of this class
-    private val dataClassName: String = myClass.simpleName
+    private val dataClassName: String = kClass.simpleName
             ?: throw RuntimeException("Problems getting class name from class")
 
     //JavaScript code for setting up properties in the constructor
-    private val constructorInitsJsCode: String = myClass
+    private val constructorInitsJsCode: String = kClass
             //Get all properties for class
             .memberProperties
-            //Create list of JavaScript constructor
+            //Create list of JavaScript constructor lines
             .map { property ->
                 JsConstructorInit(property)
             }
@@ -26,7 +26,7 @@ internal class KotlinClass(myClass: KClass<out Any>) : IToJavaScript {
             .compileToJs()
 
     //JavaScript code for property getters
-    private val gettersJsCode: String = myClass
+    private val gettersJsCode: String = kClass
             //Get all properties for class
             .memberProperties
             //Create list of JavaScript getters
@@ -37,7 +37,7 @@ internal class KotlinClass(myClass: KClass<out Any>) : IToJavaScript {
             .compileToJs()
 
     //JavaScript code for property setters
-    private val settersJsCode: String = myClass
+    private val settersJsCode: String = kClass
             //Get all properties for class
             .memberProperties
             //Filter out those that are not annotated as JavaScript setters
@@ -61,6 +61,20 @@ internal class KotlinClass(myClass: KClass<out Any>) : IToJavaScript {
             |
             |$gettersJsCode
             |$settersJsCode
+            |    /**
+            |     * return {object} This instance as a json object
+            |     */
+            |    asJsonObject(){
+            |        return JSON.parse(JSON.stringify(this));
+            |    }
+            |
+            |    /**
+            |     * return {string} This instance as a json string
+            |     */
+            |    asJsonString(){
+            |       return JSON.stringify(this);
+            |    }
+            |
             |}
             |
             |""".trimMargin()
