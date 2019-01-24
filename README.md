@@ -80,7 +80,6 @@ On the server, the JSON is deserialized back to the Person object.
 
 ## To Do Later
 - Output what has been generated as feedback
-- Auto compile every x seconds?
 - add-methods when there is a setter for an array?
 - Is slice deep enough?
 https://stackoverflow.com/questions/7486085/copy-array-by-value
