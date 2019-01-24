@@ -4,6 +4,8 @@ import com.atexpose.AtExpose
 import com.atexpose.dispatcherfactories.CliFactory
 import com.atexpose.dispatcherfactories.WebServerBuilder
 import io.schinzel.jstranspiler.example.dataclasses.dir2.Person
+import io.schinzel.jstranspiler.example.misc.API
+import io.schinzel.jstranspiler.example.misc.PersonGenerator
 
 /**
  * The purpose of this file is to start a web server so that user can run a sample that

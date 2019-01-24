@@ -1,4 +1,4 @@
-package io.schinzel.jstranspiler.example
+package io.schinzel.jstranspiler.example.misc
 
 import io.schinzel.jstranspiler.example.dataclasses.dir1.Address
 import io.schinzel.jstranspiler.example.dataclasses.dir1.Pet

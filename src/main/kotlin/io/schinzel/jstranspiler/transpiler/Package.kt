@@ -9,7 +9,7 @@ import kotlin.reflect.full.isSubclassOf
  */
 internal class Package(private val packageName: String) : IToJavaScript {
     override fun toJavaScript(): String {
-        val listOfClassesAndEnums = getKotlinClasses(packageName)
+        val listOfClassesAndEnums = getKotlinClassesAndEnums(packageName)
         val jsForClasses: String = listOfClassesAndEnums
                 //No enums in list
                 .filter { kclass -> !kclass.isSubclassOf(Enum::class) }
@@ -28,14 +28,14 @@ internal class Package(private val packageName: String) : IToJavaScript {
 
     companion object {
         @Suppress("UnstableApiUsage")
-        private fun getKotlinClasses(packageName: String) = ClassPath
+        private fun getKotlinClassesAndEnums(packageName: String) = ClassPath
                 .from(getClassLoader())
                 //Get set of Guava ClassInfo
                 .getTopLevelClasses(packageName)
                 //Map to list of kclasses
                 .map { classInfo -> classInfo.load().kotlin }
-                //Remove any classes annotated with instruction to not transpile class
-                .filter { kClass -> kClass.annotations.none { it is JsTranspilerIgnore } }
+                //Only keep classes or enums that are annotated with JsTranspiler_CompileToJavaScript
+                .filter { kClass -> kClass.annotations.any { it is JsTranspiler_CompileToJavaScript } }
 
         private fun getClassLoader() = Thread
                 .currentThread()

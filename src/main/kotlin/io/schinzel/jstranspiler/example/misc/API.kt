@@ -1,8 +1,7 @@
-package io.schinzel.jstranspiler.example
+package io.schinzel.jstranspiler.example.misc
 
 import com.atexpose.Expose
 import io.schinzel.jstranspiler.example.dataclasses.dir2.Person
-import io.schinzel.jstranspiler.example.misc.Serialization
 
 /**
  * This class holds the methods accessible through web server.

@@ -1,6 +1,8 @@
 package io.schinzel.jstranspiler.example.dataclasses.dir1
 
-import io.schinzel.jstranspiler.transpiler.JsTranspilerIgnore
 
-@JsTranspilerIgnore
+/**
+ * Since this class does not have the annotation instruction to compile
+ * to JavaScript, it will not be compiled to JavaScript.
+ */
 class Car(val brand: String, val year: Int)

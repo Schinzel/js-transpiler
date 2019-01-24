@@ -2,8 +2,10 @@ package io.schinzel.jstranspiler.example.dataclasses.dir2
 
 import io.schinzel.jstranspiler.example.dataclasses.dir1.Address
 import io.schinzel.jstranspiler.example.dataclasses.dir1.Pet
+import io.schinzel.jstranspiler.transpiler.JsTranspiler_CompileToJavaScript
 import io.schinzel.jstranspiler.transpiler.JsTranspiler_CreateSetter
 
+@JsTranspiler_CompileToJavaScript
 data class Person(
         @JsTranspiler_CreateSetter val firstName: String,
         @JsTranspiler_CreateSetter val lastName: String,
