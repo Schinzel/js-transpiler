@@ -29,12 +29,12 @@ Runtime, a class on either server or client side is serialized to JSON and sent 
   - lists of:
      - primitives
      - classes of other Kotlin data classes in the same directory
-- Only simple enums without properties are supported.
+- Only simple enums without properties are supported
 - Kotlin property names cannot start with "is", "get" or "set". 
 This as these prefixes are removed by default by for example Jackson when serializing to JSON.
 This will then cause a problem when converting JSON to Kotlin data classes.
-- To have setter methods in JavaScript annotate the Kotlin property with ```@JsTranspilerSetter```
-- To have the transpiler ignore a class add the annotation ```@JsTranspilerIgnore``` to the class
+- To have the transpiler compile a class or an enum add the annotation ```@JsTranspiler_CompileToJavaScript``` to the class
+- To have setter methods in JavaScript annotate the Kotlin property with ```@JsTranspiler_CreateSetter```
 
 ## Sample code
 The below compiles kotlin code in the argument dir to JavaScript code in the argument file.
