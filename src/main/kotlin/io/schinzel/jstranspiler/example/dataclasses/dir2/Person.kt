@@ -2,19 +2,16 @@ package io.schinzel.jstranspiler.example.dataclasses.dir2
 
 import io.schinzel.jstranspiler.example.dataclasses.dir1.Address
 import io.schinzel.jstranspiler.example.dataclasses.dir1.Pet
-import io.schinzel.jstranspiler.transpiler.JsTranspilerSetter
+import io.schinzel.jstranspiler.transpiler.JsTranspiler_CreateSetter
 
-/**
- * Purpose of this class is ...
- */
 data class Person(
-        @JsTranspilerSetter val firstName: String,
-        @JsTranspilerSetter val lastName: String,
+        @JsTranspiler_CreateSetter val firstName: String,
+        @JsTranspiler_CreateSetter val lastName: String,
         val age: Int,
         val income: Long,
         val heightInMeter: Float,
         val healthy: Boolean,
         val homeAddress: Address,
-        @JsTranspilerSetter val nicknames: List<String>,
-        @JsTranspilerSetter val luckyNumbers: List<Int>,
-        @JsTranspilerSetter val pets: List<Pet>)
+        @JsTranspiler_CreateSetter val nicknames: List<String>,
+        @JsTranspiler_CreateSetter val luckyNumbers: List<Int>,
+        @JsTranspiler_CreateSetter val pets: List<Pet>)

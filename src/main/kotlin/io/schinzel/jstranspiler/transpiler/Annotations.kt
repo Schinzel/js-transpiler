@@ -13,10 +13,10 @@ annotation class JsTranspilerIgnore
  *
  * Example:
  * Kotlin:
- * @JsTranspilerSetter val firstName: String,
+ * @JsTranspiler_CreateSetter val firstName: String,
  * ->
  * JavaScript:
  * setFirstName(firstName)
  */
 @Target(AnnotationTarget.PROPERTY)
-annotation class JsTranspilerSetter
+annotation class JsTranspiler_CreateSetter

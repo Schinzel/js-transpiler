@@ -1,7 +1,7 @@
 package io.schinzel.jstranspiler.example.dataclasses.dir1
 
-import io.schinzel.jstranspiler.transpiler.JsTranspilerSetter
+import io.schinzel.jstranspiler.transpiler.JsTranspiler_CreateSetter
 
 data class Pet (
-        @JsTranspilerSetter val name: String,
-        @JsTranspilerSetter val species: Species)
+        @JsTranspiler_CreateSetter val name: String,
+        @JsTranspiler_CreateSetter val species: Species)
