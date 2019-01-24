@@ -1,7 +1,6 @@
 package io.schinzel.jstranspiler.transpiler
 
 import com.google.common.reflect.ClassPath
-import io.schinzel.jstranspiler.annotation.JsTranspilerIgnore
 import kotlin.reflect.full.isSubclassOf
 
 /**

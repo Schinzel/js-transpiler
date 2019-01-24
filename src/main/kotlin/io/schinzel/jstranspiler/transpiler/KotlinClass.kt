@@ -1,6 +1,5 @@
 package io.schinzel.jstranspiler.transpiler
 
-import io.schinzel.jstranspiler.annotation.JsTranspilerSetter
 import io.schinzel.jstranspiler.transpiler.method.JsGetter
 import io.schinzel.jstranspiler.transpiler.method.JsSetter
 import kotlin.reflect.KClass

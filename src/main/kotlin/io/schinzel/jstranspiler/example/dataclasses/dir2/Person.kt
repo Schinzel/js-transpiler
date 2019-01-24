@@ -1,8 +1,8 @@
 package io.schinzel.jstranspiler.example.dataclasses.dir2
 
-import io.schinzel.jstranspiler.annotation.JsTranspilerSetter
 import io.schinzel.jstranspiler.example.dataclasses.dir1.Address
 import io.schinzel.jstranspiler.example.dataclasses.dir1.Pet
+import io.schinzel.jstranspiler.transpiler.JsTranspilerSetter
 
 /**
  * Purpose of this class is ...
