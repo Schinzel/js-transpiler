@@ -78,7 +78,8 @@ On the server, the JSON is deserialized back to the Person object.
 ```
 
 
-## To Do Later
+## Ideas 
+- asJsonString and asJsonString in an abstract non exported class
 - Output what has been generated as feedback
 - add-methods when there is a setter for an array?
 - Is slice deep enough?
