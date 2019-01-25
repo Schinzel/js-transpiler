@@ -10,23 +10,23 @@ internal class JsDoc {
 
     companion object {
 
-        fun getDataTypeName(koltinDataType: KotlinDataType): String =
+        fun getDataTypeName(kotlinDataType: KotlinDataType): String =
                 when {
-                    koltinDataType.isListOfPrimitiveDataType -> koltinDataType.listDataTypeName.toLowerCase() + "[]"
-                    koltinDataType.isList -> koltinDataType.listDataTypeName + "[]"
-                    else -> getNonListDataTypeName(koltinDataType)
+                    kotlinDataType.isListOfPrimitiveDataType -> kotlinDataType.listDataTypeName.toLowerCase() + "[]"
+                    kotlinDataType.isList -> kotlinDataType.listDataTypeName + "[]"
+                    else -> getNonListDataTypeName(kotlinDataType)
                 }
 
 
         private fun getNonListDataTypeName(kotlinDataType: KotlinDataType): String =
-                when (kotlinDataType.kotlinDataTypeName) {
+                when (kotlinDataType.fullName) {
                     "kotlin.String" -> "string"
                     "kotlin.Long" -> "number"
                     "kotlin.Int" -> "number"
                     "kotlin.Float" -> "number"
                     "kotlin.Double" -> "number"
                     "kotlin.Boolean" -> "boolean"
-                    else -> kotlinDataType.kotlinDataTypeName.substringAfterLast(".")
+                    else -> kotlinDataType.className
                 }
     }
 }

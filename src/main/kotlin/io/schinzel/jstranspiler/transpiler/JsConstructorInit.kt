@@ -32,7 +32,7 @@ internal class JsConstructorInit(
                 val listDataType: String = propertyDataType.listDataTypeName
                 return "json.$propertyName.map(x => new $listDataType(x));"
             }
-            return jsCodeCastNonList(propertyName, propertyDataType.kotlinDataTypeName)
+            return jsCodeCastNonList(propertyName, propertyDataType.fullName)
         }
 
 

@@ -20,17 +20,17 @@ internal class JsGetter private constructor(
 
 
     override fun toJavaScript(): String {
-        val jsCodeMethodName = JsMethodUtil.methodName("get", propertyName)
+        val jsCodeMethodName: String = JsMethodUtil.methodName("get", propertyName)
         val jsDocReturnDataType: String = JsDoc.getDataTypeName(propertyDataType)
         val jsDocReturnDoc: String = jsDocReturn(propertyDataType.isList)
-        val jsReturnCode: String = jsReturnCode(isEnum, propertyDataType.isList, propertyName)
+        val jsCodeReturnStatement: String = jsCodeReturnStatement(isEnum, propertyDataType.isList, propertyName, propertyDataType.className)
         return """
             |    // noinspection JSUnusedGlobalSymbols
             |    /**
             |     * @return {$jsDocReturnDataType} $jsDocReturnDoc
             |     */
             |    $jsCodeMethodName() {
-            |        return $jsReturnCode;
+            |        return $jsCodeReturnStatement;
             |    }
             |    """.trimMargin()
 
@@ -46,13 +46,12 @@ internal class JsGetter private constructor(
 
 
         /**
-         * @return The js code that does the acutal return for data. E.g. "this.lastName"
+         * @return The js code that does the actual return for data. E.g. "this.lastName"
          */
-        internal fun jsReturnCode(isEnum: Boolean, isList: Boolean, propertyName: String): String {
+        internal fun jsCodeReturnStatement(isEnum: Boolean, isList: Boolean, propertyName: String, dataTypeName: String): String {
             return if (isEnum) {
-                val enumName: String = propertyName.firstCharToUpperCase()
                 //E.g. "Species[this.species]"
-                "$enumName[this.$propertyName]"
+                "$dataTypeName[this.$propertyName]"
             } else {
                 val arrayCopyString: String = JsMethodUtil.arrayCopyString(isList)
                 //E.g. Either "this.lastName" or "this.pets.slice()"
