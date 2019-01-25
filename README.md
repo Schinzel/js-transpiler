@@ -79,6 +79,7 @@ On the server, the JSON is deserialized back to the Person object.
 
 
 ## Ideas 
+- Is it possible to let boolean start with "is" and/or "has" instead of "get"
 - asJsonString and asJsonString in an abstract non exported class
 - Output what has been generated as feedback
 - add-methods when there is a setter for an array?
