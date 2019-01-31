@@ -6,6 +6,7 @@ import io.schinzel.jstranspiler.example.dataclasses.dir1.Address
 import io.schinzel.jstranspiler.example.dataclasses.dir1.Pet
 import io.schinzel.jstranspiler.example.dataclasses.dir1.Species
 import io.schinzel.jstranspiler.example.dataclasses.dir2.Person
+import io.schinzel.jstranspiler.example.dataclasses.dir2.Trait
 import io.schinzel.jstranspiler.example.generateJavaScript
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
@@ -79,9 +80,10 @@ class ExamplePageTest {
             val pet1 = Pet("Rufus", Species.DOG)
             val pet2 = Pet("Tiger", Species.CAT)
             val pets = listOf(pet1, pet2)
+            val traits = listOf(Trait.KIND, Trait.LOYAL)
             return Person("Henrik", "Svensson", 25,
                     250000, 1.89f, true, address,
-                    nicknames, luckyNumbers, pets)
+                    nicknames, luckyNumbers, pets, traits)
         }
 
     }

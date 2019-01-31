@@ -6,7 +6,7 @@
     <script src="js/jquery.js"></script>
     <script type="module">
         import {ServerCaller} from "./js/ServerCaller.js";
-        import {Person, Pet, Species} from "./js/classes.js";
+        import {Person, Pet, Species, Trait} from "./js/classes.js";
 
         /**
          * @param {Person} person
@@ -53,9 +53,18 @@
         }
 
 
+        function addTrait() {
+            let traits = person.getTraits();
+            traits.push(Trait.HONORABLE);
+            person.setTraits(traits);
+            console.log('Trait added');
+        }
+
+
         $('#buttonGetPerson').on('click', getPersonFromServer);
         $('#buttonSendPerson').on('click', sendPersonToServer);
         $('#buttonAddPet').on('click', addPet);
+        $('#buttonAddTrait').on('click', addTrait);
     </script>
 
 </head>
@@ -64,6 +73,7 @@
 <p>Open the console</p>
 <button id="buttonGetPerson">Get Person from server</button>
 <button id="buttonAddPet">Add Pet</button>
+<button id="buttonAddTrait">Add Trait</button>
 <button id="buttonSendPerson">Send Person to server</button>
 <h3>Output</h3>
 <div id="outputDiv"></div>
