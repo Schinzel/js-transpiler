@@ -6,24 +6,13 @@ import kotlin.reflect.KProperty1
 /**
  * Purpose of this class is to construct the JavaScript code for a getter
  */
-internal class JsGetter private constructor(
-        private val propertyName: String,
-        private val propertyDataType: KotlinDataType,
-        private val isEnum: Boolean)
-    : IToJavaScript {
-
-    /**
-     * @param property A Kotlin data class property
-     */
-    constructor(property: KProperty1<out Any, Any?>)
-            : this(property.name, property.getKotlinDataType(), property.isEnum())
-
+internal class JsGetter(private val property: KProperty1<out Any, Any?>): IToJavaScript {
 
     override fun toJavaScript(): String {
-        val jsCodeMethodName: String = JsMethodUtil.methodName("get", propertyName)
-        val jsDocReturnDataType: String = JsDoc.getDataTypeName(propertyDataType)
-        val jsDocReturnDoc: String = jsDocReturn(propertyDataType.isList)
-        val jsCodeReturnStatement: String = jsCodeReturnStatement(isEnum, propertyDataType.isList, propertyName, propertyDataType.className)
+        val jsCodeMethodName: String = JsMethodUtil.methodName("get", property.name)
+        val jsDocReturnDataType: String = JsDoc.getDataTypeName(KotlinDataType(property.getFullClassName()))
+        val jsDocReturnDoc: String = jsDocReturn(property.isList())
+        val jsCodeReturnStatement: String = jsCodeReturnStatement(property.isEnum(), property.isList(), property.name, property.getSimpleClassName())
         return """
             |    // noinspection JSUnusedGlobalSymbols
             |    /**

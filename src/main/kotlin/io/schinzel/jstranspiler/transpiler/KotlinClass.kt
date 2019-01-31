@@ -43,7 +43,7 @@ internal class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
             .filter { property -> property.annotations.any { it is JsTranspiler_CreateSetter } }
             //Create list of JavaScript setters
             .map { property ->
-                JsSetter(dataClassName, property)
+                JsSetter(property)
             }
             .compileToJs()
 

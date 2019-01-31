@@ -5,34 +5,28 @@ import kotlin.reflect.KProperty1
 /**
  * Purpose of this class is to generate the JavaScript code for setting up variables in the constructor
  */
-internal class JsConstructorInit(
-        private val propertyName: String,
-        private val propertyDataType: KotlinDataType,
-        private val isPropertyEnum: Boolean) : IToJavaScript {
-
-    constructor(property: KProperty1<out Any, Any?>)
-            : this(property.name, property.getKotlinDataType(), property.isEnum())
+internal class JsConstructorInit(private val property: KProperty1<out Any, Any?>) : IToJavaScript {
 
 
     override fun toJavaScript(): String {
-        val jsCodeCast: String = jsCodeCast(propertyName, propertyDataType, isPropertyEnum)
+        val jsCodeCast: String = jsCodeCast(property)
         return """
         |            /**
         |             * @private
         |             */
-        |            this.$propertyName = $jsCodeCast""".trimMargin()
+        |            this.${property.name} = $jsCodeCast""".trimMargin()
     }
 
     companion object {
-        private fun jsCodeCast(propertyName: String, propertyDataType: KotlinDataType, isPropertyEnum: Boolean): String {
-            if (propertyDataType.isListOfPrimitiveDataType || isPropertyEnum) {
-                return "json.$propertyName;"
+        private fun jsCodeCast(property: KProperty1<out Any, Any?>): String {
+            if (property.isListOfPrimitiveDataType() || property.isEnum()) {
+                return "json.${property.name};"
             }
-            if (propertyDataType.isList) {
-                val listDataType: String = propertyDataType.listDataTypeName
-                return "json.$propertyName.map(x => new $listDataType(x));"
+            if (property.isList()) {
+                val listDataType: String = property.getListElementsSimpleClassName()
+                return "json.${property.name}.map(x => new $listDataType(x));"
             }
-            return jsCodeCastNonList(propertyName, propertyDataType.fullName)
+            return jsCodeCastNonList(property.name, property.getFullClassName())
         }
 
 
