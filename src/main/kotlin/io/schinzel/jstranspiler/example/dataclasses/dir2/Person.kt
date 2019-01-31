@@ -17,4 +17,4 @@ data class Person(
         @JsTranspiler_CreateSetter val nicknames: List<String>,
         @JsTranspiler_CreateSetter val luckyNumbers: List<Int>,
         @JsTranspiler_CreateSetter val pets: List<Pet>,
-        val traits: List<Trait>)
+        @JsTranspiler_CreateSetter val traits: List<Trait>)

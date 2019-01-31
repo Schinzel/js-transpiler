@@ -24,7 +24,10 @@ internal class JsConstructorInit(private val property: KProperty1<out Any, Any?>
             }
             if (property.isList()) {
                 val listDataType: String = property.getListElementsSimpleClassName()
-                return "json.${property.name}.map(x => new $listDataType(x));"
+                return if (property.isListOfEnums())
+                    "json.${property.name}.map(x => $listDataType[x]);"
+                else
+                    "json.${property.name}.map(x => new $listDataType(x));"
             }
             return jsCodeCastNonList(property.name, property.getFullClassName())
         }

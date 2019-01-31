@@ -8,7 +8,7 @@ import kotlin.reflect.KProperty1
 /**
  * Purpose of this class is to construct the JavaScript code for a setter
  */
-internal class JsSetter(private val property: KProperty1<out Any, Any?>) : IToJavaScript {
+internal class JsSetter(private val property: KProperty1<out Any, Any?>, private val dataClassName: String) : IToJavaScript {
 
 
     override fun toJavaScript(): String {
@@ -22,7 +22,7 @@ internal class JsSetter(private val property: KProperty1<out Any, Any?>) : IToJa
             |    /**
             |     * $jsDocMethodDescription
             |     * @param {$jsDocArgumentDataType} $propertyName
-            |     * @return {${property.getSimpleClassName()}}
+            |     * @return {$dataClassName}
             |     */
             |    $jsCodeMethodName($propertyName) {
             |        this.$propertyName = $propertyName$jsCodeArrayCopyString;
