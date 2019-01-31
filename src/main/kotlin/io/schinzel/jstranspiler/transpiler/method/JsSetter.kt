@@ -1,6 +1,8 @@
 package io.schinzel.jstranspiler.transpiler.method
 
-import io.schinzel.jstranspiler.transpiler.*
+import io.schinzel.jstranspiler.transpiler.IToJavaScript
+import io.schinzel.jstranspiler.transpiler.getSimpleClassName
+import io.schinzel.jstranspiler.transpiler.isList
 import kotlin.reflect.KProperty1
 
 /**
@@ -11,7 +13,7 @@ internal class JsSetter(private val property: KProperty1<out Any, Any?>) : IToJa
 
     override fun toJavaScript(): String {
         val jsCodeMethodName = JsMethodUtil.methodName("set", property.name)
-        val jsDocArgumentDataType = JsDoc.getDataTypeName(KotlinDataType(property.getFullClassName()))
+        val jsDocArgumentDataType = JsDoc.getDataTypeName(property)
         val jsDocMethodDescription = jsDocMethodDescription(property.isList())
         val jsCodeArrayCopyString = JsMethodUtil.arrayCopyString(property.isList())
         val propertyName = property.name
