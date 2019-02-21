@@ -48,6 +48,14 @@ class JsTranspiler(destinationFile: String, listOfPackagePathAndNames: List<Stri
             |    asJsonString() {
             |        return JSON.stringify(this);
             |    }
+            |
+            |    // noinspection JSUnusedGlobalSymbols
+            |    /**
+            |     * return {object} A clone of this object
+            |     */
+            |    clone() {
+            |        return new this.constructor(this.asJsonObject());
+            |    }
             |}
             |
             |
