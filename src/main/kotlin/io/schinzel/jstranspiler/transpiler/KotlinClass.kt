@@ -51,8 +51,9 @@ internal class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
      * @return This class as JavaScript code
      */
     override fun toJavaScript(): String = """
-            |export class $dataClassName {
+            |export class $dataClassName extends DataObject {
             |    constructor(json) {
+            |        super();
             |        if (json) {
             |$constructorInitsJsCode
             |        }
@@ -60,21 +61,6 @@ internal class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
             |
             |$gettersJsCode
             |$settersJsCode
-            |    // noinspection JSUnusedGlobalSymbols
-            |    /**
-            |     * return {object} This instance as a json object
-            |     */
-            |    asJsonObject(){
-            |        return JSON.parse(JSON.stringify(this));
-            |    }
-            |
-            |    // noinspection JSUnusedGlobalSymbols
-            |    /**
-            |     * return {string} This instance as a json string
-            |     */
-            |    asJsonString(){
-            |       return JSON.stringify(this);
-            |    }
             |
             |}
             |

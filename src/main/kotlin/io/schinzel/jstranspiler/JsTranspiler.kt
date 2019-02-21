@@ -24,13 +24,34 @@ class JsTranspiler(destinationFile: String, listOfPackagePathAndNames: List<Stri
 
     companion object {
         private fun getFileHeader() = """
-            /**
-             * This is an automatically generated file.
-             * Kotlin data classes have been translated into JavaScript classes.
-             */
-
-
-        """.trimIndent()
+            |/**
+            | * This is an automatically generated file.
+            | * Kotlin data classes have been translated into JavaScript classes.
+            | */
+            |
+            |/**
+            | * This class holds methods common to all transpiled classes.
+            | */
+            |export class DataObject {
+            |    // noinspection JSUnusedGlobalSymbols
+            |    /**
+            |     * return {object} This instance as a json object
+            |     */
+            |    asJsonObject() {
+            |        return JSON.parse(JSON.stringify(this));
+            |    }
+            |
+            |    // noinspection JSUnusedGlobalSymbols
+            |    /**
+            |     * return {string} This instance as a json string
+            |     */
+            |    asJsonString() {
+            |        return JSON.stringify(this);
+            |    }
+            |}
+            |
+            |
+        """.trimMargin()
     }
 
 }
