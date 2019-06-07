@@ -3,6 +3,9 @@ package io.schinzel.jstranspiler.transpiler.method
 import io.schinzel.jstranspiler.transpiler.firstCharToUpperCase
 
 
+/**
+ * The purpose of this class is to hold code the is used by both the JsGetter and JsSetter classes
+ */
 internal class JsMethodUtil {
 
     companion object {

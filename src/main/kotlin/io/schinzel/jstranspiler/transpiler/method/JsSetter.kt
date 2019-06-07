@@ -1,7 +1,6 @@
 package io.schinzel.jstranspiler.transpiler.method
 
 import io.schinzel.jstranspiler.transpiler.IToJavaScript
-import io.schinzel.jstranspiler.transpiler.getSimpleClassName
 import io.schinzel.jstranspiler.transpiler.isList
 import kotlin.reflect.KProperty1
 

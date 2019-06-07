@@ -29,7 +29,7 @@ class JsTranspilerBuilder {
      * @return This for chaining
      */
     fun setDestinationFile(destinationFile: String): JsTranspilerBuilder {
-        JsTranspilerBuilder.validateFile(destinationFile)
+        validateFile(destinationFile)
         this.destinationFile = destinationFile
         return this
     }
