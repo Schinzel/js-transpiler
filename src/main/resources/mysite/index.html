@@ -36,7 +36,7 @@
                 .addArgument('String', JSON.stringify(person))
                 .setSuccessCallback((response) => {
                     console.log(`Server responded: '${response}'`);
-                    $('body').append('<div class="selenium_sent_person">' + response.asJsonString() + '</div>');
+                    $('body').append('<div class="selenium_sent_person">' + response + '</div>');
                 })
                 .call();
         }

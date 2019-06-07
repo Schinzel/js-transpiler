@@ -19,4 +19,4 @@ data class Person(
         @JsTranspiler_CreateSetter val luckyNumbers: List<Int>,
         @JsTranspiler_CreateSetter val pets: List<Pet>,
         @JsTranspiler_CreateSetter val traits: List<Trait>,
-        val created: Instant)
+        @JsTranspiler_CreateSetter val lastEdited: Instant)
