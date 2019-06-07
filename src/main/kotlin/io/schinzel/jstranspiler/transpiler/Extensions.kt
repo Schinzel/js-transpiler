@@ -8,6 +8,11 @@ internal fun List<IToJavaScript>.compileToJs(): String =
         this.joinToString(separator = "\n") { it.toJavaScript() }
 
 
+/**
+ * E.g.
+ * Input: "monkey"
+ * Output: "Monkey"
+ */
 internal fun String.firstCharToUpperCase(): String =
         this.substring(0, 1).toUpperCase() + this.substring(1)
 
@@ -16,18 +21,38 @@ internal fun <R> KCallable<R>.getFullClassName(): String =
         this.returnType.toString()
 
 
+/**
+ * E.g.
+ * Input:
+ *   val io.schinzel.jstranspiler.example.dataclasses.dir1.Address.city: kotlin.String
+ * Output:
+ *   String
+ */
 internal fun <R> KCallable<R>.getSimpleClassName(): String =
         this.returnType.toString().substringAfterLast(".")
 
 
+/**
+ * @return True if this is an enum
+ */
 internal fun <R> KCallable<R>.isEnum(): Boolean =
         this.returnType.jvmErasure.isSubclassOf(Enum::class)
 
 
+/**
+ * @return True if this is a list
+ */
 internal fun <R> KCallable<R>.isList(): Boolean =
         this.returnType.jvmErasure.isSubclassOf(List::class)
 
 
+/**
+ * E.g.
+ * Input:
+ *   val io.schinzel.jstranspiler.example.dataclasses.dir2.Person.pets: kotlin.collections.List<io.schinzel.jstranspiler.example.dataclasses.dir1.Pet>
+ * Output:
+ *   Pet
+ */
 internal fun <R> KCallable<R>.getListElementsSimpleClassName(): String {
     if (!this.isList()) {
         throw RuntimeException("Tried to get the simple class name of elements of a list. But the data type was not a list. " + this.getFullClassName())

@@ -6,13 +6,17 @@ import kotlin.reflect.KProperty1
 /**
  * Purpose of this class is to construct the JavaScript code for a getter
  */
-internal class JsGetter(private val property: KProperty1<out Any, Any?>): IToJavaScript {
+internal class JsGetter(private val property: KProperty1<out Any, Any?>) : IToJavaScript {
 
     override fun toJavaScript(): String {
         val jsCodeMethodName: String = JsMethodUtil.methodName("get", property.name)
         val jsDocReturnDataType: String = JsDoc.getDataTypeName(property)
         val jsDocReturnDoc: String = jsDocReturn(property.isList())
-        val jsCodeReturnStatement: String = jsCodeReturnStatement(property.isEnum(), property.isList(), property.name, property.getSimpleClassName())
+        val jsCodeReturnStatement: String = jsCodeReturnStatement(
+                isEnum = property.isEnum(),
+                isList = property.isList(),
+                propertyName = property.name,
+                dataTypeName = property.getSimpleClassName())
         return """
             |    // noinspection JSUnusedGlobalSymbols
             |    /**

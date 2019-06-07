@@ -18,9 +18,7 @@ internal class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
             //Get all properties for class
             .memberProperties
             //Create list of JavaScript constructor lines
-            .map { property ->
-                JsConstructorInit(property)
-            }
+            .map { JsConstructorInit(it) }
             //Compile list to string with all code for constructor
             .compileToJs()
 
@@ -29,9 +27,7 @@ internal class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
             //Get all properties for class
             .memberProperties
             //Create list of JavaScript getters
-            .map { property ->
-                JsGetter(property)
-            }
+            .map { JsGetter(it) }
             //Compile list of getters to a single string
             .compileToJs()
 
@@ -39,12 +35,10 @@ internal class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
     private val settersJsCode: String = kClass
             //Get all properties for class
             .memberProperties
-            //Filter out those that are not annotated as JavaScript setters
+            //Remove those that are not annotated as JavaScript setters
             .filter { property -> property.annotations.any { it is JsTranspiler_CreateSetter } }
             //Create list of JavaScript setters
-            .map { property ->
-                JsSetter(property, dataClassName)
-            }
+            .map { JsSetter(it, dataClassName) }
             .compileToJs()
 
     /**

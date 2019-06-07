@@ -15,11 +15,14 @@ import kotlin.reflect.KClass
  *    CAT: 'CAT',
  *    DOG: 'DOG'
  * });
+ * @property myClass The kotlin enum to transpile to JavaScript
  */
 internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript {
 
     override fun toJavaScript(): String {
+        //Get the name of the kotlin enum class
         val enumName: String = myClass.simpleName ?: throw RuntimeException()
+        //Get all the values of the enum class
         val enumValues: String = myClass.java.enumConstants
                 .joinToString(separator = ",\n") { "    $it: '$it'" }
         return """
