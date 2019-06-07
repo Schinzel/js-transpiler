@@ -22,7 +22,7 @@
                     person = new Person(json);
                     console.log('Got below person from server');
                     console.log(person);
-                    $('body').append('<div class="selenium_got_person"></div>');
+                    $('body').append('<div class="selenium_got_person">' + person.asJsonString() + '</div>');
                 })
                 .call();
         }
@@ -36,7 +36,7 @@
                 .addArgument('String', JSON.stringify(person))
                 .setSuccessCallback((response) => {
                     console.log(`Server responded: '${response}'`);
-                    $('body').append('<div class="selenium_sent_person"></div>');
+                    $('body').append('<div class="selenium_sent_person">' + response.asJsonString() + '</div>');
                 })
                 .call();
         }
