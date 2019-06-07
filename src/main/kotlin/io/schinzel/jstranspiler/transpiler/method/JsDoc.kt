@@ -26,6 +26,7 @@ internal class JsDoc {
                     "kotlin.Float" -> "number"
                     "kotlin.Double" -> "number"
                     "kotlin.Boolean" -> "boolean"
+                    "java.time.Instant" -> "Date"
                     else -> property.getSimpleClassName()
                 }
 

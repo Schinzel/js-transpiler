@@ -57,6 +57,7 @@ internal class JsConstructorInit(private val property: KProperty1<out Any, Any?>
                 "kotlin.Double" -> "parseFloat(json.$propertyName);"
                 "kotlin.String" -> "json.$propertyName;"
                 "kotlin.Boolean" -> "json.$propertyName;"
+                "java.time.Instant" -> "new Date(json.$propertyName);"
                 else -> "new ${propertyDataTypeName.substringAfterLast(".")}(json.$propertyName);"
             }
         }

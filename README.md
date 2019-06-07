@@ -25,6 +25,7 @@ Runtime, a class on either server or client side is serialized to JSON and sent 
 - Converts simple enums without data to JavaScript objects
 - Classes can have properties of types:
   - primitives (i.e. String, Int, Float, Long, Double and Boolean)
+  - java.lang.Instant (see section below about Support for Instant)
   - classes of other Kotlin data classes in the same directory
   - lists of:
      - primitives
@@ -58,6 +59,9 @@ The retrieved JSON will be used to create an instance of the auto generated Java
 Data is changed in the browser and the JavaScript classes are serialized to JSON and sent to server.
 On the server, the JSON is deserialized back to the Person object. 
 
+## Support for java.lang.Instant
+To be able to transpile Instants to JavaScript, you need to Kotlin how you want an Instant to be represented in string.
+ You do this by adding support in your object serialization. An example can be found in file ```example/misc/Serialization.kt```
 
 ## Maven
 ```xml
@@ -76,7 +80,6 @@ On the server, the JSON is deserialized back to the Person object.
 	</dependency>
 </dependencies>    
 ```
-
 
 ## Ideas 
 - Is it possible to let boolean start with "is" and/or "has" instead of "get"

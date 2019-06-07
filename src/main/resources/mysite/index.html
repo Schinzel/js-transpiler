@@ -22,7 +22,7 @@
                     person = new Person(json);
                     console.log('Got below person from server');
                     console.log(person);
-                    $('body').append('<div class="selenium_got_person"></div>');
+                    $('body').append('<div class="selenium_got_person">' + person.asJsonString() + '</div>');
                 })
                 .call();
         }
@@ -36,7 +36,7 @@
                 .addArgument('String', JSON.stringify(person))
                 .setSuccessCallback((response) => {
                     console.log(`Server responded: '${response}'`);
-                    $('body').append('<div class="selenium_sent_person"></div>');
+                    $('body').append('<div class="selenium_sent_person">' + response + '</div>');
                 })
                 .call();
         }
@@ -60,11 +60,16 @@
             console.log('Trait added');
         }
 
+        function setLastEditedToNow() {
+            person.setLastEdited(new Date());
+        }
+
 
         $('#buttonGetPerson').on('click', getPersonFromServer);
         $('#buttonSendPerson').on('click', sendPersonToServer);
         $('#buttonAddPet').on('click', addPet);
         $('#buttonAddTrait').on('click', addTrait);
+        $('#buttonSetLastEdited').on('click', setLastEditedToNow);
     </script>
 
 </head>
@@ -74,6 +79,7 @@
 <button id="buttonGetPerson">Get Person from server</button>
 <button id="buttonAddPet">Add Pet</button>
 <button id="buttonAddTrait">Add Trait</button>
+<button id="buttonSetLastEdited">Set LastEdited</button>
 <button id="buttonSendPerson">Send Person to server</button>
 <h3>Output</h3>
 <div id="outputDiv"></div>

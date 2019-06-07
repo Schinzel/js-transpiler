@@ -7,7 +7,7 @@ import io.schinzel.jstranspiler.println
  * Purpose of this file is to provide sample code for who to use this project to
  * generate JavaScript data files from Kotlin data classes
  */
-fun main(args: Array<String>) {
+fun main() {
     generateJavaScript()
 }
 
