@@ -76,7 +76,7 @@ To be able to transpile Instants to JavaScript, you need to Kotlin how you want 
 	<dependency>
 		<groupId>io.schinzel</groupId>
 		<artifactId>js-transpiler</artifactId>
-		<version>0.9</version>
+		<version>1.0</version>
 	</dependency>
 </dependencies>    
 ```
