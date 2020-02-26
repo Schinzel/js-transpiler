@@ -20,7 +20,7 @@ The problem this project solves is to be able to have the same data classes serv
 Compile time, this is done by compiling Kotlin data classes to ES6 JavaScript classes and Kotlin enums to JavaScript objects.
 Runtime, a class on either server or client side is serialized to JSON and sent to the other layer and deserialized to a class. 
 
-## Instructions
+## Supported
 - Converts Kotlin data classes to JavaScript classes
 - Converts simple enums without data to JavaScript objects
 - Classes can have properties of types:
@@ -30,10 +30,13 @@ Runtime, a class on either server or client side is serialized to JSON and sent 
   - lists of:
      - primitives
      - classes of other Kotlin data classes in the same directory
+     - simple enum without data
 - Only simple enums without properties are supported
 - Kotlin property names cannot start with "is", "get" or "set". 
 This as these prefixes are removed by default by for example Jackson when serializing to JSON.
 This will then cause a problem when converting JSON to Kotlin data classes.
+
+## Instructions
 - To have the transpiler compile a class or an enum add the annotation ```@JsTranspiler_CompileToJavaScript``` to the class
 - To have setter methods in JavaScript annotate the Kotlin property with ```@JsTranspiler_CreateSetter```
 
