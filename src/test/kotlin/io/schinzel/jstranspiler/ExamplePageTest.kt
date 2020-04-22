@@ -91,7 +91,7 @@ class ExamplePageTest {
             val traits = listOf(Trait.KIND, Trait.LOYAL)
             return Person("Henrik", "Svensson", 25,
                     250000, 1.89f, true, address,
-                    nicknames, luckyNumbers, pets, traits, Instant.now())
+                    nicknames, luckyNumbers, pets, traits, Instant.now(), 110)
         }
 
     }

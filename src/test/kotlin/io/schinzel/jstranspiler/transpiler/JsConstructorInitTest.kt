@@ -5,7 +5,7 @@ import org.junit.Test
 import java.time.Instant
 
 
-class JsContructorInitTest {
+class JsConstructorInitTest {
 
     private data class IntegerClass(val value: Int)
     private data class FloatClass(val value: Float)

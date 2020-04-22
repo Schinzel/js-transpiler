@@ -41,13 +41,32 @@ This will then cause a problem when converting JSON to Kotlin data classes.
 - To have setter methods in JavaScript annotate the Kotlin property with ```@JsTranspiler_CreateSetter```
 
 ## Sample code
-The below compiles kotlin code in the argument dir to JavaScript code in the argument file.
+Add `@JsTranspiler_CompileToJavaScript` to a class to compile it to JavaScript. All properties
+in the class get getters in the generated JavaScript class. 
+
+Add `@JsTranspiler_CreateSetter` to a property to get a setter in the generated JavaScript class.
+
+Add the Jackson annotation `@JsonIgnore` and that property will no be present in the JavaScript class.
+```kotlin
+@JsTranspiler_CompileToJavaScript
+data class Person(
+        val age: Int,
+        @JsTranspiler_CreateSetter 
+        val firstName: String,
+        @JsTranspiler_CreateSetter 
+        val lastName: String,
+        @JsonIgnore 
+        val iq: Int = 100)
 ```
+
+The below compiles kotlin code in the argument dir to JavaScript code in the argument file.
+```kotlin
 JsTranspilerBuilder()
     .addSourcePackage("io.schinzel.jstranspiler.example.dataclasses.dir")
     .setDestinationFile("src/main/resources/mysite/js/classes.js")
     .buildAndRun()
 ```
+
 
 ## Sample
 The code in the repo contains sample code.
@@ -83,6 +102,14 @@ To be able to transpile Instants to JavaScript, you need to Kotlin how you want 
 	</dependency>
 </dependencies>    
 ```
+
+## Version history
+### 1.1
+_2020-04-22_
+- Added support for annotation JsonIgnore
+### 1.0
+_2019-07-25_
+- Initial release
 
 ## Ideas 
 - Is it possible to let boolean start with "is" and/or "has" instead of "get"
