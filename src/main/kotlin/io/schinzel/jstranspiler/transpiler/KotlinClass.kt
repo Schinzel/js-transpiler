@@ -16,7 +16,7 @@ internal class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
             ?: throw RuntimeException("Problems getting class name from class")
 
     //JavaScript code for setting up properties in the constructor
-    private val constructorInitsJsCode: String = kClass
+    val constructorInitsJsCode: String = kClass
             //Get all properties for class
             .memberProperties
             //Remove all properties with JsonIgnore annotation
@@ -27,7 +27,7 @@ internal class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
             .compileToJs()
 
     //JavaScript code for property getters
-    private val gettersJsCode: String = kClass
+    val gettersJsCode: String = kClass
             //Get all properties for class
             .memberProperties
             //Remove all properties with JsonIgnore annotation
@@ -38,7 +38,7 @@ internal class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
             .compileToJs()
 
     //JavaScript code for property setters
-    private val settersJsCode: String = kClass
+    val settersJsCode: String = kClass
             //Get all properties for class
             .memberProperties
             //Remove all properties with JsonIgnore annotation
