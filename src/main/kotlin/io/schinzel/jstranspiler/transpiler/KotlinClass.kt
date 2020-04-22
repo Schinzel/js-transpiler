@@ -1,9 +1,11 @@
 package io.schinzel.jstranspiler.transpiler
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import io.schinzel.jstranspiler.transpiler.method.JsGetter
 import io.schinzel.jstranspiler.transpiler.method.JsSetter
 import kotlin.reflect.KClass
 import kotlin.reflect.full.memberProperties
+import kotlin.reflect.jvm.javaField
 
 /**
  * Purpose of this class is to construct the JavaScript code for a Kotlin data class
@@ -17,6 +19,8 @@ internal class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
     private val constructorInitsJsCode: String = kClass
             //Get all properties for class
             .memberProperties
+            //Remove all properties with JsonIgnore annotation
+            .filter { it.javaField?.getAnnotation(JsonIgnore::class.java) == null }
             //Create list of JavaScript constructor lines
             .map { JsConstructorInit(it) }
             //Compile list to string with all code for constructor
@@ -26,6 +30,8 @@ internal class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
     private val gettersJsCode: String = kClass
             //Get all properties for class
             .memberProperties
+            //Remove all properties with JsonIgnore annotation
+            .filter { it.javaField?.getAnnotation(com.fasterxml.jackson.annotation.JsonIgnore::class.java) == null }
             //Create list of JavaScript getters
             .map { JsGetter(it) }
             //Compile list of getters to a single string
@@ -35,8 +41,10 @@ internal class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
     private val settersJsCode: String = kClass
             //Get all properties for class
             .memberProperties
-            //Remove those that are not annotated as JavaScript setters
-            .filter { property -> property.annotations.any { it is JsTranspiler_CreateSetter } }
+            //Remove all properties with JsonIgnore annotation
+            .filter { it.javaField?.getAnnotation(com.fasterxml.jackson.annotation.JsonIgnore::class.java) == null }
+            //Remove properties that are not annotated as JavaScript setters
+            .filter { it.annotations.any { it is JsTranspiler_CreateSetter } }
             //Create list of JavaScript setters
             .map { JsSetter(it, dataClassName) }
             .compileToJs()
