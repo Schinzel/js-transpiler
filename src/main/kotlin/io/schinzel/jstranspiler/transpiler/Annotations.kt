@@ -1,3 +1,5 @@
+@file:Suppress("ClassName")
+
 package io.schinzel.jstranspiler.transpiler
 
 

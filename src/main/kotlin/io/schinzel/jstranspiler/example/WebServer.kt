@@ -12,7 +12,7 @@ import io.schinzel.jstranspiler.example.misc.PersonGenerator
  * demonstrate the capabilities of this project
  */
 fun main(args: Array<String>) {
-    generateJavaScript()
+    generateJavaScriptClasses()
     val person: Person = PersonGenerator.generatePerson()
     WebServer(person).start()
     println("Web server started on port 5555")

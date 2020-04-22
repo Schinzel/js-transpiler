@@ -7,7 +7,7 @@ import io.schinzel.jstranspiler.example.dataclasses.dir1.Pet
 import io.schinzel.jstranspiler.example.dataclasses.dir1.Species
 import io.schinzel.jstranspiler.example.dataclasses.dir2.Person
 import io.schinzel.jstranspiler.example.dataclasses.dir2.Trait
-import io.schinzel.jstranspiler.example.generateJavaScript
+import io.schinzel.jstranspiler.example.generateJavaScriptClasses
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.After
 import org.junit.Before
@@ -23,10 +23,18 @@ import org.openqa.selenium.support.ui.WebDriverWait
 import java.time.Instant
 
 /**
- * Purpose of this file is ...
+ * This test:
+ * - transpiles a set of Kotlin classes to JavaScript classes
+ * - starts a web server
+ * - loads an html-page
+ * - the html-page requests a Person object from the server. The server serializes the Person kotlin object,
+ * sends it to the client. The client de-serializes and recreates the Person as a transpiled JavaScript-object.
+ * object.
+ * - the html-page adds a pet to the Person object on the client, serializes and sends it to the server
+ * - the server de-serializes and recreates the Person as a Kotlin object
+ * - the test verifies that the number of pets of the person on the server has increased by one
  */
 class ExamplePageTest {
-    //Used to find elements on HTML page
     lateinit var webDriver: WebDriver
         private set
     lateinit var webServer: WebServer
@@ -58,8 +66,6 @@ class ExamplePageTest {
     companion object {
         //Flag that determines if Chrome will run headless (not visible on screen) or not
         private const val HEADLESS_CHROME: Boolean = false
-        private const val URL = "http://localhost:5555/"
-        private const val TIMEOUT_IN_SECONDS = 60L
 
 
         /**
@@ -68,7 +74,8 @@ class ExamplePageTest {
         @BeforeClass
         @JvmStatic
         fun beforeClass() {
-            generateJavaScript()
+            // Generate js classes from Kotlin. These will be used in the test
+            generateJavaScriptClasses()
             // Setup chrome WebDriver
             ChromeDriverManager.chromedriver().setup()
         }
@@ -89,22 +96,31 @@ class ExamplePageTest {
 
     }
 
+    /**
+     * Click on the html button with the argument id
+     */
     private fun clickButton(buttonId: String) =
             webDriver
                     .findElement(By.id(buttonId))
                     .click()
 
 
-    private fun clickButtonAndWaitFor(buttonId: String, className: String) {
+    /**
+     * Click on the html button with the argument id and wait for the argument class name to appear.
+     * Or to be more exact, wait for the number of elements with the argument class name to
+     * increase by one.
+     */
+    private fun clickButtonAndWaitFor(buttonId: String, classNameToWaitFor: String) {
         //Get number of elements with argument name
         val initialNumberOfElements: Int = webDriver
-                .findElements(By.className(className))
+                .findElements(By.className(classNameToWaitFor))
                 .size
         clickButton(buttonId)
         val numberOfElementsToWaitFor: Int = initialNumberOfElements + 1
+        val timeOutInSeconds = 60L
         //Wait for the number of elements with argument name to be one more
-        WebDriverWait(webDriver, TIMEOUT_IN_SECONDS)
-                .until(ExpectedConditions.numberOfElementsToBe(By.className(className), numberOfElementsToWaitFor))
+        WebDriverWait(webDriver, timeOutInSeconds)
+                .until(ExpectedConditions.numberOfElementsToBe(By.className(classNameToWaitFor), numberOfElementsToWaitFor))
     }
 
 
@@ -113,12 +129,12 @@ class ExamplePageTest {
         //Get the number of pets of person on server
         val initialNumberOfPets = webServer.api.person.pets.size
         //Load page
-        webDriver.navigate().to(URL)
+        webDriver.navigate().to("http://localhost:5555/")
         //Click button to get person from server
         clickButtonAndWaitFor("buttonGetPerson", "selenium_got_person")
-        //Click button to add pet
+        //Click button to add pet to the person on the client
         clickButton("buttonAddPet")
-        //Wait for response from server
+        //Send person to server
         clickButtonAndWaitFor("buttonSendPerson", "selenium_sent_person")
         //Get the number of pets of person on server
         val currentNumberOfPets = webServer.api.person.pets.size

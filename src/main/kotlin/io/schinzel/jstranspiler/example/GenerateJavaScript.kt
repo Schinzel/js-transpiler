@@ -8,10 +8,10 @@ import io.schinzel.jstranspiler.println
  * generate JavaScript data files from Kotlin data classes
  */
 fun main() {
-    generateJavaScript()
+    generateJavaScriptClasses()
 }
 
-fun generateJavaScript() {
+fun generateJavaScriptClasses() {
     val baseDir = "io.schinzel.jstranspiler.example.dataclasses"
     JsTranspilerBuilder()
             .addSourcePackage("$baseDir.dir1")
