@@ -31,7 +31,7 @@ internal class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
             //Get all properties for class
             .memberProperties
             //Remove all properties with JsonIgnore annotation
-            .filter { it.javaField?.getAnnotation(com.fasterxml.jackson.annotation.JsonIgnore::class.java) == null }
+            .filter { it.javaField?.getAnnotation(JsonIgnore::class.java) == null }
             //Create list of JavaScript getters
             .map { JsGetter(it) }
             //Compile list of getters to a single string
@@ -42,9 +42,9 @@ internal class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
             //Get all properties for class
             .memberProperties
             //Remove all properties with JsonIgnore annotation
-            .filter { it.javaField?.getAnnotation(com.fasterxml.jackson.annotation.JsonIgnore::class.java) == null }
+            .filter { it.javaField?.getAnnotation(JsonIgnore::class.java) == null }
             //Remove properties that are not annotated as JavaScript setters
-            .filter { it.annotations.any { it is JsTranspiler_CreateSetter } }
+            .filter { property -> property.annotations.any { it is JsTranspiler_CreateSetter } }
             //Create list of JavaScript setters
             .map { JsSetter(it, dataClassName) }
             .compileToJs()
