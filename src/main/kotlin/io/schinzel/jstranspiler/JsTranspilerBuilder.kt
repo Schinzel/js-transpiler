@@ -8,15 +8,15 @@ package io.schinzel.jstranspiler
 class JsTranspilerBuilder {
     //Where the generated JavaScript file should be written to
     private lateinit var destinationFile: String
-    //Packages in which to look for data classes to convert to JavaScript
-    private val listOfPackagePathAndNames = mutableListOf<String>()
+    //Package in which to look for data classes to convert to JavaScript
+    private lateinit var packageName: String
 
     companion object {
         private fun validateFile(fileName: String) {
             if (!fileName.contains(".")) {
                 throw RuntimeException("Missing dot in destination file name")
             }
-            if (fileName.substringAfterLast(".") != "js") {
+            if (!fileName.endsWith(".js")) {
                 throw RuntimeException("Destination file must have the extension js")
             }
         }
@@ -39,8 +39,8 @@ class JsTranspilerBuilder {
      * @param sourcePackage
      * @return This for chaining
      */
-    fun addSourcePackage(sourcePackage: String): JsTranspilerBuilder {
-        listOfPackagePathAndNames.add(sourcePackage)
+    fun setSourcePackage(sourcePackage: String): JsTranspilerBuilder {
+        this.packageName = sourcePackage
         return this
     }
 
@@ -50,6 +50,6 @@ class JsTranspilerBuilder {
      * equivalent JavaScript classes
      */
     fun buildAndRun() {
-        JsTranspiler(destinationFile, listOfPackagePathAndNames)
+        JsTranspiler(destinationFile, packageName)
     }
 }
