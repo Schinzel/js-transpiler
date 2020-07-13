@@ -7,16 +7,17 @@ import java.io.File
  * The main class for this project. Generates JavaScript code from the argument list of packages
  * and writes them to the argument file.
  *
+ * @param sourcePackageName A a name of a Kotlin package in which to look for Kotlin code
+ * to be transpiled to JavaScript.
  * @param destinationFile The name of the file into which the generated JavaScript will be written.
  * E.g. "src/main/resources/mysite/js/classes.js"
- * @param packageName A a name of a Kotlin package in which to look for Kotlin code
- * to be transpiled to JavaScript.
  */
-class JsTranspiler(destinationFile: String, packageName: String) {
+class JsTranspiler(sourcePackageName: String, destinationFile: String) {
 
     init {
+        validateFile(destinationFile)
         //Transpile all argument packages to JavaScript
-        val javaScriptCode: String = KotlinPackage(packageName).toJavaScript()
+        val javaScriptCode: String = KotlinPackage(sourcePackageName).toJavaScript()
         //File content is file header plus generated JavaScript code
         val jsFileContent: String = fileHeader
                 .plus(javaScriptCode)
@@ -24,12 +25,20 @@ class JsTranspiler(destinationFile: String, packageName: String) {
         File(destinationFile).writeText(jsFileContent)
     }
 
-}
+    companion object {
+        private fun validateFile(fileName: String) {
+            if (!fileName.contains(".")) {
+                throw RuntimeException("Missing dot in destination file name")
+            }
+            if (!fileName.endsWith(".js")) {
+                throw RuntimeException("Destination file must have the extension js")
+            }
+        }
 
-/**
- * The header of the generated JavaScript file
- */
-private val fileHeader = """
+        /**
+         * The header of the generated JavaScript file
+         */
+        private val fileHeader = """
             |/**
             | * This is an automatically generated file.
             | * Kotlin data classes have been translated into JavaScript classes.
@@ -66,4 +75,11 @@ private val fileHeader = """
             |
             |
         """.trimMargin()
+    }
+
+}
+
+
+
+
 

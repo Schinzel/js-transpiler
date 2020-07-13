@@ -1,6 +1,6 @@
 package io.schinzel.jstranspiler.example
 
-import io.schinzel.jstranspiler.JsTranspilerBuilder
+import io.schinzel.jstranspiler.JsTranspiler
 import io.schinzel.jstranspiler.println
 
 
@@ -13,9 +13,9 @@ fun main() {
 }
 
 fun generateJavaScriptClasses() {
-    JsTranspilerBuilder()
-            .setSourcePackage("io.schinzel.jstranspiler.example")
-            .setDestinationFile("src/main/resources/mysite/js/classes.js")
-            .buildAndRun()
+    JsTranspiler(
+            sourcePackageName = "io.schinzel.jstranspiler.example",
+            destinationFile = "src/main/resources/mysite/js/classes.js"
+    )
     "JavaScript code generated".println()
 }

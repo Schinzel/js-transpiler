@@ -1,6 +1,5 @@
 package io.schinzel.jstranspiler.transpiler
 
-import io.schinzel.jstranspiler.println
 import org.reflections.Reflections
 import kotlin.reflect.KClass
 import kotlin.reflect.full.isSubclassOf
@@ -20,8 +19,6 @@ internal class KotlinPackage(private val packageName: String) : IToJavaScript {
                 .getTypesAnnotatedWith(JsTranspiler_CompileToJavaScript::class.java)
                 .map { it.kotlin }
 
-        listOfClassesAndEnums.println()
-
         // Compile JavaScript for classes
         val jsForClasses: String = listOfClassesAndEnums
                 //Remove all enums
@@ -30,6 +27,7 @@ internal class KotlinPackage(private val packageName: String) : IToJavaScript {
                 .map { kclass -> KotlinClass(kclass) }
                 //Compile kotlin classes to JavaScript
                 .compileToJs()
+
         // Compile JavaScript for enums
         val jsForEnums: String = listOfClassesAndEnums
                 //Only enums in list
@@ -38,6 +36,7 @@ internal class KotlinPackage(private val packageName: String) : IToJavaScript {
                 .map { kclass -> KotlinEnum(kclass) }
                 //Compile kotlin enums to JavaScript
                 .compileToJs()
+
         //Return the JavaScript for classes and enum
         return jsForClasses + jsForEnums
     }

@@ -46,7 +46,7 @@ in the class get getters in the generated JavaScript class.
 
 Add `@JsTranspiler_CreateSetter` to a property to get a setter in the generated JavaScript class.
 
-Add the Jackson annotation `@JsonIgnore` and that property will no be present in the JavaScript class.
+Add the Jackson annotation `@JsonIgnore` and that property will not be present in the JavaScript class.
 ```kotlin
 @JsTranspiler_CompileToJavaScript
 data class Person(
@@ -61,10 +61,10 @@ data class Person(
 
 The below compiles kotlin code in the argument dir to JavaScript code in the argument file.
 ```kotlin
-JsTranspilerBuilder()
-    .addSourcePackage("io.schinzel.jstranspiler.example.dataclasses.dir")
-    .setDestinationFile("src/main/resources/mysite/js/classes.js")
-    .buildAndRun()
+    JsTranspiler(
+        sourcePackageName = "io.schinzel.jstranspiler.example.dataclasses.dir",
+        destinationFile = "src/main/resources/mysite/js/classes.js"
+)
 ```
 
 
@@ -98,12 +98,17 @@ To be able to transpile Instants to JavaScript, you need to Kotlin how you want 
 	<dependency>
 		<groupId>io.schinzel</groupId>
 		<artifactId>js-transpiler</artifactId>
-		<version>1.0</version>
+		<version>1.2</version>
 	</dependency>
 </dependencies>    
 ```
 
 ## Version history
+### 1.2
+_2020-07-14_
+- Instead of setting a set of source package to scan for code to transpile,  one source package 
+is set and it and all it's subpackages are scanned for code to transpile
+- `JsTranspilerBuilder` removed. Use `JsTranspiler` instead
 ### 1.1
 _2020-04-22_
 - Added support for annotation JsonIgnore
