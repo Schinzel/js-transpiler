@@ -1,7 +1,6 @@
 package io.schinzel.jstranspiler.example
 
 import io.schinzel.jstranspiler.JsTranspiler
-import io.schinzel.jstranspiler.println
 
 
 /**
