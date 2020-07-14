@@ -11,7 +11,7 @@ import io.schinzel.jstranspiler.example.misc.PersonGenerator
  * The purpose of this file is to start a web server so that user can run a sample that
  * demonstrate the capabilities of this project
  */
-fun main(args: Array<String>) {
+fun main() {
     generateJavaScriptClasses()
     val person: Person = PersonGenerator.generatePerson()
     WebServer(person).start()
