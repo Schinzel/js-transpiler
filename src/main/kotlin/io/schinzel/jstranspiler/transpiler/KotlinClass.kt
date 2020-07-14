@@ -11,41 +11,41 @@ import kotlin.reflect.jvm.javaField
  * Purpose of this class is to construct the JavaScript code for a Kotlin data class
  */
 internal class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
-    //The name of this class
+    // The name of this class
     private val dataClassName: String = kClass.simpleName
             ?: throw RuntimeException("Problems getting class name from class")
 
-    //JavaScript code for setting up properties in the constructor
+    // JavaScript code for setting up properties in the constructor
     val constructorInitsJsCode: String = kClass
-            //Get all properties for class
+            // Get all properties for class
             .memberProperties
-            //Remove all properties with JsonIgnore annotation
+            // Remove all properties with JsonIgnore annotation
             .filter { it.javaField?.getAnnotation(JsonIgnore::class.java) == null }
-            //Create list of JavaScript constructor lines
+            // Create list of JavaScript constructor lines
             .map { JsConstructorInit(it) }
-            //Compile list to string with all code for constructor
+            // Compile list to string with all code for constructor
             .compileToJs()
 
     //JavaScript code for property getters
     val gettersJsCode: String = kClass
-            //Get all properties for class
+            // Get all properties for class
             .memberProperties
-            //Remove all properties with JsonIgnore annotation
+            // Remove all properties with JsonIgnore annotation
             .filter { it.javaField?.getAnnotation(JsonIgnore::class.java) == null }
-            //Create list of JavaScript getters
+            // Create list of JavaScript getters
             .map { JsGetter(it) }
-            //Compile list of getters to a single string
+            // Compile list of getters to a single string
             .compileToJs()
 
     //JavaScript code for property setters
     val settersJsCode: String = kClass
-            //Get all properties for class
+            // Get all properties for class
             .memberProperties
-            //Remove all properties with JsonIgnore annotation
+            // Remove all properties with JsonIgnore annotation
             .filter { it.javaField?.getAnnotation(JsonIgnore::class.java) == null }
-            //Remove properties that are not annotated as JavaScript setters
+            // Remove properties that are not annotated as JavaScript setters
             .filter { property -> property.annotations.any { it is JsTranspiler_CreateSetter } }
-            //Create list of JavaScript setters
+            // Create list of JavaScript setters
             .map { JsSetter(it, dataClassName) }
             .compileToJs()
 

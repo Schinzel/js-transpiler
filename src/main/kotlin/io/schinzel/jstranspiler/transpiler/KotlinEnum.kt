@@ -20,9 +20,9 @@ import kotlin.reflect.KClass
 internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript {
 
     override fun toJavaScript(): String {
-        //Get the name of the kotlin enum class
+        // Get the name of the kotlin enum class
         val enumName: String = myClass.simpleName ?: throw RuntimeException()
-        //Get all the values of the enum class
+        // Get all the values of the enum class
         val enumValues: String = myClass.java.enumConstants
                 .joinToString(separator = ",\n") { "    $it: '$it'" }
         return """

@@ -15,14 +15,23 @@ import java.io.File
 class JsTranspiler(sourcePackageName: String, destinationFile: String) {
 
     init {
+        val startExecutionTime = System.nanoTime()
+        // Check so that argument destination file name is ok
         validateFile(destinationFile)
-        //Transpile all argument packages to JavaScript
-        val javaScriptCode: String = KotlinPackage(sourcePackageName).toJavaScript()
-        //File content is file header plus generated JavaScript code
+        val kotlinPackage = KotlinPackage(sourcePackageName)
+        // Transpile all argument packages to JavaScript
+        val javaScriptCode: String = kotlinPackage.toJavaScript()
+        // File content is file header plus generated JavaScript code
         val jsFileContent: String = fileHeader
                 .plus(javaScriptCode)
-        //Write generated header and JavaScript to the argument file
+        // Write generated header and JavaScript to the argument file
         File(destinationFile).writeText(jsFileContent)
+        // Calc execution time
+        val jobExecutionTimeInSeconds = (System.nanoTime() - startExecutionTime) / 1_000_000_000
+        "JsTranspiler ran! Produced JavaScript from ${kotlinPackage.numberOfClassesAndEnums} Kotlin " +
+                "data classes and enums in $jobExecutionTimeInSeconds seconds"
+                        .println()
+
     }
 
     companion object {
