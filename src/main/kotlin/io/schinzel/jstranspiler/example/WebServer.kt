@@ -27,7 +27,7 @@ class WebServer(person: Person) {
                 .expose(api)
                 //Start web server
                 .start(WebServerBuilder.create()
-                        .webServerDir("mysite")
+                        .webServerDir("my_site")
                         .cacheFilesInRAM(false)
                         .build())
                 //Start command line interface

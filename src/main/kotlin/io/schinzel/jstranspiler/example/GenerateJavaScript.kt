@@ -14,6 +14,6 @@ fun main() {
 fun generateJavaScriptClasses() {
     JsTranspiler(
             sourcePackageName = "io.schinzel.jstranspiler.example",
-            destinationFile = "src/main/resources/mysite/js/classes.js"
+            destinationFile = "src/main/resources/my_site/js/classes.js"
     )
 }

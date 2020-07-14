@@ -64,7 +64,7 @@ The below compiles kotlin code in the argument dir to JavaScript code in the arg
 ```kotlin
     JsTranspiler(
         sourcePackageName = "io.schinzel.jstranspiler.example.dataclasses.dir",
-        destinationFile = "src/main/resources/mysite/js/classes.js"
+        destinationFile = "src/main/resources/my_site/js/classes.js"
 )
 ```
 
@@ -74,7 +74,7 @@ The code in the repo contains sample code.
 1. Run the main function in `GenerateJavaScript.kt`.
 This reads a set of Kotlin data classes and enums and converts them to JavaScript code.
 The Kotlin code compiled is found in package `example.dataclasses`.
-The generated JavaScript code is written to `resources/mysite/js/classes.js`
+The generated JavaScript code is written to `resources/my_site/js/classes.js`
 2. Start a web server by running the main function in file `WebServer.kt`
 3. In a browser open http://localhost:5555/.
 The page will retrieve a serialized Kotlin data class Person instance from the server.

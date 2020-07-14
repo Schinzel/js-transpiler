@@ -10,12 +10,14 @@ import io.schinzel.jstranspiler.example.dataclasses.dir2.Person
 class API(var person: Person) {
 
 
+    @Suppress("unused")
     @Expose
     fun getPerson(): String {
         return Serialization.objectToJsonString(person)
     }
 
 
+    @Suppress("unused")
     @Expose(
             arguments = ["String"],
             requiredArgumentCount = 1

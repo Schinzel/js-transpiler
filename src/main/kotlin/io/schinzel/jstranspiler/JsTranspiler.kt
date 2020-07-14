@@ -10,7 +10,7 @@ import java.io.File
  * @param sourcePackageName A a name of a Kotlin package in which to look for Kotlin code
  * to be transpiled to JavaScript.
  * @param destinationFile The name of the file into which the generated JavaScript will be written.
- * E.g. "src/main/resources/mysite/js/classes.js"
+ * E.g. "src/main/resources/my_site/js/classes.js"
  */
 class JsTranspiler(sourcePackageName: String, destinationFile: String) {
 

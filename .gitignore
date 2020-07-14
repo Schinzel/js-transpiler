@@ -14,4 +14,4 @@ target/
 .idea/*
 
 ##### Auto generated js files ######
-/src/main/resources/mysite/js/classes.js
+/src/main/resources/my_site/js/classes.js
