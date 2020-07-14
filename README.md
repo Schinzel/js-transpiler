@@ -95,7 +95,9 @@ be found in file `example/misc/Serialization.kt`
 		<url>http://maven-repo.schinzel.io/release</url>
 	</repository>
 </repositories>    
+```
 
+```xml
 <dependencies>
 	<dependency>
 		<groupId>io.schinzel</groupId>
