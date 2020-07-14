@@ -28,9 +28,9 @@ class JsTranspiler(sourcePackageName: String, destinationFile: String) {
         File(destinationFile).writeText(jsFileContent)
         // Calc execution time
         val jobExecutionTimeInSeconds = (System.nanoTime() - startExecutionTime) / 1_000_000_000
-        "JsTranspiler ran! Produced JavaScript from ${kotlinPackage.numberOfClassesAndEnums} Kotlin " +
-                "data classes and enums in $jobExecutionTimeInSeconds seconds"
-                        .println()
+        val feedback = "JsTranspiler ran! Produced JavaScript from ${kotlinPackage.numberOfClassesAndEnums} Kotlin " +
+                "data classes and enums in $jobExecutionTimeInSeconds seconds."
+        feedback.println()
 
     }
 

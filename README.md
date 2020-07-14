@@ -113,6 +113,7 @@ _2020-07-15_
 - Instead of setting a set of source package to scan for code to transpile, one source package 
 is set and it and all it's subpackages are scanned for code to transpile
 - `JsTranspilerBuilder` removed. Use `JsTranspiler` instead.
+- Outputs a report with the execution time and number of classes and enum transpiled. 
 ### 1.1
 _2020-04-22_
 - Added support for annotation JsonIgnore
