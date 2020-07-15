@@ -1,7 +1,7 @@
 package io.schinzel.jstranspiler.example
 
-import io.schinzel.jstranspiler.JsTranspilerBuilder
-import io.schinzel.jstranspiler.println
+import io.schinzel.jstranspiler.JsTranspiler
+
 
 /**
  * Purpose of this file is to provide sample code for who to use this project to
@@ -12,11 +12,8 @@ fun main() {
 }
 
 fun generateJavaScriptClasses() {
-    val baseDir = "io.schinzel.jstranspiler.example.dataclasses"
-    JsTranspilerBuilder()
-            .addSourcePackage("$baseDir.dir1")
-            .addSourcePackage("$baseDir.dir2")
-            .setDestinationFile("src/main/resources/mysite/js/classes.js")
-            .buildAndRun()
-    "JavaScript code generated".println()
+    JsTranspiler(
+            sourcePackageName = "io.schinzel.jstranspiler.example",
+            destinationFile = "src/main/resources/my_site/js/classes.js"
+    )
 }

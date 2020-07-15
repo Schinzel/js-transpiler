@@ -1,38 +1,53 @@
 package io.schinzel.jstranspiler
 
 import io.schinzel.jstranspiler.transpiler.KotlinPackage
-import io.schinzel.jstranspiler.transpiler.compileToJs
 import java.io.File
 
 /**
  * The main class for this project. Generates JavaScript code from the argument list of packages
  * and writes them to the argument file.
  *
- * @param destinationFile The name of the file into which the generated JavaScript will be written.
- * E.g. "src/main/resources/mysite/js/classes.js"
- * @param listOfPackagePathAndNames A list of names of Kotlin packages in which to read Kotlin code
+ * @param sourcePackageName A a name of a Kotlin package in which to look for Kotlin code
  * to be transpiled to JavaScript.
+ * @param destinationFile The name of the file into which the generated JavaScript will be written.
+ * E.g. "src/main/resources/my_site/js/classes.js"
  */
-class JsTranspiler(destinationFile: String, listOfPackagePathAndNames: List<String>) {
+class JsTranspiler(sourcePackageName: String, destinationFile: String) {
 
     init {
-        //Transpile all argument packages to JavaScript
-        val javaScriptCode: String = listOfPackagePathAndNames
-                .map { KotlinPackage(it) }
-                .compileToJs()
-        //File content is file header plus generated JavaScript code
+        val startExecutionTime = System.nanoTime()
+        // Check so that argument destination file name is ok
+        validateFile(destinationFile)
+        val kotlinPackage = KotlinPackage(sourcePackageName)
+        // Transpile all argument packages to JavaScript
+        val javaScriptCode: String = kotlinPackage.toJavaScript()
+        // File content is file header plus generated JavaScript code
         val jsFileContent: String = fileHeader
                 .plus(javaScriptCode)
-        //Write generated header and JavaScript to the argument file
+        // Write generated header and JavaScript to the argument file
         File(destinationFile).writeText(jsFileContent)
+        // Calc execution time
+        val jobExecutionTimeInSeconds = (System.nanoTime() - startExecutionTime) / 1_000_000_000
+        val feedback = "JsTranspiler ran! Produced JavaScript from ${kotlinPackage.numberOfClassesAndEnums} Kotlin " +
+                "data classes and enums in $jobExecutionTimeInSeconds seconds."
+        feedback.println()
+
     }
 
-}
+    companion object {
+        private fun validateFile(fileName: String) {
+            if (!fileName.contains(".")) {
+                throw RuntimeException("Missing dot in destination file name")
+            }
+            if (!fileName.endsWith(".js")) {
+                throw RuntimeException("Destination file must have the extension js")
+            }
+        }
 
-/**
- * The header of the generated JavaScript file
- */
-private val fileHeader = """
+        /**
+         * The header of the generated JavaScript file
+         */
+        private val fileHeader = """
             |/**
             | * This is an automatically generated file.
             | * Kotlin data classes have been translated into JavaScript classes.
@@ -69,4 +84,11 @@ private val fileHeader = """
             |
             |
         """.trimMargin()
+    }
+
+}
+
+
+
+
 

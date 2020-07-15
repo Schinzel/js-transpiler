@@ -9,16 +9,24 @@ import java.time.Instant
 
 @JsTranspiler_CompileToJavaScript
 data class Person(
-        @JsTranspiler_CreateSetter val firstName: String,
-        @JsTranspiler_CreateSetter val lastName: String,
+        @JsTranspiler_CreateSetter
+        val firstName: String,
+        @JsTranspiler_CreateSetter
+        val lastName: String,
         val age: Int,
         val income: Long,
         val heightInMeter: Float,
         val healthy: Boolean,
         val homeAddress: Address,
-        @JsTranspiler_CreateSetter val nicknames: List<String>,
-        @JsTranspiler_CreateSetter val luckyNumbers: List<Int>,
-        @JsTranspiler_CreateSetter val pets: List<Pet>,
-        @JsTranspiler_CreateSetter val traits: List<Trait>,
-        @JsTranspiler_CreateSetter val lastEdited: Instant,
-        @JsonIgnore val iq: Int = 100)
+        @JsTranspiler_CreateSetter
+        val nicknames: List<String>,
+        @JsTranspiler_CreateSetter
+        val luckyNumbers: List<Int>,
+        @JsTranspiler_CreateSetter
+        val pets: List<Pet>,
+        @JsTranspiler_CreateSetter
+        val traits: List<Trait>,
+        @JsTranspiler_CreateSetter
+        val lastEdited: Instant,
+        @JsonIgnore
+        val iq: Int = 100)
