@@ -24,42 +24,43 @@ import kotlin.reflect.full.declaredMemberProperties
 internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript {
 
     override fun toJavaScript(): String {
-        // Get the name of the kotlin enum class
-        val enumName: String = myClass.simpleName ?: throw RuntimeException()
+        // for each value in the enum
+        //for (enumConst in myClass.java.enumConstants) {
 
-        // If the enum has properties
-        if (myClass.declaredMemberProperties.isNotEmpty()) {
-            // for each value in the enum
-            for (enumConst in myClass.java.enumConstants) {
+        val enumValues: List<String> = myClass.java.enumConstants.map { enumConst ->
+            // If the enum has properties
+            val enumValue = if (myClass.declaredMemberProperties.isNotEmpty()) {
                 "###".println()
                 val clazz: Class<*> = enumConst.javaClass
                 enumConst.printlnWithPrefix("enumConst")
                 // For each property in the enum
-                if (myClass.declaredMemberProperties.isNotEmpty()) {
-                    val propertyNameValuePairs: String = myClass.declaredMemberProperties
-                            .map { prop ->
-                                val propName = prop.name.printlnWithPrefix("Property name")
-                                val method: Method = clazz
-                                        .getDeclaredMethod("get${prop.name.firstCharToUpperCase()}")
-                                val propValue = method.invoke(enumConst)
-                                        .printlnWithPrefix("Property value")
-                                "$propName: '$propValue'"
-                            }
-                            .joinToString(separator = ", ")
-                            .printlnWithPrefix("Name Val")
-                }
+                val propertyNameValuePairs: String = myClass.declaredMemberProperties
+                        .map { prop ->
+                            val method: Method = clazz
+                                    .getDeclaredMethod("get${prop.name.firstCharToUpperCase()}")
+                            val propValue = method.invoke(enumConst)
+                            "${prop.name}: '$propValue'"
+                        }
+                        .joinToString(separator = ", ")
+                        .printlnWithPrefix("Name Val")
+                "{$propertyNameValuePairs}"
+            } else {
+                "'$enumConst'"
             }
+            "$enumConst: $enumValue".printlnWithPrefix("Experiment")
         }
 
 
         // Get all the values of the enum class
-        val enumValues: String = myClass.java.enumConstants
-                .joinToString(separator = ",\n") { "    $it: '$it'" }
+        val enumValuesString: String = enumValues
+                .joinToString(separator = ",\n")
 
+        // Get the name of the kotlin enum class
+        val enumName: String = myClass.simpleName ?: throw RuntimeException()
 
         return """
             |export const $enumName = Object.freeze({
-            |$enumValues
+            |$enumValuesString
             |});
             |
             |""".trimMargin()
@@ -68,16 +69,28 @@ internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript 
 
 
 /**
- *
- * Hur ser en serialiserad enum med värden ut. T.ex. CAT
- *     Serialization
-.objectToJsonString(Species.CAT)
-.println()
--> "CAT"
+
+Om int så behövs inte fnuttar
+Måste man ha med name?
 
 export const Species = Object.freeze({
 CAT: {name: 'cat', alignment: 'Chaotic Evil', averageLifeSpan: '16'},
 DOG: {name: 'dog', alignment: 'Neutral Good', averageLifeSpan: '13'}
 });
 
+
+Working versions of JS-enums:
+export const Trait = Object.freeze({
+HUMBLE: 'HUMBLE',
+HONORABLE: 'HONORABLE',
+DILIGENT: 'DILIGENT',
+LOYAL: 'LOYAL',
+KIND: 'KIND'
+});
+
+
+export const Species = Object.freeze({
+CAT: 'CAT',
+DOG: 'DOG'
+});
  */
