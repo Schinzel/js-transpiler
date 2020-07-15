@@ -5,7 +5,6 @@ import io.schinzel.jstranspiler.printlnWithPrefix
 import java.lang.reflect.Method
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredMemberProperties
-import kotlin.reflect.jvm.javaField
 
 /**
  * Purpose of this class is to construct the JavaScript code for a Kotlin enum
@@ -27,34 +26,27 @@ internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript 
     override fun toJavaScript(): String {
         // Get the name of the kotlin enum class
         val enumName: String = myClass.simpleName ?: throw RuntimeException()
-        //myClass.staticProperties.println()
-        //myClass.typeParameters.println()
-        myClass.declaredMemberProperties.printlnWithPrefix("Member props")
-        myClass.declaredMemberProperties.firstOrNull()?.printlnWithPrefix("First")
+
+        if (myClass.declaredMemberProperties.isNotEmpty()) {
 
 
-        myClass.declaredMemberProperties.firstOrNull()?.javaField.printlnWithPrefix("java field")
-
-        //https://stackoverflow.com/questions/24260011/get-value-of-enum-by-reflection
-
-
-        // ==== HEMMA START
-        // Int
-        myClass.declaredMemberProperties.firstOrNull()?.getSimpleClassName().printlnWithPrefix("Simple name")
-        // Age
-        myClass.declaredMemberProperties.firstOrNull()?.name.printlnWithPrefix("Name")
-        // ==== HEMMA SLUT
-
-        // Nästa steg. Itterera över  myClass.declaredMemberProperties för att få ut Age osv
-
-        if (enumName == "Species") {
             val enumConstants = myClass.java.enumConstants
             for (enumConst in enumConstants) {
-                val clzz: Class<*> = enumConst.javaClass
-                val method: Method = clzz.getDeclaredMethod("getAge")
-                val invoke: Any = method.invoke(enumConst)
-                invoke.printlnWithPrefix("Age")
-                //val `val` = method.invoke(enumConst) as String
+                "###".println()
+                val clazz: Class<*> = enumConst.javaClass
+                enumConst.printlnWithPrefix("enumConst")
+
+                if (myClass.declaredMemberProperties.isNotEmpty()) {
+                    for (prop in myClass.declaredMemberProperties) {
+                        prop.name.printlnWithPrefix("Property name")
+                        val method: Method = clazz
+                                .getDeclaredMethod("get${prop.name.firstCharToUpperCase()}")
+                        method.invoke(enumConst)
+                                .printlnWithPrefix("Property value")
+                    }
+                }
+
+
             }
         }
 
