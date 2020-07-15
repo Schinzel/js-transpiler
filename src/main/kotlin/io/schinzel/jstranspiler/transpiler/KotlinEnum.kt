@@ -73,6 +73,8 @@ internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript 
 Om int så behövs inte fnuttar
 Måste man ha med name?
 
+https://stackoverflow.com/questions/44447847/enums-in-javascript-with-es6
+
 export const Species = Object.freeze({
 CAT: {name: 'cat', alignment: 'Chaotic Evil', averageLifeSpan: '16'},
 DOG: {name: 'dog', alignment: 'Neutral Good', averageLifeSpan: '13'}
