@@ -6,3 +6,5 @@ package io.schinzel.jstranspiler
  * @return This for chaining
  */
 fun <R> R.println(): R = this.apply { println(this) }
+
+fun <R> R.printlnWithPrefix(prefix: String): R = this.apply { println("$prefix: $this") }
