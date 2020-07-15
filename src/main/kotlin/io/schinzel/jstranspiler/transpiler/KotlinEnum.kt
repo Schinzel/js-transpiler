@@ -71,6 +71,7 @@ internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript 
 /**
 
 Om int så behövs inte fnuttar
+Få in intendation
 Måste man ha med name?
 
 https://stackoverflow.com/questions/44447847/enums-in-javascript-with-es6
