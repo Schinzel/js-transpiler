@@ -69,9 +69,20 @@ internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript 
 
 /**
 
+Nästa steg:
+- Testa att alltid sätta name oavsätt om har properties eller inte...
+
 Måste man ha med name?
 
 Kolla in @typedef
+
+Om det är en Enum med properties så
+1) lägg till en @typdef
+2) setters görs med name (
+
+
+
+
 
 /**
  * @typedef {{name: string, alignment: string, averageLifeSpan: number}}  Species
