@@ -42,7 +42,7 @@ internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript 
                             }
                         }
                         .joinToString(separator = ", ")
-                "{$propertyNameValuePairs}"
+                "{name: '$enumConst', $propertyNameValuePairs}"
             } else {
                 "'$enumConst'"
             }
@@ -71,7 +71,18 @@ internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript 
 
 Måste man ha med name?
 
+/**
+ *
+ * @param  {{name: string, alignment: string, averageLifeSpan: number}}  theSpecies
+ * @return {Pet}
+*/
+setTheSpecies(theSpecies) {
+this.theSpecies = theSpecies.name;
+return this;
+}
+
 https://stackoverflow.com/questions/44447847/enums-in-javascript-with-es6
+
 
 export const Species = Object.freeze({
 CAT: {name: 'cat', alignment: 'Chaotic Evil', averageLifeSpan: '16'},
