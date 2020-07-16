@@ -1,6 +1,5 @@
 package io.schinzel.jstranspiler.transpiler
 
-import io.schinzel.jstranspiler.println
 import io.schinzel.jstranspiler.printlnWithPrefix
 import java.lang.reflect.Method
 import kotlin.reflect.KClass
@@ -36,7 +35,11 @@ internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript 
                             val method: Method = enumConst.javaClass
                                     .getDeclaredMethod("get${prop.name.firstCharToUpperCase()}")
                             val propValue = method.invoke(enumConst)
-                            "${prop.name}: '$propValue'"
+                            if (prop.getSimpleClassName() == "String") {
+                                "${prop.name}: '$propValue'"
+                            } else {
+                                "${prop.name}: $propValue"
+                            }
                         }
                         .joinToString(separator = ", ")
                 "{$propertyNameValuePairs}"
@@ -66,7 +69,6 @@ internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript 
 
 /**
 
-Om int så behövs inte fnuttar
 Måste man ha med name?
 
 https://stackoverflow.com/questions/44447847/enums-in-javascript-with-es6
