@@ -71,6 +71,24 @@ internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript 
 
 Måste man ha med name?
 
+Kolla in @typedef
+
+/**
+ * @typedef {{name: string, alignment: string, averageLifeSpan: number}}  Species
+*/
+
+// noinspection JSUnusedGlobalSymbols
+/**
+ *
+ * @param  {Species}  theSpecies
+ * @return {Pet}
+*/
+setTheSpecies(theSpecies) {
+this.theSpecies = theSpecies.name;
+return this;
+}
+
+
 /**
  *
  * @param  {{name: string, alignment: string, averageLifeSpan: number}}  theSpecies
