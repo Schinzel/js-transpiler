@@ -30,24 +30,20 @@ internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript 
         val enumValues: List<String> = myClass.java.enumConstants.map { enumConst ->
             // If the enum has properties
             val enumValue = if (myClass.declaredMemberProperties.isNotEmpty()) {
-                "###".println()
-                val clazz: Class<*> = enumConst.javaClass
-                enumConst.printlnWithPrefix("enumConst")
                 // For each property in the enum
                 val propertyNameValuePairs: String = myClass.declaredMemberProperties
                         .map { prop ->
-                            val method: Method = clazz
+                            val method: Method = enumConst.javaClass
                                     .getDeclaredMethod("get${prop.name.firstCharToUpperCase()}")
                             val propValue = method.invoke(enumConst)
                             "${prop.name}: '$propValue'"
                         }
                         .joinToString(separator = ", ")
-                        .printlnWithPrefix("Name Val")
                 "{$propertyNameValuePairs}"
             } else {
                 "'$enumConst'"
             }
-            "$enumConst: $enumValue".printlnWithPrefix("Experiment")
+            "    $enumConst: $enumValue"
         }
 
 
@@ -71,7 +67,6 @@ internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript 
 /**
 
 Om int så behövs inte fnuttar
-Få in intendation
 Måste man ha med name?
 
 https://stackoverflow.com/questions/44447847/enums-in-javascript-with-es6
