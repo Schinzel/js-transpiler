@@ -23,55 +23,67 @@ import kotlin.reflect.full.declaredMemberProperties
 internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript {
 
     override fun toJavaScript(): String {
+        val propertyNameTypeMap: List<NameType> = myClass.declaredMemberProperties.map { property ->
+            val data = DataType.getDataType(property.getSimpleClassName())
+            NameType(property.name, data)
+        }
 
-        val enumValues: List<String> = myClass.java.enumConstants.map { enumConst ->
-            // If the enum has properties
-            val enumValue = if (myClass.declaredMemberProperties.isNotEmpty()) {
-                // For each property in the enum
-                val propertyNameValuePairs: String = myClass.declaredMemberProperties
-                        .map { prop ->
-                            val method: Method = enumConst.javaClass
-                                    .getDeclaredMethod("get${prop.name.firstCharToUpperCase()}")
-                            val propValue = method.invoke(enumConst)
-                            if (prop.getSimpleClassName() == "String") {
-                                "${prop.name}: '$propValue'"
-                            } else {
-                                "${prop.name}: $propValue"
-                            }
-                        }
-                        .joinToString(separator = ", ")
-                "{name: '$enumConst', $propertyNameValuePairs}"
-            } else {
-                "'$enumConst'"
-            }
-            "    $enumConst: $enumValue"
+        val enumValueList: List<EnumValue> = myClass.java.enumConstants.map { enumValue ->
+            // propertyName propertyValue map
+            val nameValueList: List<NameValue> =
+                    propertyNameTypeMap.map { propertyNameType ->
+                        val method: Method = enumValue.javaClass
+                                .getDeclaredMethod("get${propertyNameType.name.firstCharToUpperCase()}")
+                        val propValue = method.invoke(enumValue).toString()
+                        NameValue(propertyNameType.name, propValue, propertyNameType.type)
+                    }
+            EnumValue(enumValue.toString(), nameValueList.plus(NameValue("name", enumValue.toString(), DataType.Text)))
         }
 
 
-        // Get all the values of the enum class
-        val enumValuesString: String = enumValues
-                .joinToString(separator = ",\n")
+        val enumValueListAsString = enumValueList.joinToString(",\n") { enumValue ->
+            val enumValuesAsString: String = enumValue.nameValueList.joinToString { nameValue ->
+                val value = if (nameValue.type == DataType.Text) "'${nameValue.value}'" else nameValue.value
+                nameValue.name + ": " + value
+            }
+            val enumValueName = enumValue.name
+            "    $enumValueName: {$enumValuesAsString}"
+        }.printlnWithPrefix("dd")
 
         // Get the name of the kotlin enum class
-        val enumName: String = myClass.simpleName ?: throw RuntimeException()
-
+        val enumName: String = myClass.simpleName ?: throw Exception()
 
         return """
             |export const $enumName = Object.freeze({
-            |$enumValuesString
+            |$enumValueListAsString
             |});
             |
             |""".trimMargin()
     }
 }
 
+private data class EnumValue(val name: String, val nameValueList: List<NameValue>)
+
+private data class NameValue(val name: String, val value: String, val type: DataType)
+
+private data class NameType(val name: String, val type: DataType)
+
+enum class DataType(val kotlinName: String, val jsName: String) {
+    Text("String", "string"),
+    Number("Int", "number");
+
+    companion object {
+        fun getDataType(kotlinDataType: String): DataType =
+                values().first { it.kotlinName == kotlinDataType }
+
+    }
+}
 
 /**
 
 Nästa steg:
 - Testa att alltid sätta name oavsätt om har properties eller inte...
-
-Måste man ha med name?
+- Setters med .name =
 
 Kolla in @typedef
 
