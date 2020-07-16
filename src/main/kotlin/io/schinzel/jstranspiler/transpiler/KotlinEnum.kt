@@ -23,8 +23,6 @@ import kotlin.reflect.full.declaredMemberProperties
 internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript {
 
     override fun toJavaScript(): String {
-        // for each value in the enum
-        //for (enumConst in myClass.java.enumConstants) {
 
         val enumValues: List<String> = myClass.java.enumConstants.map { enumConst ->
             // If the enum has properties
@@ -56,6 +54,7 @@ internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript 
 
         // Get the name of the kotlin enum class
         val enumName: String = myClass.simpleName ?: throw RuntimeException()
+
 
         return """
             |export const $enumName = Object.freeze({
