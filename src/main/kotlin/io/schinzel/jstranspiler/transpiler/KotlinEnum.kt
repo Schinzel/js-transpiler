@@ -1,9 +1,9 @@
 package io.schinzel.jstranspiler.transpiler
 
 import io.schinzel.jstranspiler.printlnWithPrefix
-import java.lang.reflect.Method
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredMemberProperties
+import kotlin.reflect.full.memberProperties
 
 /**
  * Purpose of this class is to construct the JavaScript code for a Kotlin enum
@@ -23,35 +23,47 @@ import kotlin.reflect.full.declaredMemberProperties
 internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript {
 
     override fun toJavaScript(): String {
-        val propertyNameTypeMap: List<NameType> = myClass.declaredMemberProperties.map { property ->
-            val data = DataType.getDataType(property.getSimpleClassName())
-            NameType(property.name, data)
-        }
+
+        val propertyNameTypeList: List<NameType> = myClass.declaredMemberProperties
+                .map { property ->
+                    val dataType = DataType.getDataType(property.getSimpleClassName())
+                    NameType(property.name, dataType)
+                }
+                .plus(NameType("name", DataType.Text))
+
 
         val enumValueList: List<EnumValue> = myClass.java.enumConstants.map { enumValue ->
             // propertyName propertyValue map
             val nameValueList: List<NameValue> =
-                    propertyNameTypeMap.map { propertyNameType ->
-                        val method: Method = enumValue.javaClass
-                                .getDeclaredMethod("get${propertyNameType.name.firstCharToUpperCase()}")
-                        val propValue = method.invoke(enumValue).toString()
-                        NameValue(propertyNameType.name, propValue, propertyNameType.type)
+                    propertyNameTypeList.map { propertyNameType ->
+                        val propertyValue: String = enumValue.javaClass.kotlin.memberProperties
+                                .first { it.name == propertyNameType.name }
+                                .get(enumValue)
+                                .toString()
+                        NameValue(propertyNameType.name, propertyValue, propertyNameType.type)
                     }
-            EnumValue(enumValue.toString(), nameValueList.plus(NameValue("name", enumValue.toString(), DataType.Text)))
+            EnumValue(enumValue.toString(), nameValueList)
         }
 
 
-        val enumValueListAsString = enumValueList.joinToString(",\n") { enumValue ->
+        val enumValueListAsString: String = enumValueList.joinToString(",\n") { enumValue ->
             val enumValuesAsString: String = enumValue.nameValueList.joinToString { nameValue ->
                 val value = if (nameValue.type == DataType.Text) "'${nameValue.value}'" else nameValue.value
                 nameValue.name + ": " + value
             }
             val enumValueName = enumValue.name
             "    $enumValueName: {$enumValuesAsString}"
-        }.printlnWithPrefix("dd")
+        }
 
         // Get the name of the kotlin enum class
         val enumName: String = myClass.simpleName ?: throw Exception()
+
+        val typeDefProperties = propertyNameTypeList.joinToString { propertyNameType ->
+            propertyNameType.name + ": " + propertyNameType.type.jsDocName
+        }
+
+        val jsTypeDef = "{{$typeDefProperties}} $enumName"
+        jsTypeDef.printlnWithPrefix("jsTypeDef")
 
         return """
             |export const $enumName = Object.freeze({
@@ -68,8 +80,10 @@ private data class NameValue(val name: String, val value: String, val type: Data
 
 private data class NameType(val name: String, val type: DataType)
 
-enum class DataType(val kotlinName: String, val jsName: String) {
+
+enum class DataType(val kotlinName: String, val jsDocName: String) {
     Text("String", "string"),
+    @Suppress("unused")
     Number("Int", "number");
 
     companion object {
@@ -82,18 +96,14 @@ enum class DataType(val kotlinName: String, val jsName: String) {
 /**
 
 Nästa steg:
-- Testa att alltid sätta name oavsätt om har properties eller inte...
+- In med type def
 - Setters med .name =
 
 Kolla in @typedef
 
 Om det är en Enum med properties så
-1) lägg till en @typdef
-2) setters görs med name (
-
-
-
-
+1) Skriv ut typedef
+2) setters görs med name
 
 /**
  * @typedef {{name: string, alignment: string, averageLifeSpan: number}}  Species
