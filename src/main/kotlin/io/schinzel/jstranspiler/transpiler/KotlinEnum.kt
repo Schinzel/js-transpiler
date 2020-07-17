@@ -31,7 +31,6 @@ internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript 
                             NameType(property.name, dataType)
                         }
 
-
         // Construct a list with one element for each enum value. Each element holds
         // the name of the enum value and the properties and their values
         val enumValueList: List<EnumValue> = myClass.java.enumConstants.map { enumValue ->
@@ -102,6 +101,7 @@ enum class DataType(val kotlinName: String, val jsDocName: String) {
 Nästa steg:
 - In med type def
 - Setters med .name =
+- Lägg in printlnWithPrefix i kotlin-basic utils och använd det sin dependency
 
 Kolla in @typedef
 
