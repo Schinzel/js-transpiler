@@ -102,20 +102,10 @@ enum class DataType(val kotlinName: String, val jsDocName: String) {
 /**
 
 Nästa steg:
-- In med type def
 - Setters med .name =
 - Lägg in printlnWithPrefix i kotlin-basic utils och använd det sin dependency
+- uppdatera KotlinEnum header doc
 
-Kolla in @typedef
-
-Om det är en Enum med properties så
-2) setters görs med name
-
-/**
- * @typedef {{name: string, alignment: string, averageLifeSpan: number}}  Species
-*/
-
-// noinspection JSUnusedGlobalSymbols
 /**
  *
  * @param  {Species}  theSpecies

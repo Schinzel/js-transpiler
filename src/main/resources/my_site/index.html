@@ -50,6 +50,7 @@
             pets.push(newDog);
             person.setPets(pets);
             console.log('Pet added');
+            console.log(person);
         }
 
 
@@ -58,18 +59,20 @@
             traits.push(Trait.HONORABLE);
             person.setTraits(traits);
             console.log('Trait added');
+            console.log(person);
         }
+
 
         function setLastEditedToNow() {
             person.setLastEdited(new Date());
         }
 
 
-        $('#buttonGetPerson').on('click', getPersonFromServer);
-        $('#buttonSendPerson').on('click', sendPersonToServer);
-        $('#buttonAddPet').on('click', addPet);
-        $('#buttonAddTrait').on('click', addTrait);
-        $('#buttonSetLastEdited').on('click', setLastEditedToNow);
+        $('#buttonGetPerson').click(getPersonFromServer);
+        $('#buttonSendPerson').click(sendPersonToServer);
+        $('#buttonAddPet').click(addPet);
+        $('#buttonAddTrait').click(addTrait);
+        $('#buttonSetLastEdited').click(setLastEditedToNow);
     </script>
 
 </head>
