@@ -23,36 +23,40 @@ import kotlin.reflect.full.memberProperties
 internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript {
 
     override fun toJavaScript(): String {
+        // Construct a list with all properties of the constructor argument class
+        val propertyNameTypeList: List<NameType> = listOf(NameType("name", DataType.Text)) +
+                myClass.declaredMemberProperties
+                        .map { property ->
+                            val dataType = DataType.getDataType(property.getSimpleClassName())
+                            NameType(property.name, dataType)
+                        }
 
-        val propertyNameTypeList: List<NameType> = myClass.declaredMemberProperties
-                .map { property ->
-                    val dataType = DataType.getDataType(property.getSimpleClassName())
-                    NameType(property.name, dataType)
-                }
-                .plus(NameType("name", DataType.Text))
 
-
+        // Construct a list with one element for each enum value. Each element holds
+        // the name of the enum value and the properties and their values
         val enumValueList: List<EnumValue> = myClass.java.enumConstants.map { enumValue ->
-            // propertyName propertyValue map
-            val nameValueList: List<NameValue> =
+            val propertyList: List<Property> =
                     propertyNameTypeList.map { propertyNameType ->
                         val propertyValue: String = enumValue.javaClass.kotlin.memberProperties
                                 .first { it.name == propertyNameType.name }
                                 .get(enumValue)
                                 .toString()
-                        NameValue(propertyNameType.name, propertyValue, propertyNameType.type)
+                        Property(propertyNameType.name, propertyValue, propertyNameType.type)
                     }
-            EnumValue(enumValue.toString(), nameValueList)
+            EnumValue(enumValue.toString(), propertyList)
         }
 
-
+        // A list with the enum value of the constructor argument enum
         val enumValueListAsString: String = enumValueList.joinToString(",\n") { enumValue ->
-            val enumValuesAsString: String = enumValue.nameValueList.joinToString { nameValue ->
-                val value = if (nameValue.type == DataType.Text) "'${nameValue.value}'" else nameValue.value
-                nameValue.name + ": " + value
+            // For example: name: 'DOG', alignment: 'Neutral Good'
+            val propertiesAsString: String = enumValue.propertyList.joinToString { nameValue ->
+                val propertyName = nameValue.name
+                val propertyValue = if (nameValue.type == DataType.Text) "'${nameValue.value}'" else nameValue.value
+                "$propertyName: $propertyValue"
             }
             val enumValueName = enumValue.name
-            "    $enumValueName: {$enumValuesAsString}"
+            // For example: DOG: {name: 'DOG', alignment: 'Neutral Good'}
+            "    $enumValueName: {$propertiesAsString}"
         }
 
         // Get the name of the kotlin enum class
@@ -74,22 +78,22 @@ internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript 
     }
 }
 
-private data class EnumValue(val name: String, val nameValueList: List<NameValue>)
+private data class EnumValue(val name: String, val propertyList: List<Property>)
 
-private data class NameValue(val name: String, val value: String, val type: DataType)
+private data class Property(val name: String, val value: String, val type: DataType)
 
 private data class NameType(val name: String, val type: DataType)
 
 
 enum class DataType(val kotlinName: String, val jsDocName: String) {
     Text("String", "string"),
+
     @Suppress("unused")
     Number("Int", "number");
 
     companion object {
         fun getDataType(kotlinDataType: String): DataType =
                 values().first { it.kotlinName == kotlinDataType }
-
     }
 }
 
