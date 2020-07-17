@@ -69,6 +69,9 @@ internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript 
         jsTypeDef.printlnWithPrefix("jsTypeDef")
 
         return """
+            |/**
+            | * @typedef $jsTypeDef
+            | */
             |export const $enumName = Object.freeze({
             |$enumValueListAsString
             |});
@@ -106,7 +109,6 @@ Nästa steg:
 Kolla in @typedef
 
 Om det är en Enum med properties så
-1) Skriv ut typedef
 2) setters görs med name
 
 /**
