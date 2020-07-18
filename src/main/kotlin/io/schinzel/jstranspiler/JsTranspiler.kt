@@ -1,5 +1,6 @@
 package io.schinzel.jstranspiler
 
+import io.schinzel.basicutilskotlin.println
 import io.schinzel.jstranspiler.transpiler.KotlinPackage
 import java.io.File
 

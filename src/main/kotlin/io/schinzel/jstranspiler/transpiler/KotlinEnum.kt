@@ -1,6 +1,7 @@
 package io.schinzel.jstranspiler.transpiler
 
-import io.schinzel.jstranspiler.printlnWithPrefix
+import io.schinzel.basicutilskotlin.printlnWithPrefix
+import io.schinzel.basicutilskotlin.toList
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.memberProperties
@@ -24,7 +25,7 @@ internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript 
 
     override fun toJavaScript(): String {
         // Construct a list with all properties of the constructor argument class
-        val propertyNameTypeList: List<NameType> = listOf(NameType("name", DataType.Text)) +
+        val propertyNameTypeList: List<NameType> = NameType("name", DataType.Text).toList() +
                 myClass.declaredMemberProperties
                         .map { property ->
                             val dataType = DataType.getDataType(property.getSimpleClassName())
