@@ -42,7 +42,7 @@
             common code snippets -->
             <groupId>io.schinzel</groupId>
             <artifactId>basic-utils-kotlin</artifactId>
-            <version>0.9</version>
+            <version>0.91</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>

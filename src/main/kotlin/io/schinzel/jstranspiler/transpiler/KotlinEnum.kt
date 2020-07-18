@@ -1,7 +1,7 @@
 package io.schinzel.jstranspiler.transpiler
 
-import io.schinzel.basicutilskotlin.printlnWithPrefix
-import io.schinzel.basicutilskotlin.toList
+import io.schinzel.basic_utils_kotlin.printlnWithPrefix
+import io.schinzel.basic_utils_kotlin.toList
 import kotlin.reflect.KClass
 import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.memberProperties
