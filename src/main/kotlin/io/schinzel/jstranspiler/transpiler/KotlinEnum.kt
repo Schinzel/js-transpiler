@@ -104,7 +104,6 @@ enum class DataType(val kotlinName: String, val jsDocName: String) {
 
 Nästa steg:
 - Setters med .name =
-- Lägg in printlnWithPrefix i kotlin-basic utils och använd det sin dependency
 - uppdatera KotlinEnum header doc
 
 /**
