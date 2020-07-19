@@ -67,7 +67,6 @@ internal class KotlinEnum(private val myClass: KClass<out Any>) : IToJavaScript 
         }
 
         val jsTypeDef = "{{$typeDefProperties}} $enumName"
-        jsTypeDef.printlnWithPrefix("jsTypeDef")
 
         return """
             |/**
@@ -105,6 +104,11 @@ enum class DataType(val kotlinName: String, val jsDocName: String) {
 Nästa steg:
 - Setters med .name =
 - uppdatera KotlinEnum header doc
+
+-nytt verre nr
+- readme
+- pr
+- deploy
 
 /**
  *
