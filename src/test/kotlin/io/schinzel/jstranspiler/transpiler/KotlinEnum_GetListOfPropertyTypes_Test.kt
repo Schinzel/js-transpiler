@@ -31,19 +31,19 @@ class KotlinEnum_GetListOfPropertyTypes_Test {
     @Test
     fun `DataTypeFirst TestSpecies String`() {
         val listOfPropertyTypes: List<PropertyType> = getListOfPropertyTypes(TestSpecies::class.java.kotlin)
-        assertThat(listOfPropertyTypes[0].type).isEqualTo("String")
+        assertThat(listOfPropertyTypes[0].kotlinDataType).isEqualTo("String")
     }
 
     @Test
     fun `DataTypeSecond TestSpecies Int`() {
         val listOfPropertyTypes: List<PropertyType> = getListOfPropertyTypes(TestSpecies::class.java.kotlin)
-        assertThat(listOfPropertyTypes[1].type).isEqualTo("Int")
+        assertThat(listOfPropertyTypes[1].kotlinDataType).isEqualTo("Int")
     }
 
     @Test
     fun `DataTypeThird TestSpecies String`() {
         val listOfPropertyTypes: List<PropertyType> = getListOfPropertyTypes(TestSpecies::class.java.kotlin)
-        assertThat(listOfPropertyTypes[2].type).isEqualTo("String")
+        assertThat(listOfPropertyTypes[2].kotlinDataType).isEqualTo("String")
     }
 
     @Test

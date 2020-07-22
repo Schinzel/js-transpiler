@@ -44,7 +44,7 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
 
         // For example: name: string, alignment: string
         val jsCodeTypeDefProperties: String = propertyTypeList.joinToString { propertyNameType ->
-            val jsDataType = if (propertyNameType.type == "String") "string" else "number"
+            val jsDataType = if (propertyNameType.kotlinDataType == "String") "string" else "number"
             propertyNameType.name + ": " + jsDataType
         }
 
@@ -119,7 +119,7 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
                     // For example: name: 'DOG', alignment: 'Neutral Good'
                     val propertiesAsString: String = listProperties.joinToString { property ->
                         val propertyName = property.type.name
-                        val propertyValue = if (property.type.type == "String") "'${property.value}'" else property.value
+                        val propertyValue = if (property.type.kotlinDataType == "String") "'${property.value}'" else property.value
                         "$propertyName: $propertyValue"
                     }
                     // The value of the enum is the first value
@@ -133,15 +133,24 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
 }
 
 
+/**
+ * @param value The value of an enum value property. E.g. "16" or "Chaotic Evil"
+ */
 internal data class Property(val value: String, val type: PropertyType)
 
-internal data class PropertyType(val name: String, val type: String)
+/**
+ * @param name Name of the property. I.e. "lifeSpan"
+ * @param kotlinDataType Kotlin data type. I.e. "Int"
+ */
+internal data class PropertyType(val name: String, val kotlinDataType: String)
 
 
 /**
 
 Nästa steg:
 - tester
+-- getJsCodeForEnumValues
+-- toJavaScript
 - refac
 
 - nytt verre nr
