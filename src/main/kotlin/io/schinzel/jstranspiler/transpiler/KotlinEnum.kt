@@ -16,7 +16,7 @@ import kotlin.reflect.jvm.isAccessible
  *
  * ... would be compiled to the below JavaScript:
  * /**
- * @typedef {{name: string, alignment: string, lifeSpan: number}} Species
+ * * @typedef {{name: string, alignment: string, lifeSpan: number}} Species
  * */
  * export const Species = Object.freeze({
  *   CAT: {name: 'CAT', lifeSpan: 16, alignment: 'Chaotic Evil'},
@@ -59,7 +59,7 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
     companion object {
         /**
          * @return A list with the names and data types of the properties of the argument enum
-         * For example name: String, lifeSpan: Int,  alignment: String
+         * Example: name: String, lifeSpan: Int,  alignment: String
          */
         internal fun getListOfPropertyTypes(enumClass: KClass<out Any>): List<PropertyType> {
             val enumProperties: List<PropertyType> = enumClass.primaryConstructor?.parameters?.map {
@@ -75,7 +75,7 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
         /**
          * @return A list of the enum-values for the argument enum. Each enum value holds the name
          * of the enum value and its properties.
-         * E.g.
+         * Example:
          * [
          *   [
          *   Property(value=CAT, type=PropertyType(name=name, type=String)),
@@ -127,7 +127,7 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
          * @return JavaScript code for object creation for an enum value
          * Example: name: 'CAT', alignment: 'Chaotic Evil', lifeSpan: 16
          */
-        internal fun getJsCodeForEnumValue(listOfProperties: List<Property>): String =
+        private fun getJsCodeForEnumValue(listOfProperties: List<Property>): String =
                 listOfProperties.joinToString { property ->
                     val propertyName = property.type.name
                     val isString = (property.type.kotlinDataType == "String")
@@ -136,7 +136,11 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
                 }
 
 
-        internal fun getJsCodeForTypDef(propertyTypeList: List<PropertyType>): String =
+        /**
+         * @return JavaScript code for TypDef properties
+         * Example: name: string, alignment: string
+         */
+        private fun getJsCodeForTypDef(propertyTypeList: List<PropertyType>): String =
                 propertyTypeList.joinToString { propertyNameType ->
                     val jsDataType = if (propertyNameType.kotlinDataType == "String") "string" else "number"
                     propertyNameType.name + ": " + jsDataType
@@ -150,6 +154,7 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
  */
 internal data class Property(val value: String, val type: PropertyType)
 
+
 /**
  * @param name Name of the property. I.e. "lifeSpan"
  * @param kotlinDataType Kotlin data type. I.e. "Int"
@@ -157,19 +162,3 @@ internal data class Property(val value: String, val type: PropertyType)
 internal data class PropertyType(val name: String, val kotlinDataType: String)
 
 
-/**
-
-Nästa steg:
-- tester
--- getJsCodeForEnumValues
--- toJavaScript
-- refac
-
-- nytt verre nr
-- readme
--- Sätt datum
-- pr
-- deploy
-
-
- */
