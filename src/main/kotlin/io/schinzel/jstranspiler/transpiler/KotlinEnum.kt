@@ -130,53 +130,11 @@ Nästa steg:
 - tester
 - refac
 
--nytt verre nr
+- nytt verre nr
 - readme
+-- Sätt datum
 - pr
 - deploy
 
-/**
- *
- * @param  {Species}  theSpecies
- * @return {Pet}
-*/
-setTheSpecies(theSpecies) {
-this.theSpecies = theSpecies.name;
-return this;
-}
 
-
-/**
- *
- * @param  {{name: string, alignment: string, averageLifeSpan: number}}  theSpecies
- * @return {Pet}
-*/
-setTheSpecies(theSpecies) {
-this.theSpecies = theSpecies.name;
-return this;
-}
-
-https://stackoverflow.com/questions/44447847/enums-in-javascript-with-es6
-
-
-export const Species = Object.freeze({
-CAT: {name: 'cat', alignment: 'Chaotic Evil', averageLifeSpan: '16'},
-DOG: {name: 'dog', alignment: 'Neutral Good', averageLifeSpan: '13'}
-});
-
-
-Working versions of JS-enums:
-export const Trait = Object.freeze({
-HUMBLE: 'HUMBLE',
-HONORABLE: 'HONORABLE',
-DILIGENT: 'DILIGENT',
-LOYAL: 'LOYAL',
-KIND: 'KIND'
-});
-
-
-export const Species = Object.freeze({
-CAT: 'CAT',
-DOG: 'DOG'
-});
  */
