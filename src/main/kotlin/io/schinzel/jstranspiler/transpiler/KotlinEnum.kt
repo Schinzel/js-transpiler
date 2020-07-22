@@ -2,8 +2,8 @@ package io.schinzel.jstranspiler.transpiler
 
 import io.schinzel.basic_utils_kotlin.toList
 import kotlin.reflect.KClass
-import kotlin.reflect.full.declaredMemberProperties
 import kotlin.reflect.full.memberProperties
+import kotlin.reflect.full.primaryConstructor
 
 /**
  * Purpose of this class is to construct the JavaScript code for a Kotlin enum
@@ -18,8 +18,8 @@ import kotlin.reflect.full.memberProperties
  * @typedef {{name: string, alignment: string, lifeSpan: number}} Species
  * */
  * export const Species = Object.freeze({
- *   CAT: {name: 'CAT', alignment: 'Chaotic Evil', lifeSpan: 16},
- *   DOG: {name: 'DOG', alignment: 'Neutral Good', lifeSpan: 13}
+ *   CAT: {name: 'CAT', lifeSpan: 16, alignment: 'Chaotic Evil'},
+ *   DOG: {name: 'DOG', lifeSpan: 13, alignment: 'Neutral Good'}
  * });
  *
  *
@@ -61,21 +61,23 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
     companion object {
         /**
          * @return A list with the names and data types of the properties of the argument enum
+         * For example name: String, lifeSpan: Int,  alignment: String
          */
-        private fun getListOfPropertyTypes(enumClass: KClass<out Any>): List<PropertyType> =
-                // Add a "name" property first
-                PropertyType("name", "String").toList() +
-                        enumClass.declaredMemberProperties
-                                .map { property ->
-                                    PropertyType(property.name, property.getSimpleClassName())
-                                }
-
+        internal fun getListOfPropertyTypes(enumClass: KClass<out Any>): List<PropertyType> {
+            val enumProperties: List<PropertyType> = enumClass.primaryConstructor?.parameters?.map {
+                val name = it.name ?: throw Exception()
+                val type = it.type.toString().substringAfter(".")
+                PropertyType(name, type)
+            } ?: emptyList()
+            // Add a "name" property first
+            return PropertyType("name", "String").toList() + enumProperties
+        }
 
         /**
          * @return A list of the enum-values for the argument enum. Each enum value holds the name
          * of the enum value and its properties
          */
-        private fun getListOfEnumValues(enumClass: KClass<out Any>, propertyTypeList: List<PropertyType>): List<EnumValue> =
+        internal fun getListOfEnumValues(enumClass: KClass<out Any>, propertyTypeList: List<PropertyType>): List<EnumValue> =
                 enumClass.java.enumConstants.map { enumValue ->
                     // Get all the properties of this enum-value
                     val propertyList: List<Property> =
@@ -97,7 +99,7 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
          *   DOG: {name: 'DOG', alignment: 'Neutral Good', lifeSpan: 13}
          *
          */
-        private fun getJsCodeForEnumValues(enumValueList: List<EnumValue>): String =
+        internal fun getJsCodeForEnumValues(enumValueList: List<EnumValue>): String =
                 enumValueList.joinToString(",\n") { enumValue ->
                     // For example: name: 'DOG', alignment: 'Neutral Good'
                     val propertiesAsString: String = enumValue.propertyList.joinToString { property ->
@@ -115,11 +117,11 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
 }
 
 
-private data class EnumValue(val name: String, val propertyList: List<Property>)
+internal data class EnumValue(val name: String, val propertyList: List<Property>)
 
-private data class Property(val value: String, val type: PropertyType)
+internal data class Property(val value: String, val type: PropertyType)
 
-private data class PropertyType(val name: String, val type: String)
+internal data class PropertyType(val name: String, val type: String)
 
 
 /**
