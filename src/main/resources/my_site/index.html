@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>My Site</title>
-    <script src="js/jquery.js"></script>
+    <script src="js/jquery-3.5.1.min.js"></script>
     <script type="module">
         import {ServerCaller} from "./js/ServerCaller.js";
         import {Person, Pet, Species, Trait} from "./js/classes.js";
@@ -50,26 +50,29 @@
             pets.push(newDog);
             person.setPets(pets);
             console.log('Pet added');
+            console.log(person);
         }
 
 
         function addTrait() {
             let traits = person.getTraits();
-            traits.push(Trait.HONORABLE);
+            traits.push(Trait.HONORABLE.name);
             person.setTraits(traits);
             console.log('Trait added');
+            console.log(person);
         }
+
 
         function setLastEditedToNow() {
             person.setLastEdited(new Date());
         }
 
 
-        $('#buttonGetPerson').on('click', getPersonFromServer);
-        $('#buttonSendPerson').on('click', sendPersonToServer);
-        $('#buttonAddPet').on('click', addPet);
-        $('#buttonAddTrait').on('click', addTrait);
-        $('#buttonSetLastEdited').on('click', setLastEditedToNow);
+        $('#buttonGetPerson').click(getPersonFromServer);
+        $('#buttonSendPerson').click(sendPersonToServer);
+        $('#buttonAddPet').click(addPet);
+        $('#buttonAddTrait').click(addTrait);
+        $('#buttonSetLastEdited').click(setLastEditedToNow);
     </script>
 
 </head>

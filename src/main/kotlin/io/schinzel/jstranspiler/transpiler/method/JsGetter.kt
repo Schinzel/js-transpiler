@@ -46,11 +46,19 @@ internal class JsGetter(private val property: KProperty1<out Any, Any?>) : IToJa
                 //E.g. "Species[this.species]"
                 "$dataTypeName[this.$propertyName]"
             } else {
-                val arrayCopyString: String = JsMethodUtil.arrayCopyString(isList)
+                val arrayCopyString: String = arrayCopyString(isList)
                 //E.g. Either "this.lastName" or "this.pets.slice()"
                 "this.$propertyName$arrayCopyString"
             }
         }
+
+        /**
+         * @return JavaScript code for copying an array. If is not a list
+         * then return empty string
+         */
+        private fun arrayCopyString(isList: Boolean): String =
+                if (isList) ".slice()" else ""
+
 
     }
 }

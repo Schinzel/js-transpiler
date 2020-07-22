@@ -6,12 +6,12 @@
 
     <groupId>io.schinzel</groupId>
     <artifactId>js-transpiler</artifactId>
-    <version>1.2</version>
+    <version>1.3</version>
 
     <properties>
         <kotlin.version>1.3.72</kotlin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <deploy-repo>maven-repo.schinzel.io</deploy-repo>
+        <schinzel-maven-repo>maven-repo.schinzel.io</schinzel-maven-repo>
     </properties>
 
     <repositories>
@@ -19,20 +19,31 @@
             <id>maven-repo.atexpose.com</id>
             <url>http://maven-repo.atexpose.com/release</url>
         </repository>
+        <repository>
+            <id>${maven-repo}</id>
+            <url>http://${schinzel-maven-repo}/release</url>
+        </repository>
     </repositories>
 
     <distributionManagement>
         <snapshotRepository>
-            <id>${deploy-repo}</id>
-            <url>s3://${deploy-repo}/snapshot</url>
+            <id>${schinzel-maven-repo}</id>
+            <url>s3://${schinzel-maven-repo}/snapshot</url>
         </snapshotRepository>
         <repository>
-            <id>${deploy-repo}</id>
-            <url>s3://${deploy-repo}/release</url>
+            <id>${schinzel-maven-repo}</id>
+            <url>s3://${schinzel-maven-repo}/release</url>
         </repository>
     </distributionManagement>
 
     <dependencies>
+        <dependency>
+            <!-- Basic utilities. Most commonly less verbose versions of
+            common code snippets -->
+            <groupId>io.schinzel</groupId>
+            <artifactId>basic-utils-kotlin</artifactId>
+            <version>0.91</version>
+        </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib-jdk8</artifactId>

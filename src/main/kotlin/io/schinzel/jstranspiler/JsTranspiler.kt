@@ -1,5 +1,6 @@
 package io.schinzel.jstranspiler
 
+import io.schinzel.basic_utils_kotlin.println
 import io.schinzel.jstranspiler.transpiler.KotlinPackage
 import java.io.File
 
@@ -28,17 +29,14 @@ class JsTranspiler(sourcePackageName: String, destinationFile: String) {
         File(destinationFile).writeText(jsFileContent)
         // Calc execution time
         val jobExecutionTimeInSeconds = (System.nanoTime() - startExecutionTime) / 1_000_000_000
-        val feedback = "JsTranspiler ran! Produced JavaScript from ${kotlinPackage.numberOfClassesAndEnums} Kotlin " +
-                "data classes and enums in $jobExecutionTimeInSeconds seconds."
+        val feedback = "JsTranspiler ran! Produced ${kotlinPackage.numberOfClassesAndEnums} JavaScript " +
+                "classes and enums from Kotlin in $jobExecutionTimeInSeconds seconds."
         feedback.println()
-
     }
+
 
     companion object {
         private fun validateFile(fileName: String) {
-            if (!fileName.contains(".")) {
-                throw RuntimeException("Missing dot in destination file name")
-            }
             if (!fileName.endsWith(".js")) {
                 throw RuntimeException("Destination file must have the extension js")
             }
