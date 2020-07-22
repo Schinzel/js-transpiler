@@ -43,10 +43,7 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
         val jsCodeEnumName: String = enumClass.simpleName ?: throw Exception()
 
         // For example: name: string, alignment: string
-        val jsCodeTypeDefProperties: String = propertyTypeList.joinToString { propertyNameType ->
-            val jsDataType = if (propertyNameType.kotlinDataType == "String") "string" else "number"
-            propertyNameType.name + ": " + jsDataType
-        }
+        val jsCodeTypeDefProperties: String = getJsCodeForTypDef(propertyTypeList)
 
         return """
             |/**
@@ -109,26 +106,41 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
 
 
         /**
-         * @return JavaScript code for the enum values. For example:
+         * @return JavaScript code for object creation for the enum values.
+         * Example:
          *   CAT: {name: 'CAT', alignment: 'Chaotic Evil', lifeSpan: 16},
          *   DOG: {name: 'DOG', alignment: 'Neutral Good', lifeSpan: 13}
          *
          */
         internal fun getJsCodeForEnumValues(listOfListProperties: List<List<Property>>): String =
-                listOfListProperties.joinToString(",\n") { listProperties ->
+                listOfListProperties.joinToString(",\n") { listOfProperties ->
                     // For example: name: 'DOG', alignment: 'Neutral Good'
-                    val propertiesAsString: String = listProperties.joinToString { property ->
-                        val propertyName = property.type.name
-                        val propertyValue = if (property.type.kotlinDataType == "String") "'${property.value}'" else property.value
-                        "$propertyName: $propertyValue"
-                    }
+                    val propertiesAsString: String = getJsCodeForEnumValue(listOfProperties)
                     // The value of the enum is the first value
-                    val enumValueName = listProperties[0].value
+                    val enumValueName = listOfProperties[0].value
                     // For example: DOG: {name: 'DOG', alignment: 'Neutral Good'}
                     "    $enumValueName: {$propertiesAsString}"
                 }
 
 
+        /**
+         * @return JavaScript code for object creation for an enum value
+         * Example: name: 'CAT', alignment: 'Chaotic Evil', lifeSpan: 16
+         */
+        internal fun getJsCodeForEnumValue(listOfProperties: List<Property>): String =
+                listOfProperties.joinToString { property ->
+                    val propertyName = property.type.name
+                    val isString = (property.type.kotlinDataType == "String")
+                    val propertyValue = if (isString) "'${property.value}'" else property.value
+                    "$propertyName: $propertyValue"
+                }
+
+
+        internal fun getJsCodeForTypDef(propertyTypeList: List<PropertyType>): String =
+                propertyTypeList.joinToString { propertyNameType ->
+                    val jsDataType = if (propertyNameType.kotlinDataType == "String") "string" else "number"
+                    propertyNameType.name + ": " + jsDataType
+                }
     }
 }
 
