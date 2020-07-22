@@ -43,7 +43,8 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
 
         // For example: name: string, alignment: string
         val jsCodeTypeDefProperties: String = propertyTypeList.joinToString { propertyNameType ->
-            propertyNameType.name + ": " + propertyNameType.type.jsDocName
+            val jsDataType = if (propertyNameType.type == "String") "string" else "number"
+            propertyNameType.name + ": " + jsDataType
         }
 
         return """
@@ -63,11 +64,10 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
          */
         private fun getListOfPropertyTypes(enumClass: KClass<out Any>): List<PropertyType> =
                 // Add a "name" property first
-                PropertyType("name", DataType.Text).toList() +
+                PropertyType("name", "String").toList() +
                         enumClass.declaredMemberProperties
                                 .map { property ->
-                                    val dataType = DataType.getDataType(property.getSimpleClassName())
-                                    PropertyType(property.name, dataType)
+                                    PropertyType(property.name, property.getSimpleClassName())
                                 }
 
 
@@ -102,7 +102,7 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
                     // For example: name: 'DOG', alignment: 'Neutral Good'
                     val propertiesAsString: String = enumValue.propertyList.joinToString { nameValue ->
                         val propertyName = nameValue.name
-                        val propertyValue = if (nameValue.type == DataType.Text) "'${nameValue.value}'" else nameValue.value
+                        val propertyValue = if (nameValue.type == "String") "'${nameValue.value}'" else nameValue.value
                         "$propertyName: $propertyValue"
                     }
                     val enumValueName = enumValue.name
@@ -115,30 +115,18 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
 }
 
 
-private data class PropertyType(val name: String, val type: DataType)
+private data class PropertyType(val name: String, val type: String)
 
 private data class EnumValue(val name: String, val propertyList: List<Property>)
 
-private data class Property(val name: String, val value: String, val type: DataType)
+private data class Property(val name: String, val value: String, val type: String)
 
 
-enum class DataType(val kotlinName: String, val jsDocName: String) {
-    Text("String", "string"),
-
-    @Suppress("unused")
-    Number("Int", "number");
-
-    companion object {
-        fun getDataType(kotlinDataType: String): DataType =
-                values().first { it.kotlinName == kotlinDataType }
-    }
-}
 
 /**
 
 Nästa steg:
 - tester
-- Kan man ta bort enum class DataType
 - refac
 
 -nytt verre nr
