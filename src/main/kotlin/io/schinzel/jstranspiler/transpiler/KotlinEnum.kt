@@ -85,7 +85,7 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
                                         .first { it.name == propertyNameType.name }
                                         .get(enumValue)
                                         .toString()
-                                Property(propertyNameType.name, propertyValue, propertyNameType.type)
+                                Property(propertyValue, propertyNameType)
                             }
                     EnumValue(enumValue.toString(), propertyList)
                 }
@@ -100,9 +100,9 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
         private fun getJsCodeForEnumValues(enumValueList: List<EnumValue>): String =
                 enumValueList.joinToString(",\n") { enumValue ->
                     // For example: name: 'DOG', alignment: 'Neutral Good'
-                    val propertiesAsString: String = enumValue.propertyList.joinToString { nameValue ->
-                        val propertyName = nameValue.name
-                        val propertyValue = if (nameValue.type == "String") "'${nameValue.value}'" else nameValue.value
+                    val propertiesAsString: String = enumValue.propertyList.joinToString { property ->
+                        val propertyName = property.type.name
+                        val propertyValue = if (property.type.type == "String") "'${property.value}'" else property.value
                         "$propertyName: $propertyValue"
                     }
                     val enumValueName = enumValue.name
@@ -115,12 +115,11 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
 }
 
 
-private data class PropertyType(val name: String, val type: String)
-
 private data class EnumValue(val name: String, val propertyList: List<Property>)
 
-private data class Property(val name: String, val value: String, val type: String)
+private data class Property(val value: String, val type: PropertyType)
 
+private data class PropertyType(val name: String, val type: String)
 
 
 /**
