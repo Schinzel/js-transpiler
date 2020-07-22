@@ -4,6 +4,7 @@ import io.schinzel.basic_utils_kotlin.toList
 import kotlin.reflect.KClass
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.full.primaryConstructor
+import kotlin.reflect.jvm.isAccessible
 
 /**
  * Purpose of this class is to construct the JavaScript code for a Kotlin enum
@@ -73,6 +74,7 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
             return PropertyType("name", "String").toList() + enumProperties
         }
 
+
         /**
          * @return A list of the enum-values for the argument enum. Each enum value holds the name
          * of the enum value and its properties
@@ -85,6 +87,8 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
                                 // The property value as string. For example "16" or "Neutral Good"
                                 val propertyValue: String = enumValue.javaClass.kotlin.memberProperties
                                         .first { it.name == propertyNameType.name }
+                                        // Set as accessible to access properties of private enums
+                                        .also { it.isAccessible = true }
                                         .get(enumValue)
                                         .toString()
                                 Property(propertyValue, propertyNameType)
