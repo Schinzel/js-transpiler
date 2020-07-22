@@ -110,9 +110,9 @@ be found in file `example/misc/Serialization.kt`.
 
 ## Version history
 ### 1.3
-_2020-07-24_
-- Enum properties of types String and Int are supported.
-- The get the string representation of an enum in JavaScript has changed 
+_2020-07-22_
+- Enum properties of types String and Int are now transpiled.
+- To get the string representation of an enum in JavaScript has changed 
 from `Species.DOG` to `Species.DOG.name`
 ### 1.2
 _2020-07-15_
