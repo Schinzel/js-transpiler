@@ -103,12 +103,16 @@ be found in file `example/misc/Serialization.kt`.
 	<dependency>
 		<groupId>io.schinzel</groupId>
 		<artifactId>js-transpiler</artifactId>
-		<version>1.3</version>
+		<version>1.3.1</version>
 	</dependency>
 </dependencies>    
 ```
 
 ## Version history
+### 1.3.1
+_2020-07-26_
+- Bug Fix: If there is no enum in package or subpackages "SubTypeScanner was not configured" is 
+thrown.
 ### 1.3
 _2020-07-22_
 - Enum properties of types String and Int are now transpiled.
