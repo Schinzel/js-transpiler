@@ -110,6 +110,10 @@ be found in file `example/misc/Serialization.kt`.
 ```
 
 ## Version history
+### 1.3.2
+_2020-08-01_
+- Moved sample code to test source. This so that dependency to Atexpose does not become 
+a transitive dependency. 
 ### 1.3.1
 _2020-07-26_
 - Bug Fix: If there is no enum in package or subpackages "SubTypeScanner was not configured" is 
