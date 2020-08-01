@@ -18,7 +18,7 @@ class Serialization {
     companion object {
 
         // add Module which can serialize instant to String with format "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        private val serializer: ObjectMapper  = jacksonObjectMapper()
+        private val serializer: ObjectMapper = jacksonObjectMapper()
                 .registerModule(JavaTimeModule().addSerializer(Instant::class.java, ExampleSerializer()))
 
         /**
