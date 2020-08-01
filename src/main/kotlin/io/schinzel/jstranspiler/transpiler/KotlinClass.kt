@@ -11,12 +11,18 @@ import kotlin.reflect.jvm.javaField
  * Purpose of this class is to construct the JavaScript code for a Kotlin data class
  */
 class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
+
+    /**
+     * @param clazz A java class
+     */
+    constructor(clazz: Class<out Any>) : this(clazz.kotlin)
+
     // The name of this class
     private val dataClassName: String = kClass.simpleName
             ?: throw RuntimeException("Problems getting class name from class")
 
     // JavaScript code for setting up properties in the constructor
-    val constructorInitsJsCode: String = kClass
+    internal val constructorInitsJsCode: String = kClass
             // Get all properties for class
             .memberProperties
             // Remove all properties with JsonIgnore annotation
@@ -27,7 +33,7 @@ class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
             .compileToJs()
 
     //JavaScript code for property getters
-    val gettersJsCode: String = kClass
+    internal val gettersJsCode: String = kClass
             // Get all properties for class
             .memberProperties
             // Remove all properties with JsonIgnore annotation
@@ -38,7 +44,7 @@ class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
             .compileToJs()
 
     //JavaScript code for property setters
-    val settersJsCode: String = kClass
+    internal val settersJsCode: String = kClass
             // Get all properties for class
             .memberProperties
             // Remove all properties with JsonIgnore annotation

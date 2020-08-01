@@ -104,12 +104,18 @@ be found in file `example/misc/Serialization.kt`.
 	<dependency>
 		<groupId>io.schinzel</groupId>
 		<artifactId>js-transpiler</artifactId>
-		<version>1.3.1</version>
+		<version>1.4</version>
 	</dependency>
 </dependencies>    
 ```
 
 ## Version history
+### 1.4
+_2020-08-01_
+- `KotlinClass` and `KotlinEnum` are now public classes so that these can be invoked directly
+without using annotations.
+- `KotlinClass` and `KotlinEnum` accept Java classes as arguments. Note, annotations
+do not work on Java classes.
 ### 1.3.2
 _2020-08-01_
 - Moved sample code to test source. This so that dependency to Atexpose does not become 
