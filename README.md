@@ -71,7 +71,8 @@ The below compiles kotlin code in the argument dir to JavaScript code in the arg
 
 
 ## Sample
-The code in the repo contains sample code.
+The code in the repo contains sample code. The code is found in the test source in
+the directory `io.schinzel.jstranspiler.example`.
 1. Run the main function in `GenerateJavaScript.kt`.
 This reads a set of Kotlin data classes and enums and converts them to JavaScript code.
 The Kotlin code compiled is found in package `example.dataclasses`.

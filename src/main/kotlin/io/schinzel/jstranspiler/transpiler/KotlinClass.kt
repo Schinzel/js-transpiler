@@ -10,7 +10,7 @@ import kotlin.reflect.jvm.javaField
 /**
  * Purpose of this class is to construct the JavaScript code for a Kotlin data class
  */
-internal class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
+class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
     // The name of this class
     private val dataClassName: String = kClass.simpleName
             ?: throw RuntimeException("Problems getting class name from class")

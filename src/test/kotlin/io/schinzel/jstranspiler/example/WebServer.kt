@@ -8,8 +8,9 @@ import io.schinzel.jstranspiler.example.misc.API
 import io.schinzel.jstranspiler.example.misc.PersonGenerator
 
 /**
- * The purpose of this file is to start a web server so that user can run a sample that
- * demonstrate the capabilities of this project
+ * The purpose of this file is to start a web server so that
+ * 1) a user can run a sample that demonstrate the capabilities of this project
+ * 2) for testing this project
  */
 fun main() {
     generateJavaScriptClasses()
@@ -35,5 +36,3 @@ class WebServer(person: Person) {
         return this
     }
 }
-
-
