@@ -111,9 +111,9 @@ be found in file `example/misc/Serialization.kt`.
 
 ## Version history
 ### 1.4
-_2020-08-01_
-- `KotlinClass` and `KotlinEnum` are now public classes so that these can be invoked directly
-without using annotations.
+_2020-08-XX_
+- `KotlinClass` and `KotlinEnum` are now public classes so that these can be invoked directly to 
+generate JavaScript without using annotations.
 - `KotlinClass` and `KotlinEnum` accept Java classes as arguments. Note, annotations
 do not work on Java classes.
 ### 1.3.2

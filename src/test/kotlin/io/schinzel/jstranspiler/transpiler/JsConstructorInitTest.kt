@@ -1,5 +1,6 @@
 package io.schinzel.jstranspiler.transpiler
 
+import io.schinzel.jstranspiler.example.java.JavaClass
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import java.time.Instant

@@ -50,15 +50,18 @@ internal class JsConstructorInit(private val property: KProperty1<out Any, Any?>
          * JavaScript value
          */
         private fun jsCodeCastNonList(propertyName: String, propertyDataTypeName: String): String {
-            return when (propertyDataTypeName) {
-                "kotlin.Long" -> "parseInt(json.$propertyName);"
-                "kotlin.Int" -> "parseInt(json.$propertyName);"
-                "kotlin.Float" -> "parseFloat(json.$propertyName);"
-                "kotlin.Double" -> "parseFloat(json.$propertyName);"
-                "kotlin.String" -> "json.$propertyName;"
-                "kotlin.Boolean" -> "json.$propertyName;"
-                "java.time.Instant" -> "new Date(json.$propertyName);"
-                else -> "new ${propertyDataTypeName.substringAfterLast(".")}(json.$propertyName);"
+            return with(propertyDataTypeName) {
+                when {
+                    // Use startsWith to handle both "kotlin.Int" and "kotlin.Int!"
+                    startsWith("kotlin.Long") -> "parseInt(json.$propertyName);"
+                    startsWith("kotlin.Int") -> "parseInt(json.$propertyName);"
+                    startsWith("kotlin.Float") -> "parseFloat(json.$propertyName);"
+                    startsWith("kotlin.Double") -> "parseFloat(json.$propertyName);"
+                    startsWith("kotlin.String") -> "json.$propertyName;"
+                    startsWith("kotlin.Boolean") -> "json.$propertyName;"
+                    equals("java.time.Instant") -> "new Date(json.$propertyName);"
+                    else -> "new ${propertyDataTypeName.substringAfterLast(".")}(json.$propertyName);"
+                }
             }
         }
     }

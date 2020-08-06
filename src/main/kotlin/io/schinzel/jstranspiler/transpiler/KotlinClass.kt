@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import io.schinzel.jstranspiler.transpiler.method.JsGetter
 import io.schinzel.jstranspiler.transpiler.method.JsSetter
 import kotlin.reflect.KClass
+import kotlin.reflect.KProperty1
 import kotlin.reflect.full.memberProperties
 import kotlin.reflect.jvm.javaField
 
@@ -21,34 +22,28 @@ class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
     private val dataClassName: String = kClass.simpleName
             ?: throw RuntimeException("Problems getting class name from class")
 
-    // JavaScript code for setting up properties in the constructor
-    internal val constructorInitsJsCode: String = kClass
+    internal val memberProperties: List<KProperty1<out Any, Any?>> = kClass
             // Get all properties for class
             .memberProperties
             // Remove all properties with JsonIgnore annotation
             .filter { it.javaField?.getAnnotation(JsonIgnore::class.java) == null }
-            // Create list of JavaScript constructor lines
+
+    // JavaScript code for setting up properties in the constructor
+    internal val constructorInitsJsCode: String = memberProperties
+            // Create list of JavaScript constructor lines§
             .map { JsConstructorInit(it) }
             // Compile list to string with all code for constructor
             .compileToJs()
 
     //JavaScript code for property getters
-    internal val gettersJsCode: String = kClass
-            // Get all properties for class
-            .memberProperties
-            // Remove all properties with JsonIgnore annotation
-            .filter { it.javaField?.getAnnotation(JsonIgnore::class.java) == null }
+    internal val gettersJsCode: String = memberProperties
             // Create list of JavaScript getters
             .map { JsGetter(it) }
             // Compile list of getters to a single string
             .compileToJs()
 
     //JavaScript code for property setters
-    internal val settersJsCode: String = kClass
-            // Get all properties for class
-            .memberProperties
-            // Remove all properties with JsonIgnore annotation
-            .filter { it.javaField?.getAnnotation(JsonIgnore::class.java) == null }
+    internal val settersJsCode: String = memberProperties
             // Remove properties that are not annotated as JavaScript setters
             .filter { property -> property.annotations.any { it is JsTranspiler_CreateSetter } }
             // Create list of JavaScript setters
