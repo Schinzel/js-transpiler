@@ -14,6 +14,9 @@ import kotlin.reflect.jvm.javaField
 class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
 
     /**
+     * This constructor is invoked when constructing this class with a Java-class from Java code.
+     * If Java-class is used as an argument from Kotlin code, the main constructor is used.
+     *
      * @param clazz A java class
      */
     constructor(clazz: Class<out Any>) : this(clazz.kotlin)
@@ -22,7 +25,7 @@ class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
     private val dataClassName: String = kClass.simpleName
             ?: throw RuntimeException("Problems getting class name from class")
 
-    internal val memberProperties: List<KProperty1<out Any, Any?>> = kClass
+    private val memberProperties: List<KProperty1<out Any, Any?>> = kClass
             // Get all properties for class
             .memberProperties
             // Remove all properties with JsonIgnore annotation
@@ -30,7 +33,7 @@ class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
 
     // JavaScript code for setting up properties in the constructor
     internal val constructorInitsJsCode: String = memberProperties
-            // Create list of JavaScript constructor lines§
+            // Create list of JavaScript constructor lines
             .map { JsConstructorInit(it) }
             // Compile list to string with all code for constructor
             .compileToJs()

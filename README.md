@@ -143,6 +143,7 @@ _2019-07-25_
 - Initial release
 
 ## Ideas 
+- Remove support for Float, Double and Long?
 - Is it possible to let boolean start with "is" and/or "has" instead of "get"
 - Output what has been generated as feedback
 - add-methods when there is a setter for an array?

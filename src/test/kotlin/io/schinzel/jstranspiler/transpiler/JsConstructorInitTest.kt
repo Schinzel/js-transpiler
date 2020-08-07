@@ -1,6 +1,5 @@
 package io.schinzel.jstranspiler.transpiler
 
-import io.schinzel.jstranspiler.example.java.JavaClass
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import java.time.Instant
@@ -26,7 +25,7 @@ class JsConstructorInitTest {
     }
 
     @Test
-    fun toJavaScript_dobleValueEndsWith_parseFloat() {
+    fun toJavaScript_doubleValueEndsWith_parseFloat() {
         assertThat(JsConstructorInit(DoubleClass::value).toJavaScript()).endsWith("this.value = parseFloat(json.value);")
     }
 

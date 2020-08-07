@@ -23,7 +23,7 @@ internal class JsConstructorInit(private val property: KProperty1<out Any, Any?>
 
     companion object {
 
-        private fun jsCodeCast(property: KProperty1<out Any, Any?>): String {
+        internal fun jsCodeCast(property: KProperty1<out Any, Any?>): String {
             //If property is a list of primitive data type (e.g. a list of Int) OR an enum
             if (property.isListOfPrimitiveDataType() || property.isEnum()) {
                 return "json.${property.name};"
@@ -46,23 +46,30 @@ internal class JsConstructorInit(private val property: KProperty1<out Any, Any?>
         /**
          * @param propertyName The name of the property. E.g. personAge
          * @param propertyDataTypeName The name of the the data type. E.g. "kotlin.Int"
-         * @return JavaScript code for casting casting the value sent from the server to a
-         * JavaScript value
+         * @return JavaScript code for casting the value sent from the server to a JavaScript value.
+         * For example: "parseInt(json.age);"
          */
-        private fun jsCodeCastNonList(propertyName: String, propertyDataTypeName: String): String {
-            return with(propertyDataTypeName) {
-                when {
-                    // Use startsWith to handle both "kotlin.Int" and "kotlin.Int!"
-                    startsWith("kotlin.Long") -> "parseInt(json.$propertyName);"
-                    startsWith("kotlin.Int") -> "parseInt(json.$propertyName);"
-                    startsWith("kotlin.Float") -> "parseFloat(json.$propertyName);"
-                    startsWith("kotlin.Double") -> "parseFloat(json.$propertyName);"
-                    startsWith("kotlin.String") -> "json.$propertyName;"
-                    startsWith("kotlin.Boolean") -> "json.$propertyName;"
-                    equals("java.time.Instant") -> "new Date(json.$propertyName);"
-                    else -> "new ${propertyDataTypeName.substringAfterLast(".")}(json.$propertyName);"
+        private fun jsCodeCastNonList(propertyName: String, propertyDataTypeName: String): String =
+                with(propertyDataTypeName) {
+                    when {
+                        // Use "startsWith" to handle both "kotlin.Int" and "kotlin.Int!". The
+                        // latter is the case with int and Integer from Java
+                        startsWith("kotlin.Long") -> "parseInt(json.$propertyName);"
+                        startsWith("kotlin.Int") -> "parseInt(json.$propertyName);"
+                        startsWith("kotlin.Float") -> "parseFloat(json.$propertyName);"
+                        startsWith("kotlin.Double") -> "parseFloat(json.$propertyName);"
+                        startsWith("kotlin.String") -> "json.$propertyName;"
+                        startsWith("kotlin.Boolean") -> "json.$propertyName;"
+                        startsWith("java.time.Instant") -> "new Date(json.$propertyName);"
+                        else -> {
+                            val className = propertyDataTypeName
+                                    .substringAfterLast(".")
+                                    // If is Java class the data type is "MyClass!" and the "!" should be removed
+                                    .substringBefore("!")
+                            "new $className(json.$propertyName);"
+                        }
+                    }
                 }
-            }
-        }
+
     }
 }
