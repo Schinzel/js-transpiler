@@ -1,5 +1,8 @@
 package io.schinzel.jstranspiler.transpiler.util;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.schinzel.jstranspiler.transpiler.JsTranspiler_CreateSetter;
+
 import java.time.Instant;
 import java.util.List;
 
@@ -8,6 +11,7 @@ public class JavaClass {
     // 0
     public String myString;
     // 1
+    @JsTranspiler_CreateSetter
     public int myInt;
     // 2
     public Integer myInteger;
@@ -29,6 +33,9 @@ public class JavaClass {
     List<JavaEnum> myJavaEnumList;
     // 11
     List<Integer> myIntegerList;
+    // 12
+    @JsonIgnore
+    public String mySecondString;
 }
 
 
