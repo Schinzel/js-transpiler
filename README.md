@@ -145,7 +145,5 @@ _2019-07-25_
 ## Ideas 
 - Remove support for Float, Double and Long?
 - Is it possible to let boolean start with "is" and/or "has" instead of "get"
-- Output what has been generated as feedback
 - add-methods when there is a setter for an array?
-- Is slice deep enough?
-https://stackoverflow.com/questions/7486085/copy-array-by-value
+- Is slice deep enough? https://stackoverflow.com/questions/7486085/copy-array-by-value
