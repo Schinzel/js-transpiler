@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.List;
 
 @SuppressWarnings("unused")
-public class JavaClassUtil {
+public class JavaClass {
     public String myString;
     public int myInt;
     public Integer myInteger;
@@ -14,6 +14,8 @@ public class JavaClassUtil {
     MyOtherJavaClass myClass;
     List<String> myStringList;
     List<MyOtherJavaClass> myMyOtherJavaClassList;
+    JavaEnum myJavaEnum;
+   List<JavaEnum> myJavaEnumList;
 }
 
 

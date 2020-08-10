@@ -90,6 +90,5 @@ internal fun <R> KCallable<R>.isListOfEnums(): Boolean {
     val className = this.getListElementsFullClassName()
             .substringBeforeLast("!")
     val clazz = Class.forName(className)
-    return clazz
-            .isEnum
+    return clazz.isEnum
 }
