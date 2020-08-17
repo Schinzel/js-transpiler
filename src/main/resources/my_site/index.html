@@ -23,6 +23,8 @@
                     console.log('Got below person from server');
                     console.log(person);
                     $('body').append('<div class="selenium_got_person">' + person.asJsonString() + '</div>');
+                    console.log('spieces ' + person.getPets()[0].getTheSpecies().name);
+
                 })
                 .call();
         }
@@ -73,6 +75,7 @@
         $('#buttonAddPet').click(addPet);
         $('#buttonAddTrait').click(addTrait);
         $('#buttonSetLastEdited').click(setLastEditedToNow);
+
     </script>
 
 </head>
