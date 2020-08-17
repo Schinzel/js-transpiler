@@ -26,6 +26,8 @@ internal class KotlinPackage(packageName: String) {
         val jsForClasses: String = listOfClassesAndEnums
                 // Remove all enums
                 .filter { kclass -> !kclass.isSubclassOf(Enum::class) }
+                // Sort by name for consistent order of classes in generated file
+                .sortedBy { it.simpleName }
                 // Convert to list of kotlin classes
                 .map { kclass -> KotlinClass(kclass) }
                 // Compile kotlin classes to JavaScript
@@ -35,6 +37,8 @@ internal class KotlinPackage(packageName: String) {
         val jsForEnums: String = listOfClassesAndEnums
                 // Only enums in list
                 .filter { kclass -> kclass.isSubclassOf(Enum::class) }
+                // Sort by name for consistent order of object in generated file
+                .sortedBy { it.simpleName }
                 // Convert to list of kotlin enums
                 .map { kclass -> KotlinEnum(kclass) }
                 // Compile kotlin enums to JavaScript
