@@ -11,7 +11,8 @@ import kotlin.reflect.jvm.javaField
 /**
  * Purpose of this class is to construct the JavaScript code for a Kotlin data class
  */
-class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
+@Suppress("RedundantVisibilityModifier")
+public class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
 
     /**
      * This constructor is invoked when constructing this class with a Java-class from Java code.
@@ -19,7 +20,7 @@ class KotlinClass(kClass: KClass<out Any>) : IToJavaScript {
      *
      * @param clazz A java class
      */
-    constructor(clazz: Class<out Any>) : this(clazz.kotlin)
+    public constructor(clazz: Class<out Any>) : this(clazz.kotlin)
 
     // The name of this class
     private val dataClassName: String = kClass.simpleName
