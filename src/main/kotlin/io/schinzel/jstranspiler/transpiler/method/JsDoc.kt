@@ -19,15 +19,19 @@ internal class JsDoc {
 
 
         private fun getNonListDataTypeName(property: KProperty1<out Any, Any?>): String =
-                when (property.getFullClassName()) {
-                    "kotlin.String" -> "string"
-                    "kotlin.Long" -> "number"
-                    "kotlin.Int" -> "number"
-                    "kotlin.Float" -> "number"
-                    "kotlin.Double" -> "number"
-                    "kotlin.Boolean" -> "boolean"
-                    "java.time.Instant" -> "Date"
-                    else -> property.getSimpleClassName()
+                with(property.getFullClassName()) {
+                    when {
+                        // Use "startsWith" to handle both "kotlin.Int" and "kotlin.Int!". The
+                        // latter is the case with int and Integer from Java
+                        startsWith("kotlin.String") -> "string"
+                        startsWith("kotlin.Long") -> "number"
+                        startsWith("kotlin.Int") -> "number"
+                        startsWith("kotlin.Float") -> "number"
+                        startsWith("kotlin.Double") -> "number"
+                        startsWith("kotlin.Boolean") -> "boolean"
+                        startsWith("java.time.Instant") -> "Date"
+                        else -> property.getSimpleClassName()
+                    }
                 }
 
     }
