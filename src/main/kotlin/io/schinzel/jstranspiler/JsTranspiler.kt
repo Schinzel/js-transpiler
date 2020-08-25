@@ -59,7 +59,7 @@ class JsTranspiler(sourcePackageName: String, destinationFile: String) {
             |/**
             | * This class holds methods common to all transpiled classes.
             | */
-            |export class DataObject {
+            |class DataObject {
             |    // noinspection JSUnusedGlobalSymbols
             |    /**
             |     * return {object} This instance as a json object
