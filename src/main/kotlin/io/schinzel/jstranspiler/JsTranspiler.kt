@@ -59,6 +59,7 @@ class JsTranspiler(sourcePackageName: String, destinationFile: String) {
             |/**
             | * This class holds methods common to all transpiled classes.
             | */
+            | // noinspection JSUnusedGlobalSymbols
             |class DataObject {
             |    // noinspection JSUnusedGlobalSymbols
             |    /**
