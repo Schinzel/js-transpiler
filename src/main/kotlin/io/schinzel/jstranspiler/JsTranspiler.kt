@@ -56,7 +56,7 @@ class JsTranspiler(sourcePackageName: String, destinationFile: String) {
          * The header of the generated JavaScript file
          */
         val dataObjectClass = """
-            | // noinspection JSUnusedGlobalSymbols
+            | // noinspection JSUnusedLocalSymbols
             |/**
             | * This class holds methods common to all transpiled classes.
             | */
