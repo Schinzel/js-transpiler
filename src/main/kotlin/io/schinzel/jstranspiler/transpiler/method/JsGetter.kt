@@ -1,6 +1,9 @@
 package io.schinzel.jstranspiler.transpiler.method
 
-import io.schinzel.jstranspiler.transpiler.*
+import io.schinzel.jstranspiler.transpiler.IToJavaScript
+import io.schinzel.jstranspiler.transpiler.getSimpleClassName
+import io.schinzel.jstranspiler.transpiler.isEnum
+import io.schinzel.jstranspiler.transpiler.isList
 import kotlin.reflect.KProperty1
 
 /**
@@ -9,13 +12,14 @@ import kotlin.reflect.KProperty1
 internal class JsGetter(private val property: KProperty1<out Any, Any?>) : IToJavaScript {
 
     override fun toJavaScript(): String {
-        val jsCodeMethodName: String = JsMethodUtil.methodName("get", property.name)
+        val jsCodeMethodName: String = JsMethodUtil.getMethodName("get", property.name)
         val jsDocReturnDataType: String = JsDoc.getDataTypeName(property)
         val jsDocReturnDoc: String = jsDocReturn(property.isList())
+        val javaOrKotlinPropertyName = property.name
         val jsCodeReturnStatement: String = jsCodeReturnStatement(
                 isEnum = property.isEnum(),
                 isList = property.isList(),
-                propertyName = property.name,
+                javaOrKotlinPropertyName = javaOrKotlinPropertyName,
                 dataTypeName = property.getSimpleClassName())
         return """
             |    // noinspection JSUnusedGlobalSymbols
@@ -41,14 +45,14 @@ internal class JsGetter(private val property: KProperty1<out Any, Any?>) : IToJa
         /**
          * @return The js code that does the actual return for data. E.g. "this.lastName"
          */
-        internal fun jsCodeReturnStatement(isEnum: Boolean, isList: Boolean, propertyName: String, dataTypeName: String): String {
+        internal fun jsCodeReturnStatement(isEnum: Boolean, isList: Boolean, javaOrKotlinPropertyName: String, dataTypeName: String): String {
             return if (isEnum) {
                 //E.g. "Species[this.species]"
-                "$dataTypeName[this.$propertyName]"
+                "$dataTypeName[this.$javaOrKotlinPropertyName]"
             } else {
                 val arrayCopyString: String = arrayCopyString(isList)
                 //E.g. Either "this.lastName" or "this.pets.slice()"
-                "this.$propertyName$arrayCopyString"
+                "this.$javaOrKotlinPropertyName$arrayCopyString"
             }
         }
 

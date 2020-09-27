@@ -10,9 +10,9 @@ import java.time.Instant
 @JsTranspiler_CompileToJavaScript
 data class Person(
         @JsTranspiler_CreateSetter
-        val firstName: String,
+        val first_name: String,
         @JsTranspiler_CreateSetter
-        val lastName: String,
+        val last_name: String,
         val age: Int,
         val income: Long,
         val heightInMeter: Float,

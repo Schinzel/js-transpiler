@@ -12,20 +12,21 @@ internal class JsSetter(private val property: KProperty1<out Any, Any?>, private
 
 
     override fun toJavaScript(): String {
-        val jsCodeMethodName = JsMethodUtil.methodName("set", property.name)
+        val jsCodeMethodName = JsMethodUtil.getMethodName("set", property.name)
         val jsDocArgumentDataType = JsDoc.getDataTypeName(property)
         val jsDocMethodDescription = jsDocMethodDescription(property.isList())
         val jsPropertySetter = jsPropertySetter(property)
-        val propertyName = property.name
+        val kotlinOrJavaName = property.name
+        val jsPropertyName = JsMethodUtil.getJsPropertyName(property.name)
         return """
             |    // noinspection JSUnusedGlobalSymbols
             |    /**
             |     * $jsDocMethodDescription
-            |     * @param {$jsDocArgumentDataType} $propertyName
+            |     * @param {$jsDocArgumentDataType} $jsPropertyName
             |     * @return {$dataClassName}
             |     */
-            |    $jsCodeMethodName($propertyName) {
-            |        this.$propertyName = $propertyName$jsPropertySetter;
+            |    $jsCodeMethodName($jsPropertyName) {
+            |        this.$kotlinOrJavaName = $jsPropertyName$jsPropertySetter;
             |        return this;
             |    }
             |    """.trimMargin()

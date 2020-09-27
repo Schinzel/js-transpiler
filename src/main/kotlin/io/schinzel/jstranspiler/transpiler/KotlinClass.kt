@@ -1,6 +1,7 @@
 package io.schinzel.jstranspiler.transpiler
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.google.common.base.CaseFormat
 import io.schinzel.jstranspiler.transpiler.method.JsGetter
 import io.schinzel.jstranspiler.transpiler.method.JsSetter
 import kotlin.reflect.KClass
