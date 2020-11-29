@@ -1,25 +1,12 @@
 package io.schinzel.jstranspiler.example.misc
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import java.time.Instant
-import java.time.format.DateTimeFormatterBuilder
 
 class Serialization {
 
-    /**
-     * Class to serialize an instant to String with format "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-     */
-    private class ExampleSerializer
-        : InstantSerializer(INSTANCE, false, DateTimeFormatterBuilder().appendInstant(3).toFormatter())
-
     companion object {
-
-        // add Module which can serialize instant to String with format "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         private val serializer: ObjectMapper = jacksonObjectMapper()
-                .registerModule(JavaTimeModule().addSerializer(Instant::class.java, ExampleSerializer()))
 
         /**
          *

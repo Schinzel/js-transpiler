@@ -84,11 +84,6 @@ The retrieved JSON will be used to create an instance of the auto generated Java
 Data is changed in the browser, and the JavaScript classes are serialized to JSON and sent to server.
 On the server, the JSON is deserialized back to the Person object. 
 
-## Support for java.lang.Instant
-To be able to transpile Instants to JavaScript, you need to Kotlin how you want an Instant to be 
-represented in string. You do this by adding support in your object serialization. An example can 
-be found in file `example/misc/Serialization.kt`.
-
 ## Maven
 ```xml
 <repositories>
@@ -118,6 +113,8 @@ generate JavaScript without using annotations.
 do not work on Java classes.
 - Support for snake case properties added. A snake case property for example `first_name` will
 get be transpile to camel case, i.e. `getFirstName` and `setFirstName(firstName)` 
+- Instant serialization now works out of the box. Remove any `InstantSerializer` that
+was required in earlier versions.
 ### 1.3.3
 _2020-08-13_
 - The order of the transpiled classes is consistent. This so that new versions of the generated
