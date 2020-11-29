@@ -84,11 +84,6 @@ The retrieved JSON will be used to create an instance of the auto generated Java
 Data is changed in the browser, and the JavaScript classes are serialized to JSON and sent to server.
 On the server, the JSON is deserialized back to the Person object. 
 
-## Support for java.lang.Instant
-To be able to transpile Instants to JavaScript, you need to Kotlin how you want an Instant to be 
-represented in string. You do this by adding support in your object serialization. An example can 
-be found in file `example/misc/Serialization.kt`.
-
 ## Maven
 ```xml
 <repositories>
@@ -116,6 +111,8 @@ _2020-08-XX_
 generate JavaScript without using annotations.
 - `KotlinClass` and `KotlinEnum` accept Java classes as arguments. Note, annotations
 do not work on Java classes.
+- Instant serialization now works out of the box. Remove any `InstantSerializer` that
+was required in earlier versions.
 ### 1.3.2
 _2020-08-01_
 - Moved sample code to test source. This so that dependency to Atexpose does not become 
