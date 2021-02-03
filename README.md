@@ -39,6 +39,12 @@ layer and deserialized to a class.
 This as these prefixes are removed by default by for example Jackson when serializing to JSON.
 This will then cause a problem when converting JSON to Kotlin data classes.
 
+## Support for java.lang.Instant
+To be able to serialize and deserialize Instants to and from JavaScript, 
+you need to tell Kotlin how you want Instants to be serialized and deserialized. 
+An example of this can be found in test directory in the file 
+`io/schinzel/jstranspiler/example/misc/Serialization.kt`.
+
 
 ## Instructions
 - To have the transpiler compile a class or an enum add the annotation
@@ -113,8 +119,6 @@ generate JavaScript without using annotations.
 do not work on Java classes.
 - Support for snake case properties added. A snake case property for example `first_name` will
 get be transpile to camel case, i.e. `getFirstName` and `setFirstName(firstName)` 
-- Instant serialization now works out of the box. Remove any `InstantSerializer` that
-was required in earlier versions.
 ### 1.3.3
 _2020-08-13_
 - The order of the transpiled classes is consistent. This so that new versions of the generated
