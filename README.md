@@ -115,10 +115,11 @@ On the server, the JSON is deserialized back to the Person object.
 _2020-0X-XX_
 - `KotlinClass` and `KotlinEnum` are now public classes so that these can be invoked directly to 
 generate JavaScript without using annotations.
-- `KotlinClass` and `KotlinEnum` accept Java classes as arguments. Note, annotations
+- `KotlinClass` and `KotlinEnum` accept Java classes as arguments. Note, the transpiler annotations
 do not work on Java classes.
 - Support for snake case properties added. A snake case property for example `first_name` will
-get be transpile to camel case, i.e. `getFirstName` and `setFirstName(firstName)` 
+get be transpile to camel case, i.e. `getFirstName` and `setFirstName(firstName)`
+- Now supports nullable variables. For example `MyClass?` and `String?`
 ### 1.3.3
 _2020-08-13_
 - The order of the transpiled classes is consistent. This so that new versions of the generated

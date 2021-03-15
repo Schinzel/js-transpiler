@@ -11,28 +11,32 @@ internal class JsDoc {
     companion object {
 
         fun getDataTypeName(property: KProperty1<out Any, Any?>): String =
-                when {
-                    property.isListOfPrimitiveDataType() -> property.getListElementsSimpleClassName().toLowerCase() + "[]"
-                    property.isList() -> property.getListElementsSimpleClassName() + "[]"
-                    else -> getNonListDataTypeName(property)
-                }
+            when {
+                property.isListOfPrimitiveDataType() -> property.getListElementsSimpleClassName().toLowerCase() + "[]"
+                property.isList() -> property.getListElementsSimpleClassName() + "[]"
+                else -> getNonListDataTypeName(property)
+            }
 
 
         private fun getNonListDataTypeName(property: KProperty1<out Any, Any?>): String =
-                with(property.getFullClassName()) {
-                    when {
-                        // Use "startsWith" to handle both "kotlin.Int" and "kotlin.Int!". The
-                        // latter is the case with int and Integer from Java
-                        startsWith("kotlin.String") -> "string"
-                        startsWith("kotlin.Long") -> "number"
-                        startsWith("kotlin.Int") -> "number"
-                        startsWith("kotlin.Float") -> "number"
-                        startsWith("kotlin.Double") -> "number"
-                        startsWith("kotlin.Boolean") -> "boolean"
-                        startsWith("java.time.Instant") -> "Date"
-                        else -> property.getSimpleClassName()
+            with(property.getFullClassName()) {
+                when {
+                    // Use "startsWith" to handle cases  "kotlin.Int?" and "kotlin.Int" and "kotlin.Int!". The
+                    // latter is the case with int and Integer from Java
+                    startsWith("kotlin.String") -> "string"
+                    startsWith("kotlin.Long") -> "number"
+                    startsWith("kotlin.Int") -> "number"
+                    startsWith("kotlin.Float") -> "number"
+                    startsWith("kotlin.Double") -> "number"
+                    startsWith("kotlin.Boolean") -> "boolean"
+                    startsWith("java.time.Instant") -> "Date"
+                    else -> {
+                        property.getSimpleClassName()
+                            // If is Kotlin class the data type is "MyClass?" and the "?" should be removed
+                            .substringBefore("?")
                     }
                 }
+            }
 
     }
 }
