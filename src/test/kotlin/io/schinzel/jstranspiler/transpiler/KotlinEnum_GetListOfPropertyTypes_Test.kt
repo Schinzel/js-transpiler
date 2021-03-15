@@ -1,5 +1,6 @@
 package io.schinzel.jstranspiler.transpiler
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import io.schinzel.jstranspiler.transpiler.KotlinEnum.Companion.getListOfPropertyTypes
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
@@ -7,8 +8,13 @@ import org.junit.Test
 class KotlinEnum_GetListOfPropertyTypes_Test {
 
     @Suppress("unused")
-    private enum class TestSpecies(val lifeSpan: Int, val alignment: String) {
-        CAT(16, "Chaotic Evil"), DOG(13, "Neutral Good")
+    private enum class TestSpecies(
+        val lifeSpan: Int,
+        val alignment: String,
+        @JsonIgnore
+        val numberOfLegs: Int
+    ) {
+        CAT(16, "Chaotic Evil", 4), DOG(13, "Neutral Good", 4)
     }
 
     @Suppress("unused")
@@ -63,8 +69,6 @@ class KotlinEnum_GetListOfPropertyTypes_Test {
         val listOfPropertyTypes: List<PropertyType> = getListOfPropertyTypes(TestSpecies::class.java.kotlin)
         assertThat(listOfPropertyTypes[2].name).isEqualTo("alignment")
     }
-
-
 
 
 }

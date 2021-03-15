@@ -120,6 +120,9 @@ do not work on Java classes.
 - Support for snake case properties added. A snake case property for example `first_name` will
 get be transpile to camel case, i.e. `getFirstName` and `setFirstName(firstName)`
 - Now supports nullable variables. For example `MyClass?` and `String?`
+### 1.3.4
+_2021-03-15_
+- Bug Fix: @JsonIgnore now works on enum properties
 ### 1.3.3
 _2020-08-13_
 - The order of the transpiled classes is consistent. This so that new versions of the generated
