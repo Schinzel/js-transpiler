@@ -110,6 +110,9 @@ be found in file `example/misc/Serialization.kt`.
 ```
 
 ## Version history
+### 1.3.4
+_2021-03-15_
+- Bug Fix: @JsonIgnore now works on enum properties
 ### 1.3.3
 _2020-08-13_
 - The order of the transpiled classes is consistent. This so that new versions of the generated
