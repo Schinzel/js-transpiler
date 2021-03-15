@@ -1,5 +1,6 @@
 package io.schinzel.jstranspiler.transpiler
 
+import com.fasterxml.jackson.annotation.JsonIgnore
 import io.schinzel.basic_utils_kotlin.toList
 import kotlin.reflect.KClass
 import kotlin.reflect.full.memberProperties
@@ -62,11 +63,20 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
          * Example: name: String, lifeSpan: Int,  alignment: String
          */
         internal fun getListOfPropertyTypes(enumClass: KClass<out Any>): List<PropertyType> {
-            val enumProperties: List<PropertyType> = enumClass.primaryConstructor?.parameters?.map {
-                val name = it.name ?: throw Exception()
-                val type = it.type.toString().substringAfter(".")
-                PropertyType(name, type)
-            } ?: emptyList()
+            val enumProperties: List<PropertyType> = enumClass
+                .primaryConstructor
+                ?.parameters
+                // Remove all properties with JsonIgnore annotation
+                ?.filter {
+                    enumClass.javaObjectType
+                        .getDeclaredField(it.name)
+                        .getAnnotation(JsonIgnore::class.java) == null
+                }
+                ?.map {
+                    val name = it.name ?: throw Exception()
+                    val type = it.type.toString().substringAfter(".")
+                    PropertyType(name, type)
+                } ?: emptyList()
             // Add a "name" property first
             return PropertyType("name", "String").toList() + enumProperties
         }
@@ -90,19 +100,19 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
          * ]
          */
         internal fun getEnumValueProperties(enumClass: KClass<out Any>, propertyTypeList: List<PropertyType>): List<List<Property>> =
-                enumClass.java.enumConstants.map { enumValue ->
-                    // Get all the properties of this enum-value
-                    propertyTypeList.map { propertyNameType ->
-                        // The property value as string. For example "16" or "Neutral Good"
-                        val propertyValue: String = enumValue.javaClass.kotlin.memberProperties
-                                .first { it.name == propertyNameType.name }
-                                // Set as accessible to access properties of private enums
-                                .also { it.isAccessible = true }
-                                .get(enumValue)
-                                .toString()
-                        Property(propertyValue, propertyNameType)
-                    }
+            enumClass.java.enumConstants.map { enumValue ->
+                // Get all the properties of this enum-value
+                propertyTypeList.map { propertyNameType ->
+                    // The property value as string. For example "16" or "Neutral Good"
+                    val propertyValue: String = enumValue.javaClass.kotlin.memberProperties
+                        .first { it.name == propertyNameType.name }
+                        // Set as accessible to access properties of private enums
+                        .also { it.isAccessible = true }
+                        .get(enumValue)
+                        .toString()
+                    Property(propertyValue, propertyNameType)
                 }
+            }
 
 
         /**
@@ -113,14 +123,14 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
          *
          */
         internal fun getJsCodeForEnumValues(listOfListProperties: List<List<Property>>): String =
-                listOfListProperties.joinToString(",\n") { listOfProperties ->
-                    // For example: name: 'DOG', alignment: 'Neutral Good'
-                    val propertiesAsString: String = getJsCodeForEnumValue(listOfProperties)
-                    // The value of the enum is the first value
-                    val enumValueName = listOfProperties[0].value
-                    // For example: DOG: {name: 'DOG', alignment: 'Neutral Good'}
-                    "    $enumValueName: {$propertiesAsString}"
-                }
+            listOfListProperties.joinToString(",\n") { listOfProperties ->
+                // For example: name: 'DOG', alignment: 'Neutral Good'
+                val propertiesAsString: String = getJsCodeForEnumValue(listOfProperties)
+                // The value of the enum is the first value
+                val enumValueName = listOfProperties[0].value
+                // For example: DOG: {name: 'DOG', alignment: 'Neutral Good'}
+                "    $enumValueName: {$propertiesAsString}"
+            }
 
 
         /**
@@ -128,12 +138,12 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
          * Example: name: 'CAT', alignment: 'Chaotic Evil', lifeSpan: 16
          */
         private fun getJsCodeForEnumValue(listOfProperties: List<Property>): String =
-                listOfProperties.joinToString { property ->
-                    val propertyName = property.type.name
-                    val isString = (property.type.kotlinDataType == "String")
-                    val propertyValue = if (isString) "'${property.value}'" else property.value
-                    "$propertyName: $propertyValue"
-                }
+            listOfProperties.joinToString { property ->
+                val propertyName = property.type.name
+                val isString = (property.type.kotlinDataType == "String")
+                val propertyValue = if (isString) "'${property.value}'" else property.value
+                "$propertyName: $propertyValue"
+            }
 
 
         /**
@@ -141,10 +151,10 @@ internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScrip
          * Example: name: string, alignment: string
          */
         private fun getJsCodeForTypDef(propertyTypeList: List<PropertyType>): String =
-                propertyTypeList.joinToString { propertyNameType ->
-                    val jsDataType = if (propertyNameType.kotlinDataType == "String") "string" else "number"
-                    propertyNameType.name + ": " + jsDataType
-                }
+            propertyTypeList.joinToString { propertyNameType ->
+                val jsDataType = if (propertyNameType.kotlinDataType == "String") "string" else "number"
+                propertyNameType.name + ": " + jsDataType
+            }
     }
 }
 
