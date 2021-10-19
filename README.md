@@ -105,7 +105,7 @@ On the server, the JSON is deserialized back to the Person object.
 	<dependency>
 		<groupId>io.schinzel</groupId>
 		<artifactId>js-transpiler</artifactId>
-		<version>1.4</version>
+		<version>1.4.0</version>
 	</dependency>
 </dependencies>    
 ```
