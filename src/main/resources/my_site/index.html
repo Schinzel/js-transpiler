@@ -23,6 +23,8 @@
                     console.log('Got below person from server');
                     console.log(person);
                     $('body').append('<div class="selenium_got_person">' + person.asJsonString() + '</div>');
+                    console.log('spieces ' + person.getPets()[0].getTheSpecies().name);
+
                 })
                 .call();
         }
@@ -62,6 +64,12 @@
             console.log(person);
         }
 
+        function setNewLastName(){
+            let newLastName = 'Lundqvist';
+            person.setLastName(newLastName);
+            console.log('Last name set to ' + newLastName);
+        }
+
 
         function setLastEditedToNow() {
             person.setLastEdited(new Date());
@@ -72,7 +80,9 @@
         $('#buttonSendPerson').click(sendPersonToServer);
         $('#buttonAddPet').click(addPet);
         $('#buttonAddTrait').click(addTrait);
+        $('#buttonSetNewLastName').click(setNewLastName);
         $('#buttonSetLastEdited').click(setLastEditedToNow);
+
     </script>
 
 </head>
@@ -80,6 +90,7 @@
 <h1>My Site</h1>
 <p>Open the console</p>
 <button id="buttonGetPerson">Get Person from server</button>
+<button id="buttonSetNewLastName">Set new last name</button>
 <button id="buttonAddPet">Add Pet</button>
 <button id="buttonAddTrait">Add Trait</button>
 <button id="buttonSetLastEdited">Set LastEdited</button>

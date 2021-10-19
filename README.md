@@ -10,7 +10,7 @@ You write your Kotlin code and Mongo documents are created without having to cre
 
 In the client side layer things are not as smooth. 
 If you want to have JavaScript classes that represent the data that comes from the server you have to manually create these classes.
-Writing simple JavaScript classes that represents data is tedious and error prone. 
+Writing simple JavaScript classes that represents data is tedious and error-prone. 
 Manually updating stuff that are in more than one place always breaks, sooner rather than later.
 
 ## Problem to solve
@@ -38,6 +38,12 @@ layer and deserialized to a class.
 - Kotlin property names cannot start with "is", "get" or "set". 
 This as these prefixes are removed by default by for example Jackson when serializing to JSON.
 This will then cause a problem when converting JSON to Kotlin data classes.
+
+## Support for java.lang.Instant
+To be able to serialize and deserialize Instants to and from JavaScript, 
+you need to tell Kotlin how you want Instants to be serialized and deserialized. 
+An example of this can be found in test directory in the file 
+`io/schinzel/jstranspiler/example/misc/Serialization.kt`.
 
 
 ## Instructions
@@ -84,17 +90,12 @@ The retrieved JSON will be used to create an instance of the auto generated Java
 Data is changed in the browser, and the JavaScript classes are serialized to JSON and sent to server.
 On the server, the JSON is deserialized back to the Person object. 
 
-## Support for java.lang.Instant
-To be able to transpile Instants to JavaScript, you need to Kotlin how you want an Instant to be 
-represented in string. You do this by adding support in your object serialization. An example can 
-be found in file `example/misc/Serialization.kt`.
-
 ## Maven
 ```xml
 <repositories>
 	<repository>
 		<id>maven-repo.schinzel.io</id>
-		<url>http://maven-repo.schinzel.io/release</url>
+		<url>https://s3-eu-west-1.amazonaws.com/maven-repo.schinzel.io/release</url>
 	</repository>
 </repositories>    
 ```
@@ -104,12 +105,21 @@ be found in file `example/misc/Serialization.kt`.
 	<dependency>
 		<groupId>io.schinzel</groupId>
 		<artifactId>js-transpiler</artifactId>
-		<version>1.3.1</version>
+		<version>1.4</version>
 	</dependency>
 </dependencies>    
 ```
 
 ## Version history
+### 1.4.0
+_2021-10-19_
+- `KotlinClass` and `KotlinEnum` are now public classes so that these can be invoked directly to 
+generate JavaScript without using annotations.
+- `KotlinClass` and `KotlinEnum` accept Java classes as arguments. Note, the transpiler annotations
+do not work on Java classes.
+- Support for snake case properties added. A snake case property for example `first_name` will
+get be transpile to camel case, i.e. `getFirstName` and `setFirstName(firstName)`
+- Now supports nullable variables. For example `MyClass?` and `String?`
 ### 1.3.4
 _2021-03-15_
 - Bug Fix: @JsonIgnore now works on enum properties
@@ -144,8 +154,7 @@ _2019-07-25_
 - Initial release
 
 ## Ideas 
+- Remove support for Float, Double and Long?
 - Is it possible to let boolean start with "is" and/or "has" instead of "get"
-- Output what has been generated as feedback
 - add-methods when there is a setter for an array?
-- Is slice deep enough?
-https://stackoverflow.com/questions/7486085/copy-array-by-value
+- Is slice deep enough? https://stackoverflow.com/questions/7486085/copy-array-by-value

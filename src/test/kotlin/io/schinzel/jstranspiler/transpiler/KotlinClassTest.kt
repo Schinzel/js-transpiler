@@ -1,6 +1,8 @@
 package io.schinzel.jstranspiler.transpiler
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import io.schinzel.basic_utils_kotlin.println
+import io.schinzel.jstranspiler.transpiler.util.JavaClass
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
@@ -58,4 +60,6 @@ class KotlinClassTest {
         val settersJsCode = KotlinClass(MyDBO::class).settersJsCode
         assertThat(settersJsCode).doesNotContain("fourthValue")
     }
+
+
 }

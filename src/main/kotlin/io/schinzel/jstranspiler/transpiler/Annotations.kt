@@ -2,6 +2,8 @@
 
 package io.schinzel.jstranspiler.transpiler
 
+import java.lang.annotation.ElementType
+
 
 /**
  * This annotation is applied to data classes and enums.
@@ -23,5 +25,5 @@ annotation class JsTranspiler_CompileToJavaScript
  * JavaScript:
  * setFirstName(firstName)
  */
-@Target(AnnotationTarget.PROPERTY)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.FIELD)
 annotation class JsTranspiler_CreateSetter

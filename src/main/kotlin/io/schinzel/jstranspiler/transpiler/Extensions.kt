@@ -60,9 +60,13 @@ internal fun <R> KCallable<R>.getListElementsSimpleClassName(): String {
     return this.getFullClassName()
             .substringAfterLast(".")
             .substringBefore(">")
+            .substringBeforeLast("!")
 }
 
 
+/**
+ * @return The name of the class for members of a list
+ */
 internal fun <R> KCallable<R>.getListElementsFullClassName(): String {
     if (!this.isList()) {
         throw RuntimeException("Tried to get the simple class name of elements of a list. But the data type was not a list. " + this.getFullClassName())
@@ -83,7 +87,8 @@ internal fun <R> KCallable<R>.isListOfEnums(): Boolean {
     if (!this.isList()) {
         return false
     }
-    return Class
-            .forName(this.getListElementsFullClassName())
-            .isEnum
+    val className = this.getListElementsFullClassName()
+            .substringBeforeLast("!")
+    val clazz = Class.forName(className)
+    return clazz.isEnum
 }

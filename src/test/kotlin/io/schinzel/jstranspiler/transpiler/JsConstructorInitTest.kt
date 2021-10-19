@@ -25,7 +25,7 @@ class JsConstructorInitTest {
     }
 
     @Test
-    fun toJavaScript_dobleValueEndsWith_parseFloat() {
+    fun toJavaScript_doubleValueEndsWith_parseFloat() {
         assertThat(JsConstructorInit(DoubleClass::value).toJavaScript()).endsWith("this.value = parseFloat(json.value);")
     }
 

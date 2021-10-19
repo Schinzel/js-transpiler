@@ -1,6 +1,6 @@
 package io.schinzel.jstranspiler
 
-import io.github.bonigarcia.wdm.ChromeDriverManager
+import io.github.bonigarcia.wdm.WebDriverManager
 import io.schinzel.jstranspiler.example.WebServer
 import io.schinzel.jstranspiler.example.dataclasses.dir1.Address
 import io.schinzel.jstranspiler.example.dataclasses.dir1.Pet
@@ -77,7 +77,7 @@ class ExamplePageTest {
             // Generate js classes from Kotlin. These will be used in the test
             generateJavaScriptClasses()
             // Setup chrome WebDriver
-            ChromeDriverManager.chromedriver().setup()
+            WebDriverManager.chromedriver().setup()
         }
 
 

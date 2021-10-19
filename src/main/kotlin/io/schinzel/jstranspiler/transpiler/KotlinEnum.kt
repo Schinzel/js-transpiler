@@ -27,7 +27,12 @@ import kotlin.reflect.jvm.isAccessible
  *
  * @property enumClass The kotlin enum to transpile to JavaScript
  */
-internal class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScript {
+class KotlinEnum(private val enumClass: KClass<out Any>) : IToJavaScript {
+
+    /**
+     * @param clazz A java class
+     */
+    constructor(clazz: Class<out Any>) : this(clazz.kotlin)
 
     override fun toJavaScript(): String {
         // Construct a list with all properties of the constructor argument class

@@ -23,8 +23,7 @@ class JsTranspiler(sourcePackageName: String, destinationFile: String) {
         // Transpile all argument packages to JavaScript
         val javaScriptCode: String = kotlinPackage.toJavaScript()
         // File content is file header plus generated JavaScript code
-        val jsFileContent: String = fileHeader
-                .plus(javaScriptCode)
+        val jsFileContent: String = fileHeader + dataObjectClass + javaScriptCode
         // Write generated header and JavaScript to the argument file
         File(destinationFile).writeText(jsFileContent)
         // Calc execution time
@@ -51,10 +50,17 @@ class JsTranspiler(sourcePackageName: String, destinationFile: String) {
             | * Kotlin data classes have been translated into JavaScript classes.
             | */
             |
+        """.trimMargin()
+
+        /**
+         * The header of the generated JavaScript file
+         */
+        val dataObjectClass = """
+            | // noinspection JSUnusedLocalSymbols
             |/**
             | * This class holds methods common to all transpiled classes.
             | */
-            |export class DataObject {
+            |class DataObject {
             |    // noinspection JSUnusedGlobalSymbols
             |    /**
             |     * return {object} This instance as a json object
@@ -82,6 +88,7 @@ class JsTranspiler(sourcePackageName: String, destinationFile: String) {
             |
             |
         """.trimMargin()
+
     }
 
 }
