@@ -6,24 +6,26 @@
 
     <groupId>io.schinzel</groupId>
     <artifactId>js-transpiler</artifactId>
-    <version>1.4.0-SNAPSHOT</version>
+    <version>1.4.0</version>
 
     <properties>
-        <kotlin.version>1.4.10</kotlin.version>
+        <kotlin.version>1.5.0</kotlin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <schinzel-maven-repo>maven-repo.schinzel.io</schinzel-maven-repo>
     </properties>
 
+
     <repositories>
         <repository>
             <id>maven-repo.atexpose.com</id>
-            <url>http://maven-repo.atexpose.com/release</url>
+            <url>https://s3-eu-west-1.amazonaws.com/maven-repo.atexpose.com/release</url>
         </repository>
         <repository>
-            <id>${maven-repo}</id>
-            <url>http://${schinzel-maven-repo}/release</url>
+            <id>maven-repo.schinzel.io</id>
+            <url>https://s3-eu-west-1.amazonaws.com/maven-repo.schinzel.io/release</url>
         </repository>
     </repositories>
+
 
     <distributionManagement>
         <snapshotRepository>
@@ -36,12 +38,13 @@
         </repository>
     </distributionManagement>
 
+
     <dependencies>
         <dependency>
             <!-- Utilities. Must include as otherwise org.reflects 9.11 sets to early version. -->
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>29.0-jre</version>
+            <version>31.0.1-jre</version>
         </dependency>
         <dependency>
             <!-- Basic utilities. Most commonly less verbose versions of
@@ -64,13 +67,13 @@
             <!-- Serializes json strings and deserializes objects -->
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
-            <version>2.11.1</version>
+            <version>2.13.0</version>
         </dependency>
         <dependency>
             <!-- Serializes date strings and deserializes Java date objects -->
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
-            <version>2.11.1</version>
+            <version>2.13.0</version>
         </dependency>
         <dependency>
             <!-- For finding annotated classes https://github.com/ronmamo/reflections.
@@ -100,7 +103,7 @@
             http://joel-costigliola.github.io/assertj/-->
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.16.1</version>
+            <version>3.21.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -108,7 +111,7 @@
             https://github.com/bonigarcia/webdrivermanager -->
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>3.8.1</version>
+            <version>5.0.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>

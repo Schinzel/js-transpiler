@@ -10,7 +10,7 @@ You write your Kotlin code and Mongo documents are created without having to cre
 
 In the client side layer things are not as smooth. 
 If you want to have JavaScript classes that represent the data that comes from the server you have to manually create these classes.
-Writing simple JavaScript classes that represents data is tedious and error prone. 
+Writing simple JavaScript classes that represents data is tedious and error-prone. 
 Manually updating stuff that are in more than one place always breaks, sooner rather than later.
 
 ## Problem to solve
@@ -95,7 +95,7 @@ On the server, the JSON is deserialized back to the Person object.
 <repositories>
 	<repository>
 		<id>maven-repo.schinzel.io</id>
-		<url>http://maven-repo.schinzel.io/release</url>
+		<url>https://s3-eu-west-1.amazonaws.com/maven-repo.schinzel.io/release</url>
 	</repository>
 </repositories>    
 ```
@@ -111,8 +111,8 @@ On the server, the JSON is deserialized back to the Person object.
 ```
 
 ## Version history
-### 1.4
-_2020-0X-XX_
+### 1.4.0
+_2021-10-19_
 - `KotlinClass` and `KotlinEnum` are now public classes so that these can be invoked directly to 
 generate JavaScript without using annotations.
 - `KotlinClass` and `KotlinEnum` accept Java classes as arguments. Note, the transpiler annotations
