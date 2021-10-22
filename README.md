@@ -111,6 +111,10 @@ On the server, the JSON is deserialized back to the Person object.
 ```
 
 ## Version history
+### 1.4.1
+_2021-10-22_
+- Updated dependencies
+
 ### 1.4.0
 _2021-10-19_
 - `KotlinClass` and `KotlinEnum` are now public classes so that these can be invoked directly to 
