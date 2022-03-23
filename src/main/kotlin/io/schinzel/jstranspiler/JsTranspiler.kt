@@ -8,7 +8,7 @@ import java.io.File
  * The main class for this project. Generates JavaScript code from the argument list of packages
  * and writes them to the argument file.
  *
- * @param sourcePackageName A a name of a Kotlin package in which to look for Kotlin code
+ * @param sourcePackageName A name of a Kotlin package in which to look for Kotlin code
  * to be transpiled to JavaScript.
  * @param destinationFile The name of the file into which the generated JavaScript will be written.
  * E.g. "src/main/resources/my_site/js/classes.js"
@@ -23,7 +23,10 @@ class JsTranspiler(sourcePackageName: String, destinationFile: String) {
         // Transpile all argument packages to JavaScript
         val javaScriptCode: String = kotlinPackage.toJavaScript()
         // File content is file header plus generated JavaScript code
-        val jsFileContent: String = fileHeader + dataObjectClass + javaScriptCode
+        val jsFileContent: String = fileHeader +
+                dataObjectClass +
+                localDate +
+                javaScriptCode
         // Write generated header and JavaScript to the argument file
         File(destinationFile).writeText(jsFileContent)
         // Calc execution time
@@ -47,7 +50,8 @@ class JsTranspiler(sourcePackageName: String, destinationFile: String) {
         private val fileHeader = """
             |/**
             | * This is an automatically generated file.
-            | * Kotlin data classes have been translated into JavaScript classes.
+            | * It consists of Kotlin classes and enums that have been translated to JavaScript.
+            | * https://github.com/Schinzel/js-transpiler
             | */
             |
         """.trimMargin()
@@ -89,6 +93,25 @@ class JsTranspiler(sourcePackageName: String, destinationFile: String) {
             |
         """.trimMargin()
 
+        val localDate = """
+            |// noinspection JSUnusedLocalSymbols
+            |/**
+            | * This class represent a Java LocalDate class in JavaScript.
+            | * A date without a time-zone in the ISO-8601 calendar system, such as 2007-12-03.
+            | */
+            |class LocalDate {
+            |    constructor(year, month, day) {
+            |        // noinspection JSUnusedGlobalSymbols           
+            |        this.year = year;
+            |        // noinspection JSUnusedGlobalSymbols        
+            |        this.month = month;
+            |        // noinspection JSUnusedGlobalSymbols        
+            |        this.day = day;
+            |    }
+            |}    
+            |
+            |
+        """.trimMargin()
     }
 
 }
