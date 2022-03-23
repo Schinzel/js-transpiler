@@ -6,6 +6,7 @@ import io.schinzel.jstranspiler.example.dataclasses.dir1.Pet
 import io.schinzel.jstranspiler.transpiler.JsTranspiler_CompileToJavaScript
 import io.schinzel.jstranspiler.transpiler.JsTranspiler_CreateSetter
 import java.time.Instant
+import java.time.LocalDate
 
 @JsTranspiler_CompileToJavaScript
 data class Person(
@@ -18,6 +19,8 @@ data class Person(
         val heightInMeter: Float,
         val healthy: Boolean,
         val homeAddress: Address,
+        @JsTranspiler_CreateSetter
+        val birth_day: LocalDate,
         @JsTranspiler_CreateSetter
         val nicknames: List<String>,
         @JsTranspiler_CreateSetter

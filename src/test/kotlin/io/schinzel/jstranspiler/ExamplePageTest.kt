@@ -21,6 +21,7 @@ import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.WebDriverWait
 import java.time.Instant
+import java.time.LocalDate
 
 /**
  * This test:
@@ -90,7 +91,7 @@ class ExamplePageTest {
             val pets = listOf(pet1, pet2)
             val traits = listOf(Trait.KIND, Trait.LOYAL)
             return Person("Henrik", "Svensson", 25,
-                    250000, 1.89f, true, address,
+                    250000, 1.89f, true, address, LocalDate.of(1991, 11, 27),
                     nicknames, luckyNumbers, pets, traits, Instant.now(), 110)
         }
 

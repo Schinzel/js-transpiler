@@ -17,10 +17,11 @@ internal class JsGetter(private val property: KProperty1<out Any, Any?>) : IToJa
         val jsDocReturnDoc: String = jsDocReturn(property.isList())
         val javaOrKotlinPropertyName = property.name
         val jsCodeReturnStatement: String = jsCodeReturnStatement(
-                isEnum = property.isEnum(),
-                isList = property.isList(),
-                javaOrKotlinPropertyName = javaOrKotlinPropertyName,
-                dataTypeName = property.getSimpleClassName())
+            isEnum = property.isEnum(),
+            isList = property.isList(),
+            javaOrKotlinPropertyName = javaOrKotlinPropertyName,
+            dataTypeName = property.getSimpleClassName()
+        )
         return """
             |    // noinspection JSUnusedGlobalSymbols
             |    /**
@@ -45,23 +46,32 @@ internal class JsGetter(private val property: KProperty1<out Any, Any?>) : IToJa
         /**
          * @return The js code that does the actual return for data. E.g. "this.lastName"
          */
-        internal fun jsCodeReturnStatement(isEnum: Boolean, isList: Boolean, javaOrKotlinPropertyName: String, dataTypeName: String): String {
-            return if (isEnum) {
+        internal fun jsCodeReturnStatement(
+            isEnum: Boolean,
+            isList: Boolean,
+            javaOrKotlinPropertyName: String,
+            dataTypeName: String
+        ): String = when {
+            dataTypeName == "LocalDate" ->
+                //E.g. new LocalDate(this.birthDay[0], this.birthDay[1], this.birthDay[2]);
+                "new LocalDate(this.$javaOrKotlinPropertyName[0], this.$javaOrKotlinPropertyName[1], this.$javaOrKotlinPropertyName[2])"
+            isEnum ->
                 //E.g. "Species[this.species]"
                 "$dataTypeName[this.$javaOrKotlinPropertyName]"
-            } else {
+            else -> {
                 val arrayCopyString: String = arrayCopyString(isList)
                 //E.g. Either "this.lastName" or "this.pets.slice()"
                 "this.$javaOrKotlinPropertyName$arrayCopyString"
             }
         }
 
+
         /**
          * @return JavaScript code for copying an array. If is not a list
          * then return empty string
          */
         private fun arrayCopyString(isList: Boolean): String =
-                if (isList) ".slice()" else ""
+            if (isList) ".slice()" else ""
 
 
     }

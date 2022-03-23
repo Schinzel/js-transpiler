@@ -6,6 +6,7 @@ import io.schinzel.jstranspiler.example.dataclasses.dir1.Species
 import io.schinzel.jstranspiler.example.dataclasses.dir2.Person
 import io.schinzel.jstranspiler.example.dataclasses.dir2.Trait
 import java.time.Instant
+import java.time.LocalDate
 
 /**
  * Purpose of this file is generate a Person object with data
@@ -21,7 +22,7 @@ class PersonGenerator {
             val pets = listOf(pet1, pet2)
             val traits = listOf(Trait.KIND, Trait.LOYAL)
             return Person("Henrik", "Svensson", 25,
-                    250000, 1.89f, true, address,
+                    250000, 1.89f, true, address, LocalDate.of(1991, 11, 27),
                     nicknames, luckyNumbers, pets, traits, Instant.now(), 110)
         }
     }

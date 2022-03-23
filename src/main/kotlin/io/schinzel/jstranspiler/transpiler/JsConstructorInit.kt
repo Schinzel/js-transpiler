@@ -61,6 +61,7 @@ internal class JsConstructorInit(private val property: KProperty1<out Any, Any?>
                     startsWith("kotlin.String") -> "json.$propertyName;"
                     startsWith("kotlin.Boolean") -> "json.$propertyName;"
                     startsWith("java.time.Instant") -> "new Date(json.$propertyName);"
+                    startsWith("java.time.LocalDate") -> "json.$propertyName;"
                     else -> {
                         val className = propertyDataTypeName
                             .substringAfterLast(".")
