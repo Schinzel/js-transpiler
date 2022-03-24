@@ -85,4 +85,10 @@ class JsConstructorInit_jsCodeCast_JavaClass_Test {
         assertThat(actual).isEqualTo("json.myJavaEnumList.map(x => JavaEnum[x].name);")
     }
 
+    @Test
+    fun localDateProperty() {
+        val property = JavaClass::class.memberProperties.elementAt(13)
+        val actual = JsConstructorInit.jsCodeCast(property)
+        assertThat(actual).isEqualTo("json.myLocalDate;")
+    }
 }

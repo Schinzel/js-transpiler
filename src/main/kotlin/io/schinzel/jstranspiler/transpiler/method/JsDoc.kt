@@ -12,7 +12,7 @@ internal class JsDoc {
 
         fun getDataTypeName(property: KProperty1<out Any, Any?>): String =
             when {
-                property.isListOfPrimitiveDataType() -> property.getListElementsSimpleClassName().toLowerCase() + "[]"
+                property.isListOfPrimitiveDataType() -> property.getListElementsSimpleClassName().lowercase() + "[]"
                 property.isList() -> property.getListElementsSimpleClassName() + "[]"
                 else -> getNonListDataTypeName(property)
             }

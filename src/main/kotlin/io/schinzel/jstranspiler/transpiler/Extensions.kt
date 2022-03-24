@@ -14,7 +14,7 @@ internal fun List<IToJavaScript>.compileToJs(): String =
  * Output: "Monkey"
  */
 internal fun String.firstCharToUpperCase(): String =
-        this.substring(0, 1).toUpperCase() + this.substring(1)
+        this.substring(0, 1).uppercase() + this.substring(1)
 
 
 internal fun <R> KCallable<R>.getFullClassName(): String =

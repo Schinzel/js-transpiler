@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.schinzel.jstranspiler.transpiler.JsTranspiler_CreateSetter;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 @SuppressWarnings("unused")
@@ -36,6 +37,8 @@ public class JavaClass {
     // 12
     @JsonIgnore
     public String mySecondString;
+    // 13
+    public LocalDate myLocalDate;
 }
 
 
