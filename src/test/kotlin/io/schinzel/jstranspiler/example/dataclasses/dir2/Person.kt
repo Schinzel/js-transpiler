@@ -20,7 +20,7 @@ data class Person(
         val healthy: Boolean,
         val homeAddress: Address,
         @JsTranspiler_CreateSetter
-        val birth_day: LocalDate,
+        val birthday: LocalDate,
         @JsTranspiler_CreateSetter
         val nicknames: List<String>,
         @JsTranspiler_CreateSetter

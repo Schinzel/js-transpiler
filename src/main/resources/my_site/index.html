@@ -9,7 +9,7 @@
         import {Person, Pet, Species, Trait} from "./js/classes.js";
 
         /**
-         * @param {Person} person
+         * @type {Person} person
          */
         let person;
 
@@ -20,6 +20,8 @@
                 .setMethodName('getPerson')
                 .setSuccessCallback((json) => {
                     person = new Person(json);
+                    let birthdayIsoString = person.getBirthday();
+                    $('#birthday').val(birthdayIsoString);
                     console.log('Got below person from server');
                     console.log(person);
                     $('body').append('<div class="selenium_got_person">' + person.asJsonString() + '</div>');
@@ -32,6 +34,8 @@
         function sendPersonToServer() {
             console.log('Sending below person to server...');
             console.log(person);
+            let birthdayIsoString = $('#birthday').val();
+            person.setBirthday(birthdayIsoString);
             new ServerCaller()
                 .enableLogging()
                 .setMethodName('setPerson')
@@ -94,7 +98,12 @@
 <button id="buttonAddPet">Add Pet</button>
 <button id="buttonAddTrait">Add Trait</button>
 <button id="buttonSetLastEdited">Set LastEdited</button>
+<br>
+<label for="birthday">Birthday:</label>
+<input type="date" id="birthday" name="birthday">
+<br>
 <button id="buttonSendPerson">Send Person to server</button>
+
 <h3>Output</h3>
 <div id="outputDiv"></div>
 </body>

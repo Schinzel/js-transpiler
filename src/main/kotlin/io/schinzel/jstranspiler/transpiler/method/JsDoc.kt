@@ -30,6 +30,7 @@ internal class JsDoc {
                     startsWith("kotlin.Double") -> "number"
                     startsWith("kotlin.Boolean") -> "boolean"
                     startsWith("java.time.Instant") -> "Date"
+                    startsWith("java.time.LocalDate") -> "string"
                     else -> {
                         property.getSimpleClassName()
                             // If is Kotlin class the data type is "MyClass?" and the "?" should be removed

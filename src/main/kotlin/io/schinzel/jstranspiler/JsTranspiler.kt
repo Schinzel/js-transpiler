@@ -25,7 +25,6 @@ class JsTranspiler(sourcePackageName: String, destinationFile: String) {
         // File content is file header plus generated JavaScript code
         val jsFileContent: String = fileHeader +
                 dataObjectClass +
-                localDate +
                 javaScriptCode
         // Write generated header and JavaScript to the argument file
         File(destinationFile).writeText(jsFileContent)
@@ -92,28 +91,7 @@ class JsTranspiler(sourcePackageName: String, destinationFile: String) {
             |
             |
         """.trimMargin()
-
-        val localDate = """
-            |// noinspection JSUnusedLocalSymbols
-            |/**
-            | * This class represent a Java LocalDate class in JavaScript.
-            | * A date without a time-zone in the ISO-8601 calendar system, such as 2007-12-03.
-            | */
-            |class LocalDate {
-            |    constructor(year, month, day) {
-            |        // noinspection JSUnusedGlobalSymbols           
-            |        this.year = year;
-            |        // noinspection JSUnusedGlobalSymbols        
-            |        this.month = month;
-            |        // noinspection JSUnusedGlobalSymbols        
-            |        this.day = day;
-            |    }
-            |}    
-            |
-            |
-        """.trimMargin()
     }
-
 }
 
 

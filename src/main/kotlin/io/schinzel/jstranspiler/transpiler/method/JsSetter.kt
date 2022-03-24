@@ -42,7 +42,7 @@ internal class JsSetter(private val property: KProperty1<out Any, Any?>, private
             jsPropertyName: String,
             jsPropertySetter: String
         ): String = when (kotlinOrJavaName) {
-            "LocalDate" -> "[$jsPropertyName.year, $jsPropertyName.month, $jsPropertyName.day]"
+            "LocalDate" -> "$jsPropertyName.split('-').map((it) => {return parseInt(it, 10)})"
             else -> "$jsPropertyName$jsPropertySetter"
         }
 

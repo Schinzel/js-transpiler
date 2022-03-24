@@ -53,8 +53,8 @@ internal class JsGetter(private val property: KProperty1<out Any, Any?>) : IToJa
             dataTypeName: String
         ): String = when {
             dataTypeName == "LocalDate" ->
-                //E.g. new LocalDate(this.birthDay[0], this.birthDay[1], this.birthDay[2]);
-                "new LocalDate(this.$javaOrKotlinPropertyName[0], this.$javaOrKotlinPropertyName[1], this.$javaOrKotlinPropertyName[2])"
+                //E.g. this.birthDay[0] + '-' +  this.birthDay[1]  + '-' + this.birthDay[2]
+                "this.$javaOrKotlinPropertyName[0] + '-' + this.$javaOrKotlinPropertyName[1] + '-' + this.$javaOrKotlinPropertyName[2]"
             isEnum ->
                 //E.g. "Species[this.species]"
                 "$dataTypeName[this.$javaOrKotlinPropertyName]"
