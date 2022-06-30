@@ -112,7 +112,7 @@ On the server, the JSON is deserialized back to the Person object.
 
 ## Version history
 ### 1.4.2
-_2022-06-01_
+_2022-06-30_
 - Updated dependencies
 ### 1.4.1
 _2021-10-22_
