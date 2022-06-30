@@ -20,7 +20,9 @@ import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.WebDriverWait
+import java.time.Duration
 import java.time.Instant
+import java.time.temporal.ChronoUnit
 
 /**
  * This test:
@@ -119,7 +121,8 @@ class ExamplePageTest {
         val numberOfElementsToWaitFor: Int = initialNumberOfElements + 1
         val timeOutInSeconds = 60L
         //Wait for the number of elements with argument name to be one more
-        WebDriverWait(webDriver, timeOutInSeconds)
+        val timeout = Duration.of(timeOutInSeconds, ChronoUnit.SECONDS)
+        WebDriverWait(webDriver, timeout)
                 .until(ExpectedConditions.numberOfElementsToBe(By.className(classNameToWaitFor), numberOfElementsToWaitFor))
     }
 
