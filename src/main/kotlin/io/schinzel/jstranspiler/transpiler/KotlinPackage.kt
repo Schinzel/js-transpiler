@@ -8,11 +8,13 @@ import kotlin.reflect.full.isSubclassOf
  * Purpose of this class is to construct the JavaScript code for all the data classes and enums in
  * a Kotlin package
  */
-internal class KotlinPackage(packageName: String) {
+internal class KotlinPackage(packageNames: List<String>) {
     //Generate a list of kotlin classes and enums from the argument list of package names
-    private val listOfClassesAndEnums: List<KClass<out Any>> = Reflections(packageName)
+    private val listOfClassesAndEnums: List<KClass<out Any>> = packageNames.map { packageName ->
+        Reflections(packageName)
             .getTypesAnnotatedWith(JsTranspiler_CompileToJavaScript::class.java)
             .map { it.kotlin }
+    }.flatten()
 
     val numberOfClassesAndEnums: Int = listOfClassesAndEnums.size
 
@@ -24,33 +26,27 @@ internal class KotlinPackage(packageName: String) {
 
         // Compile JavaScript for classes
         val jsForClasses: String = listOfClassesAndEnums
-                // Remove all enums
-                .filter { kclass -> !kclass.isSubclassOf(Enum::class) }
-                // Sort by name for consistent order of classes in generated file
-                .sortedBy { it.simpleName }
-                // Convert to list of kotlin classes
-                .map { kclass -> KotlinClass(kclass) }
-                // Compile kotlin classes to JavaScript
-                .compileToJs()
+            // Remove all enums
+            .filter { kclass -> !kclass.isSubclassOf(Enum::class) }
+            // Sort by name for consistent order of classes in generated file
+            .sortedBy { it.simpleName }
+            // Convert to list of kotlin classes
+            .map { kclass -> KotlinClass(kclass) }
+            // Compile kotlin classes to JavaScript
+            .compileToJs()
 
         // Compile JavaScript for enums
         val jsForEnums: String = listOfClassesAndEnums
-                // Only enums in list
-                .filter { kclass -> kclass.isSubclassOf(Enum::class) }
-                // Sort by name for consistent order of object in generated file
-                .sortedBy { it.simpleName }
-                // Convert to list of kotlin enums
-                .map { kclass -> KotlinEnum(kclass) }
-                // Compile kotlin enums to JavaScript
-                .compileToJs()
+            // Only enums in list
+            .filter { kclass -> kclass.isSubclassOf(Enum::class) }
+            // Sort by name for consistent order of object in generated file
+            .sortedBy { it.simpleName }
+            // Convert to list of kotlin enums
+            .map { kclass -> KotlinEnum(kclass) }
+            // Compile kotlin enums to JavaScript
+            .compileToJs()
 
         // Return the JavaScript for classes and enum
         return jsForClasses + jsForEnums
     }
-
-
 }
-
-
-
-

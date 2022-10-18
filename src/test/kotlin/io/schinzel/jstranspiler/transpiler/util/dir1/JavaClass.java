@@ -1,12 +1,14 @@
-package io.schinzel.jstranspiler.transpiler.util;
+package io.schinzel.jstranspiler.transpiler.util.dir1;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.schinzel.jstranspiler.transpiler.JsTranspiler_CompileToJavaScript;
 import io.schinzel.jstranspiler.transpiler.JsTranspiler_CreateSetter;
 
 import java.time.Instant;
 import java.util.List;
 
 @SuppressWarnings("unused")
+@JsTranspiler_CompileToJavaScript
 public class JavaClass {
     // 0
     public String myString;

@@ -8,18 +8,20 @@ import java.io.File
  * The main class for this project. Generates JavaScript code from the argument list of packages
  * and writes them to the argument file.
  *
- * @param sourcePackageName A a name of a Kotlin package in which to look for Kotlin code
+ * @param sourcePackageNames A list of names of Kotlin packages in which to look for Kotlin code
  * to be transpiled to JavaScript.
  * @param destinationFile The name of the file into which the generated JavaScript will be written.
  * E.g. "src/main/resources/my_site/js/classes.js"
  */
-class JsTranspiler(sourcePackageName: String, destinationFile: String) {
+class JsTranspiler(sourcePackageNames: List<String>, destinationFile: String) {
+
+    constructor(sourcePackageName: String, destinationFile: String) : this(listOf(sourcePackageName), destinationFile)
 
     init {
         val startExecutionTime = System.nanoTime()
         // Check so that argument destination file name is ok
         validateFile(destinationFile)
-        val kotlinPackage = KotlinPackage(sourcePackageName)
+        val kotlinPackage = KotlinPackage(sourcePackageNames)
         // Transpile all argument packages to JavaScript
         val javaScriptCode: String = kotlinPackage.toJavaScript()
         // File content is file header plus generated JavaScript code
