@@ -1,6 +1,6 @@
 package io.schinzel.jstranspiler.transpiler
 
-import io.schinzel.jstranspiler.transpiler.util.JavaClass
+import io.schinzel.jstranspiler.transpiler.util.dir1.JavaClass
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import kotlin.reflect.full.memberProperties
