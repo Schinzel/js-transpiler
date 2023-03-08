@@ -44,6 +44,7 @@ class ExamplePageTest {
     fun before() {
         val chromeOptions = ChromeOptions()
         @Suppress("ConstantConditionIf")
+        chromeOptions.addArguments("--remote-allow-origins=*")
         if (HEADLESS_CHROME) {
             chromeOptions.addArguments("--headless", "--disable-gpu", "--window-size=1024,2240")
         }
