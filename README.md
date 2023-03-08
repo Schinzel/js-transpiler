@@ -136,7 +136,11 @@ the directory `io.schinzel.jstranspiler.example`.
 
 ## Version history
 
-### 1.4.3
+### 1.4.4
+_2023-03-08_
+- Updated dependencies
+
+- ### 1.4.3
 _2022-10-18_
 - Added support for transpiling code from multiple packages
 

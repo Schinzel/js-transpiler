@@ -37,15 +37,14 @@ import java.time.temporal.ChronoUnit
  * - the test verifies that the number of pets of the person on the server has increased by one
  */
 class ExamplePageTest {
-    lateinit var webDriver: WebDriver
-        private set
-    lateinit var webServer: WebServer
-        private set
+    private lateinit var webDriver: WebDriver
+    private lateinit var webServer: WebServer
 
     @Before
     fun before() {
         val chromeOptions = ChromeOptions()
         @Suppress("ConstantConditionIf")
+        chromeOptions.addArguments("--remote-allow-origins=*")
         if (HEADLESS_CHROME) {
             chromeOptions.addArguments("--headless", "--disable-gpu", "--window-size=1024,2240")
         }
