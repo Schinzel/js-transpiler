@@ -113,14 +113,14 @@
             https://github.com/bonigarcia/webdrivermanager -->
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
-            <version>5.2.0</version>
+            <version>5.3.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <!-- For automatic tests of HTML pages -->
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.2.1</version>
+            <version>4.8.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
